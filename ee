@@ -4540,7 +4540,7 @@ do
 		--
         Aimbot:Toggle{Name = 'Smoothness',flag = 'Smoothness'}
 		--
-        Aimbot:Input{Name = 'Amount', flag = 'Smoothness Amount', min = 1, max = 1000, default = 1, float = 0.1}
+        Aimbot:Input{Name = 'Amount', flag = 'Smoothness Amount', min = 1, max = 100, default = 1, float = 0.1}
 		--
         Aimbot:Dropdown{Name = 'Checks', flag = 'Aim_Assist_Checks', options = {"Visible", "Wall", "ForceField", "Knocked"}, min = 0}
 		--
