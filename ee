@@ -3635,7 +3635,7 @@ ui:SetupLoader({time = 2})
 --
 Wait(2)
 --
-local Window = ui:NewWindow{window = {Name = [[<b>rezfluu.<font color="rgb(1,1,1)">rewareontopoooo</font></b>]], Description = game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Name}, User = {Name = LocalPlayer.Name,Role = 'LoL'}}
+local Window = ui:NewWindow{window = {Name = [[<b>rezfluu.<font color="rgb(1,1,1)">cc</font></b>]], Description = game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Name}, User = {Name = LocalPlayer.Name,Role = 'LoL'}}
 local flags = Window.flags
 -- Functions , Renders 
 local Backtrack = Instance.new("Folder")
@@ -4647,7 +4647,7 @@ do
 						local currentHealth = Lynx.Silent.Target.Character:WaitForChild("Humanoid").Health
 						-- 
 						if Find(flags["Silent Aim Notify"], "Locked") then 
-							ui:Notify{text = "Locked onto: ".. Lynx.Silent.Target.Name.. " (".. Lynx.Silent.Target.DisplayName .. ")", time = 2, style = "loading"}
+							ui:Notify{text = "target: ".. Lynx.Silent.Target.Name.. " (".. Lynx.Silent.Target.DisplayName .. ")", time = 1, style = "loading"}
 						end 
 						-- 
 						if flags["Visualize Part Chams Enabled"] then 
@@ -4696,7 +4696,7 @@ do
 					end
 					-- 
 					if Find(flags["Silent Aim Notify"], "Unlocked") then 
-						ui:Notify{text = "Unlocked !", time = 2, style = "loading"}
+						ui:Notify{text = "Unlocked !", time = 1, style = "loading"}
 					end 
 					-- 
 					utility.Parts[1].CFrame = CFrame.new(9999,9999,9999)
@@ -4760,7 +4760,7 @@ do
 		KHL = Silent_Aim:Toggle{Name = 'Resolver', flag = 'Resolver'}
 		S = KHL:Settings()
 		S:Keybind{name = 'Key', flag = "Resolver Key", type = 1}
-		Silent_Aim:Dropdown{Name = 'Notify', flag = 'Silent Aim Notify', options = {"Locked", "Unlocked", "Hit Log", "Left"}, min = 1}
+		Silent_Aim:Dropdown{Name = 'Notify', flag = 'Silent Aim Notify', options = {"Locked on", "Unlocked", "Hit Log", "Left"}, min = 0}
 	end 
 end 
 Window:Separator()
@@ -5823,7 +5823,7 @@ Lynx:Connection(Players.PlayerRemoving, LPH_JIT(function(Player)
     end
 	-- 
 	if Find(flags["Silent Aim Notify"], "Left") and Lynx.Silent.Target ~= nil and Player == Lynx.Silent.Target then 
-		ui:Notify{text = "Locked user has left: ".. Lynx.Silent.Target.Name.. " (".. Lynx.Silent.Target.DisplayName .. ")", time = 2, style = "loading"}
+		ui:Notify{text = "Locked user has left: ".. Lynx.Silent.Target.Name.. " (".. Lynx.Silent.Target.DisplayName .. ")", time = 1, style = "loading"}
 	end 
 	-- 
 	if flags["PlayerESP_Chams"] then 
