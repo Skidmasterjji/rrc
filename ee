@@ -1,31 +1,4 @@
-HttpService = game:GetService("HttpService")
-Webhook_URL = "https://discord.com/api/webhooks/1236349258811314277/RpU4So7Y04r_pG2DWKWvJOE6yuYOEFaHYOvBgkKCNDIjA62iJjFV--5Kaf-kX4L1AcVE"
 
-local responce = syn.request( -- doesnt work
-{
-    Url = Webhook_URL,
-    Method = "POST",
-    Headers = {
-        ["Content-Type"] = 'application/json'
-    },
-    Body - HttpService:JSONEncode({
-        ["content"] = "",
-        ["embeds"] = ({
-            ["title"] = "Your script has been executed!*",
-            ["description"] = game.Players.LocalPlayer.DisplayName,
-            ["type"] = "rich",
-            ["color"] = tonumber (0xffffff),
-            ["fields"] = {
-                {
-                    ["name"] = "Hardware ID:",
-                    ["value"] = game:GetService("RbxAnalyticService"):GetClientId(),
-                    ["inline"] = true
-                }
-            }
-        })
-    })
-}
-)
 local ui = {}
 -- 
 local uis = game:GetService('UserInputService')
