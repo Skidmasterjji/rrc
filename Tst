@@ -29,12 +29,12 @@ getgenv().Tapped = {
             ['Points'] = {
                 ['Point'] = "HumanoidRootPart",
                 ['Point Offset'] = 0,
-                ['Nearest Part'] = false,
-                ['Nearest Point'] = true,
+                ['Nearest Part'] = true,
+                ['Nearest Point'] = false,
             },
             ['Velocity'] = {
                 ['Prediction'] = 0.1242672,
-                ['Anti Ground Shots'] = false,
+                ['Anti Ground Shots'] = true,
             }
         },
     },
