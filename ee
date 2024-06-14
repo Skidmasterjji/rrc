@@ -188,12 +188,6 @@ getgenv().Lynx, getgenv().Visuals, getgenv().utility =
 		["Brightness"] = Lighting.Brightness
 	},
 	["Angle"] = 0,
-	--[[["Maps"] = {
-		["MM2 MAP"] = {game:GetObjects("rbxassetid://6961429165")[1], NewCFrame(-2279.90967, 5337.09326, -5520.67969, -4.37113883e-08, 0, -1, -1, -4.37113883e-08, 4.37113883e-08, -4.37113883e-08, 1, 1.91068547e-15), NewVector3(-8000,5000,-5504)},
-		["Parkour"] = {game:GetObjects("rbxassetid://5172031164")[1], NewCFrame(-12906.4688, 13095.1973, -11499.5381, 0.318712622, 1.4782394e-08, 0.947851419, -4.15312478e-08, 1, -1.63091063e-09, -0.947851419, -3.88456591e-08, 0.318712622), NewVector3(-12922,13090,-11418)},
-		["Office"] = {game:GetObjects("rbxassetid://6882056127")[1], NewCFrame(-10773.5635, 6006.16406, -14860.6035, 1, 8.80185169e-08, -1.60622491e-07, -8.80185098e-08, 1, 6.82912145e-08, 1.60622491e-07, -6.82912003e-08, 1), NewVector3(-17608,5510,-10917)},
-		["Anarchy"] = {game:GetObjects("rbxassetid://2782284003")[1], NewCFrame(-5820.18994, 5510.59863, -8075.72021, -0.286452234, -7.80991627e-08, 0.958094537, 5.32952846e-08, 1, 9.74493801e-08, -0.958094537, 7.89765124e-08, -0.286452234), NewVector3(-8190,5431,-9629)},
-	},]]
 	["Characters"] = {
 		AmongUs = {Vector3.new(0.15,0.15,0.15), "6686375937", "6686375902"}, 
 		SpongeBob = {Vector3.new(5,5,5), "5408463358", "5408463211"},
@@ -958,7 +952,7 @@ function Elements:Colorpicker(options)
 		Position = UDim2.new(0, 46, 0, 0),
 		Size = UDim2.new(0, 15, 0, 15),
 		ZIndex = mainHolder.ZIndex+1,
-		Image = "http://www.roblox.com/asset/?id=14259665095",
+		Image = "http://www.roblox.com/asset/?id=0",
 		ImageColor3 = Color3.fromRGB(200, 200, 200),
 		SliceScale = 4.000,
 	})
@@ -979,14 +973,14 @@ function Elements:Colorpicker(options)
 		BorderColor3 = Color3.fromRGB(0, 0, 0),
 		BorderSizePixel = 0,
 		Position = UDim2.new(0, posX, 0, posY-colorpickerIcon.AbsolutePosition.Y+2),
-		Size = UDim2.new(0, sizex, 0, 135),
+		Size = UDim2.new(0, sizex, 0, 0),
 		ZIndex = zindexadd+1,
 		Visible = false,
 	})
 	SetupFrame(colorpickerFrame,{corner = {radius = UDim.new(0,4)},stroke = {}})
 	local button = create('TextButton',{
 		Parent = colorpickerIcon,
-		Size = UDim2.new(1,0,1,0),
+		Size = UDim2.new(0,0,0,0),
 		TextTransparency = 1,
 		BackgroundTransparency = 1,
 		ZIndex = zindexadd+1
@@ -1007,16 +1001,16 @@ function Elements:Colorpicker(options)
 		Parent = colorpickerFrame,
 		BackgroundColor3 = Color3.fromRGB(255, 255, 255),
 		BorderSizePixel = 0,
-		Position = UDim2.new(0, 5, 0, 5),
-		Size = UDim2.new(0, 100, 0, 90),
+		Position = UDim2.new(0, 0, 0, 0),
+		Size = UDim2.new(0, 0, 0, 0),
 		ZIndex = zindexadd+2,
 	})
 	SetupFrame(mainColorpicker,{Corner = {radius = UDim.new(0,4)}})
 	local image = create('ImageLabel',{
 		ZIndex = zindexadd+3,
 		Parent = mainColorpicker,
-		Image = 'rbxassetid://4155801252',
-		Size = UDim2.new(1,0,1,0)
+		Image = 'rbxassetid://0',
+		Size = UDim2.new(0,0,0,0)
 	})
 
 	local hue = create('Frame',{
@@ -1026,7 +1020,7 @@ function Elements:Colorpicker(options)
 		BorderColor3 = Color3.fromRGB(0, 0, 0),
 		BorderSizePixel = 0,
 		Position = UDim2.new(0, 5, 0, 100),
-		Size = UDim2.new(0, 115, 0, 11),
+		Size = UDim2.new(0, 0, 0, 0),
 		ZIndex = zindexadd+2,
 	})
 	SetupFrame(hue,{corner = {radius = UDim.new(0,4)}})
@@ -1052,7 +1046,7 @@ function Elements:Colorpicker(options)
 		Position = UDim2.new(0, 110, 0, 5),
 		Size = UDim2.new(0, 10, 0, 90),
 		ZIndex = zindexadd+2,
-		Image = "rbxassetid://14248403322",
+		Image = "rbxassetid://0",
 	})
 
 
@@ -4574,9 +4568,6 @@ do
 		-- 
 		Sl = THL:Settings()
 		-- 
-		Sl:Toggle{Name = "Filled", flag = 'Silent Aim FOV Filled', callback = function(Bool)
-			utility.Renders[1].Filled = Bool
-		end}
 		--
 		S:Colorpicker{flag = "Silent Aim FOV Color", transparency = 0.5, callback = function()
 			utility.Renders[1].Color = flags["Silent Aim FOV Color"].Color
@@ -4595,9 +4586,6 @@ do
 		-- 
 		Sl = THL:Settings()
 		-- 
-		Sl:Toggle{Name = "Filled", flag = 'Aim Assist FOV Filled', callback = function(Bool)
-			utility.Renders[2].Filled = Bool
-		end}
 		--
 		S:Colorpicker{flag = "Aim Assist FOV Color", transparency = 0.5, callback = function()
 			utility.Renders[2].Color = flags["Aim Assist FOV Color"].Color
@@ -4616,9 +4604,7 @@ do
 		--
 		Sl = THL:Settings()
 		-- 
-		Sl:Toggle{Name = "Filled", flag = 'Deadzone FOV Filled', callback = function(Bool)
-			utility.Renders[3].Filled = Bool
-		end}
+
 		-- 
 		S:Colorpicker{flag = 'Deadzone Color', transparency = 0.5, callback = function()
 			utility.Renders[3].Color = flags["Deadzone Color"].Color
@@ -4634,7 +4620,7 @@ do
     do 
 		Silent_Aim:Title{Title = 'Silent Aim'}
 		S = Silent_Aim:CreateSegment{Name = 'On'}
-		S:Dropdown{Name = 'Type', flag = 'Silent Aim Type', options = {"Target Aim", "Silent Aim"}, min = 1, max = 1}
+		S:Dropdown{Name = 'Type', flag = 'Silent Aim Type', options = {"Silent Aim"}, min = 1, max = 1}
 		KHL = S:Toggle{Name = 'Enabled', flag = 'Silent Aim Enabled'}
 		S = KHL:Settings()
 		S:Keybind{name = 'Key', type = 1, flag = "Silent Aim Key", callback = function(Bool) 
@@ -4767,7 +4753,7 @@ Window:Separator()
 
 -- Lua
 do 
-    local Settings = Window:Tab{Name = 'Settings', icon = "rbxassetid://6035067857"}
+    local Settings = Window:Tab{Name = 'Settings', icon = "rbxassetid://0"}
     -- 
     local Configs_Sector = Settings:Sector{Side = 1}
     Configs_Sector:Title{Title = 'Configuration', Description = "Save configurations."}
