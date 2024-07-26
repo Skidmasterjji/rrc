@@ -891,15 +891,15 @@ do
                 Thickness = 1,
                 Filled = false,
                 ZIndex = 30,
-                Hidden = false
+                Hidden = true
             });window.cursor["cursor"] = cursor
             --
             local cursor_inline = utility:Create("Triangle", nil, {
                 Color = theme.accent,
                 Filled = true,
                 Thickness = 1,
-                ZIndex = 65,
-                Hidden = false
+                ZIndex = 30,
+                Hidden = true
             });window.cursor["cursor_inline"] = cursor_inline
             --
             utility:Connection(rs.RenderStepped, function()
