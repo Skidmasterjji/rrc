@@ -1649,7 +1649,7 @@ do
                             }, colorpicker.holder.drawings);colorpicker.holder.picker = colorpicker_open_picker_image
                             --
                             local colorpicker_open_picker_cursor = utility:Create("Image", {Vector2.new((colorpicker_open_picker_image.Size.X*colorpicker.current[2])-3,(colorpicker_open_picker_image.Size.Y*(1-colorpicker.current[3]))-3), colorpicker_open_picker_image}, {
-                                Size = utility:Size(0, 3, 0, 3, colorpicker_open_picker_image),
+                                Size = utility:Size(0, 1, 0, 1, colorpicker_open_picker_image),
                                 Position = utility:Position(colorpicker.current[2], -3, 1-colorpicker.current[3] , -3, colorpicker_open_picker_image),
                             }, colorpicker.holder.drawings);colorpicker.holder.picker_cursor = colorpicker_open_picker_cursor
                             --
