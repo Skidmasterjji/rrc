@@ -891,7 +891,7 @@ do
                 Thickness = 1,
                 Filled = false,
                 ZIndex = 30,
-                Hidden = true
+                Hidden = false
             });window.cursor["cursor"] = cursor
             --
             local cursor_inline = utility:Create("Triangle", nil, {
@@ -899,7 +899,7 @@ do
                 Filled = true,
                 Thickness = 1,
                 ZIndex = 65,
-                Hidden = true
+                Hidden = false
             });window.cursor["cursor_inline"] = cursor_inline
             --
             utility:Connection(rs.RenderStepped, function()
