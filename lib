@@ -890,7 +890,7 @@ do
                 Color = theme.cursoroutline,
                 Thickness = 1,
                 Filled = false,
-                ZIndex = 65,
+                ZIndex = 30,
                 Hidden = true
             });window.cursor["cursor"] = cursor
             --
