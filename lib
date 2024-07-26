@@ -1,3 +1,7 @@
+--[[ Credits
+    Matas#3535 @matas - Created UI
+    bored#9316 @wally hub user - Helped make library
+]]
 -- // Variables
 local ws = game:GetService("Workspace")
 local uis = game:GetService("UserInputService")
@@ -884,7 +888,7 @@ do
             --
             local cursor = utility:Create("Triangle", nil, {
                 Color = theme.cursoroutline,
-                Thickness = 2.5,
+                Thickness = 0,
                 Filled = false,
                 ZIndex = 65,
                 Hidden = true
