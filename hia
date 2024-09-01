@@ -1,0 +1,955 @@
+getgenv().EXA = {
+    ["Startup"] = {
+        Intro = true, -- // will show a intro
+        SerialKey = "ur_key_here" -- // ur whitelist key
+    },
+    ["Aimbot"] = {
+        Enabled = true,
+        Keybinds = "q",
+        Locking = false, -- // don't touch
+        ["Predicting"] = {
+            Prediction = true,
+            PredictionAmmount = 0.1365
+        },
+        ["Smoothing"] = {
+            Smoothness = true,
+            SmoothnessAmmount = 0.086
+        },
+        ["Shaking"] = {
+            Shake = false,
+            ShakeAmmount = 0.7
+        },
+        ["Hitparts"] = {
+            AimpartType = "Nearest Part", -- // "Basic", "Nearest Part", "Nearest Point"
+            Aimpart = "HumanoidRootPart",
+            BasicAimpart = "HumanoidRootPart",
+            IgnorePart = true,
+            IgnoredParts = {"RightFoot", "LeftFoot"}
+        },
+        ["Resolving"] = {
+            Resolver = true,
+            ResolverType = "When Velocity is too high",
+            PosResolverMax = 60,
+            NegResolverMax = 60
+        },
+        ["FOV"] = {
+            ShowFOV = true,
+            DynamicAmmount = 3000,
+            FOVType = "Dynamic", -- // "Dynamic", "Static"
+            FOVRadius = 120,
+            Filled = false,
+            Sides = 25,
+            Thickness = 1,
+            Transparency = 1,
+            Color = Color3.fromRGB(0, 71, 171)
+        },
+        ["Checks"] = {
+            UseYAxis = false,
+            WallCheck = true,
+            VisibleCheck = true,
+            ForceFieldCheck = true,
+            SelfAliveCheck = true,
+            TargetKOCheck = true,
+            GrabbedCheck = true,
+            CrewCheck = false,
+            IsInFOVCheck = false,
+            SelfReloadCheck = false,
+            FirstPersonOnly = false,
+            AllowThirdPersonShiftLock = false,
+            ThirdPersonOnly = false
+        }
+    },
+    ["SilentAim"] = {
+        Enabled = true,
+        Keybinds = "p",
+        ["Predicting"] = {
+            PredictionAmmount = 0.122
+        },
+        ["Hitparts"] = {
+            AimpartType = "Nearest Part", -- // "Basic", "Nearest Part", "Nearest Point"
+            Aimpart = "HumanoidRootPart",
+            BasicAimpart = "HumanoidRootPart",
+            IgnorePart = true,
+            IgnoredParts = {"LeftFoot", "RightFoot"}
+        },
+        ["Resolving"] = {
+            Resolver = false,
+            ResolverType = "When Velocity is too high",
+            PosResolverMax = 60,
+            NegResolverMax = 60
+        },
+        ["FOV"] = {
+            ShowFOV = true,
+            FOVRadius = 60,
+            FOVType = "Dynamic", -- // "Dynamic", "Static"
+            FOVType2 = "Cursor",
+            DynamicAmmount = 3000,
+            Filled = false,
+            Sides = 25,
+            Thickness = 1,
+            Transparency = 1,
+            Color = Color3.fromRGB(0, 71, 171)
+        },
+        ["Checks"] = {
+            HitChance = 100,
+            UseYAxis = false,
+            SelfAliveCheck = true,
+            SelfReloadCheck = true,
+            IsInFOVCheck = true,
+            GrabbedCheck = true,
+            ForceFieldCheck = false,
+            TargetCrew = false,
+            WallCheck = false,
+            TargetKOCheck = false
+        }
+    },
+    ["Misc"] = {
+        ["Macro"] = {
+            Keybind = "v",
+            Speed = 1,
+            Type = "First" -- // "First", "Third"
+        },
+        ["Key360"] = {
+            Toggle = false,
+            RotationSpeed = 2500,
+            Keybind = "c"
+        },
+        ["NoClip"] = {
+            Enabled = true,
+            Key = "t",
+            GunName = "[Shotgun]",
+            Delay = 0.1
+        }
+    }
+}
+
+
+local Players = game:GetService("Players")
+local LP = Players["LocalPlayer"]
+while not LP do
+    Players["ChildAdded"]:Wait()
+    LP = Players["LocalPlayer"]
+end
+local Char = LP["Character"]
+while not Char do
+    LP["CharacterAdded"]:Wait()
+    Char = LP["Character"]
+end
+
+local Services = {
+    Workspace = game:GetService("Workspace"),
+    RunService = game:GetService("RunService"),
+    Players = game:GetService("Players"),
+    UserInputService = game:GetService("UserInputService"),
+    GuiService = game:GetService("GuiService"),
+    ReplicatedStorage = game:GetService("ReplicatedStorage")
+}
+
+local Local = {
+    Player = Services.Players.LocalPlayer,
+    Camera = Services.Workspace.CurrentCamera,
+    Mouse = Services.Players.LocalPlayer:GetMouse()
+}
+
+local AimlockTarget, RootPartPosition, Real_Magnitude, vis, ray, ignoreList, part, Velocity, Main, feign,
+    AimlockTargetName, SilentTarget, Aimplace, SilentVelocity, CurrentPosition, Time, Distance, SilCurrentPosition,
+    SilTime, SilDistance, pos, ac, idk
+
+local Keybinds = {
+    Aimbot = Enum.KeyCode.Q,
+    SilentAim = Enum.KeyCode.P
+}
+
+local Player = game:GetService("Players").LocalPlayer
+local Mouse = Player:GetMouse()
+local SilPreviousPosition = Vector3.new()
+local PreviousPosition = Vector3.new()
+
+local CamCircle = Drawing.new("Circle")
+CamCircle.Color = getgenv().EXA.Aimbot.FOV.Color
+CamCircle.Thickness = getgenv().EXA.Aimbot.FOV.Thickness
+CamCircle.Transparency = getgenv().EXA.Aimbot.FOV.Transparency
+CamCircle.NumSides = getgenv().EXA.Aimbot.FOV.Sides
+CamCircle.Radius = getgenv().EXA.Aimbot.FOV.FOVRadius
+CamCircle.Visible = getgenv().EXA.Aimbot.FOV.ShowFOV
+CamCircle.Filled = getgenv().EXA.Aimbot.FOV.Filled
+
+local SilentCircle = Drawing.new("Circle")
+SilentCircle.Visible = getgenv().EXA.SilentAim.FOV.ShowFOV
+SilentCircle.Transparency = getgenv().EXA.SilentAim.FOV.Transparency
+SilentCircle.Radius = getgenv().EXA.SilentAim.FOV.FOVRadius
+SilentCircle.Thickness = getgenv().EXA.SilentAim.FOV.Thickness
+SilentCircle.Color = getgenv().EXA.SilentAim.FOV.Color
+SilentCircle.NumSides = getgenv().EXA.SilentAim.FOV.Sides
+SilentCircle.Filled = getgenv().EXA.SilentAim.FOV.Filled
+
+local function IsOnScreen(a, Setting)
+    if Setting.VisibleCheck then
+        local _, vis = Services.Workspace.CurrentCamera:WorldToScreenPoint(a.Position)
+        if vis then
+            return true
+        else
+            return false
+        end
+    else
+        return true
+    end
+end
+
+local function WallCheck(a, Setting)
+    if Setting.WallCheck then
+        ray = Ray.new(Local.Camera.CFrame.Position, a.HumanoidRootPart.Position - Local.Camera.CFrame.Position)
+        ignoreList = {Local.Player.Character, a.Parent}
+        part = Services.Workspace:FindPartOnRayWithIgnoreList(ray, ignoreList)
+        if not part then
+            return true
+        end
+        return false
+    else
+        return true
+    end
+end
+
+local function IsInRadius(a, Setting)
+    if Setting.IsInFOVCheck then
+        for _, v in pairs(a:GetChildren()) do
+            if (v:IsA("Part") or v:IsA("MeshPart")) and v.Name ~= "HumanoidRootPart" then
+                local pos = Local.Camera:WorldToViewportPoint(v.Position)
+                local dis = (Vector2.new(Local.Mouse.X, Local.Mouse.Y) - Vector2.new(pos.X, pos.Y)).Magnitude
+                if dis < SilentCircle.Radius then
+                    return true
+                end
+            elseif v:IsA("Accessory") then
+                local pos = Local.Camera:WorldToViewportPoint(v.Handle.Position)
+                local dis = (Vector2.new(Local.Mouse.X, Local.Mouse.Y) - Vector2.new(pos.X, pos.Y)).Magnitude
+                if dis < SilentCircle.Radius then
+                    return true
+                end
+            end
+        end
+        return false
+    else
+        return true
+    end
+end
+
+local function GrabbedCheck(a, Setting)
+    if Setting.GrabbedCheck then
+        if a:FindFirstChild("GRABBING_CONSTRAINT") ~= nil then
+            return false
+        else
+            return true
+        end
+    else
+        return true
+    end
+end
+
+local function getClosestPartToCursor(a, Setting)
+    local closestPart
+    local shortestDistance = math.huge
+    if Setting.IgnorePart then
+        for _, v in pairs(a:GetChildren()) do
+            if (not table.find(Setting.IgnoredParts, v.Name)) then
+                if v:IsA("Part") or v:IsA("MeshPart") then
+                    local WrldToViewportPointP = Services.Workspace.CurrentCamera:WorldToScreenPoint(v.Position)
+                    local Distance = (Vector2.new(WrldToViewportPointP.X, WrldToViewportPointP.Y) -
+                                         Vector2.new(Local.Mouse.X, Local.Mouse.Y)).Magnitude
+                    if Distance < shortestDistance then
+                        shortestDistance = Distance
+                        closestPart = v
+                    end
+                end
+            end
+        end
+        return closestPart
+    elseif not Setting.IgnorePart then
+        for _, v in next, a:GetChildren() do
+            if v:IsA("Part") or v:IsA("MeshPart") then
+                local WrldToViewportPointP = Services.Workspace.CurrentCamera:WorldToScreenPoint(v.Position)
+                local Distance = (Vector2.new(WrldToViewportPointP.X, WrldToViewportPointP.Y) -
+                                     Vector2.new(Local.Mouse.X, Local.Mouse.Y)).Magnitude
+                if Distance < shortestDistance then
+                    shortestDistance = Distance
+                    closestPart = v
+                end
+            end
+        end
+        return closestPart
+    end
+end
+
+local function getClosestPointOnPart(Part)
+    local mouseray = Local.Mouse.UnitRay
+    mouseray = mouseray.Origin + (mouseray.Direction * (Part.Position - mouseray.Origin).Magnitude)
+    local point =
+        (mouseray.Y >= (Part.Position - Part.Size / 2).Y and mouseray.Y <= (Part.Position + Part.Size / 2).Y) and
+            (Part.Position + Vector3.new(0, -Part.Position.Y + mouseray.Y, 0)) or Part.Position
+    local check = RaycastParams.new()
+    check.FilterType = Enum.RaycastFilterType.Whitelist
+    check.FilterDescendantsInstances = {Part}
+    local ray = Services.Workspace:Raycast(mouseray, (point - mouseray), check)
+    if ray then
+        return ray.Position
+    else
+        return Local.Mouse.Hit.Position
+    end
+end
+
+local function SelfAlive(Setting)
+    if game.PlaceId == 12442317726 then
+        if Setting.SelfAliveCheck then
+            if Local.Player.Character:FindFirstChild("BodyEffects")["KO"].Value == false then
+                return true
+            else
+                return false
+            end
+        else
+            return true
+        end
+    else
+        if Setting.SelfAliveCheck then
+
+            if Local.Player.Character:FindFirstChild("BodyEffects")["K.O"].Value == false then
+                return true
+            else
+                return false
+            end
+        else
+            return true
+        end
+    end
+end
+
+local function TargetKO(a, Setting)
+    if game.PlaceId == 10355218822 or game.PlaceId == 12154107359 then
+        if Setting.TargetKOCheck then
+            if a:FindFirstChild("DEAD") ~= nil or a.Health < 3 then
+                return false
+            else
+                return true
+            end
+        else
+            return true
+        end
+    elseif game.PlaceId == 12442317726 then
+        if Setting.TargetKOCheck then
+            if a:FindFirstChild("BodyEffects")["KO"].Value == false then
+                return true
+            else
+                return false
+            end
+        else
+            return true
+        end
+    else
+        if Setting.TargetKOCheck then
+            if a:FindFirstChild("BodyEffects")["K.O"].Value == false then
+                return true
+            else
+                return false
+            end
+        else
+            return true
+        end
+    end
+end
+
+local function SilentHitChance()
+    if math.random(0, 100) <= getgenv().EXA.SilentAim.Checks.HitChance then
+        return true
+    else
+        return false
+    end
+end
+
+local function TargetForceField(a, Setting)
+    if Setting.ForceFieldCheck then
+        if not (a:FindFirstChildOfClass("ForceField")) then
+            return true
+        else
+            return false
+        end
+    else
+        return true
+    end
+end
+
+local function SelfReload(Setting)
+    if Setting.SelfReloadCheck then
+        if game.PlaceId ~= 9825515356 then
+            if Local.Player.Character.BodyEffects.Reload.Value == false then
+                return true
+            else
+                return false
+            end
+        else
+            if Local.Player.Character.BodyEffects.Reloading.Value == false then
+                return true
+            else
+                return false
+            end
+        end
+    else
+        return true
+    end
+end
+
+local function TargetCrew(b, Setting)
+    if Setting.CrewCheck then
+        if Local.Player.DataFolder.Information:FindFirstChild('Crew').Value ~= "" and
+            Services.Players[b].DataFolder.Information:FindFirstChild('Crew').Value ~= "" then
+            if Local.Player.DataFolder.Information.Crew.Value ~= Services.Players[b].DataFolder.Information.Crew.Value then
+                return true
+            else
+                return false
+            end
+        else
+            return true
+        end
+    else
+        return true
+    end
+end
+
+local function IsInFirstPerson(Setting)
+    if Setting.FirstPersonOnly and Setting.AllowThirdPersonShiftLock == false then
+        if (Local.Camera.CFrame.p - Local.Camera.Focus.p).Magnitude < 0.7 then
+            return true
+        else
+            return false
+        end
+    elseif Setting.FirstPersonOnly and Setting.AllowThirdPersonShiftLock then
+        if (Local.Camera.CFrame.p - Local.Camera.Focus.p).Magnitude < 0.7 or Services.UserInputService.MouseBehavior ==
+            Enum.MouseBehavior.LockCenter then
+            return true
+        else
+            return false
+        end
+    end
+    return true
+end
+
+local function IsInThirdPerson(Setting)
+    if Setting.ThirdPersonOnly then
+        if (Local.Camera.CFrame.p - Local.Camera.Focus.p).Magnitude > 0.7 then
+            return true
+        else
+            return false
+        end
+    end
+    return true
+end
+
+local function aimbot(feign)
+    if getgenv().EXA.Aimbot.Smoothing.Smoothness then
+        Local.Camera.CFrame = Local.Camera.CFrame:Lerp(Main, getgenv().EXA.Aimbot.Smoothing.SmoothnessAmmount,
+            Enum.EasingStyle.Quad, Enum.EasingDirection.Out, Enum.EasingStyle.Quad, Enum.EasingDirection.In)
+    end
+end
+
+local function getClosestPlayerToCursor(Setting)
+    local Target, Closest = nil, 1 / 0
+    for _, v in pairs(Services.Players:GetPlayers()) do
+        if (v.Character and v ~= Local.Player and v.Character:FindFirstChild("HumanoidRootPart")) and
+            IsOnScreen(v.Character:FindFirstChild("HumanoidRootPart"), getgenv().EXA.SilentAim) and
+            WallCheck(v.Character, getgenv().EXA.SilentAim) then
+            local Position, OnScreen = Local.Camera:WorldToScreenPoint(v.Character.HumanoidRootPart.Position)
+            local Distance = (Vector2.new(Position.X, Position.Y) - Vector2.new(Local.Mouse.X, Local.Mouse.Y)).Magnitude
+            if (Setting > Distance and Distance < Closest and OnScreen) then
+                Closest = Distance
+                Target = v
+            end
+        end
+    end
+    return Target
+end
+
+Services.UserInputService.InputBegan:Connect(function(input)
+    if not (Services.UserInputService:GetFocusedTextBox()) then
+        if input.KeyCode == Keybinds.Aimbot and AimlockTarget == nil then
+            if getgenv().EXA.Aimbot.Locking ~= true then
+                getgenv().EXA.Aimbot.Locking = true
+            end
+            local Target;
+            if game.PlaceId == 10355218822 or game.PlaceId == 12154107359 then
+                if Target ~= nil then
+                    AimlockTarget = Services.Workspace.NPC.Dummy
+                    AimlockTargetName = Services.Workspace.NPC.Dummy.Name
+                end
+            else
+                Target = getClosestPlayerToCursor(700)
+                if Target ~= nil then
+                    AimlockTarget = Target.Character
+                    AimlockTargetName = Target.Name
+                end
+            end
+
+        elseif input.KeyCode == Keybinds.Aimbot and AimlockTarget ~= nil then
+            if AimlockTarget ~= nil then
+                AimlockTarget = nil
+            end
+            if getgenv().EXA.Aimbot.Locking ~= false then
+                getgenv().EXA.Aimbot.Locking = false
+            end
+        end
+    end
+end)
+
+if not LPH_OBFUSCATED then
+    LPH_JIT_MAX = function(...)
+        return ...
+    end
+end
+
+local Velocity = nil;
+local lastPosition = Vector3.new(0, 0, 0)
+local lastTime = tick()
+local SilentlastPosition = Vector3.new(0, 0, 0)
+local SilentlastTime = tick()
+
+Services.RunService.Heartbeat:Connect(LPH_JIT_MAX(function()
+    if getgenv().EXA.Aimbot.Enabled == true and getgenv().EXA.Aimbot.Locking == true and AimlockTarget and
+        AimlockTarget:FindFirstChild(getgenv().EXA.Aimbot.Hitparts.Aimpart) then
+        if getgenv().EXA.Aimbot.FOV.ShowFOV then
+            CamCircle.Radius = getgenv().EXA.Aimbot.FOV.FOVRadius
+            CamCircle.Visible = getgenv().EXA.Aimbot.FOV.ShowFOV
+            CamCircle.Position = Vector2.new(Services.UserInputService:GetMouseLocation().X,
+                Services.UserInputService:GetMouseLocation().Y)
+        elseif getgenv().EXA.Aimbot.FOV.ShowFOV == false then
+            if CamCircle.Visible ~= false then
+                CamCircle.Visible = getgenv().EXA.Aimbot.FOV.ShowFOV
+            end
+        end
+        if getgenv().EXA.Aimbot.Hitparts.AimpartType == "Basic" then
+            getgenv().EXA.Aimbot.Hitparts.Aimpart = getgenv().EXA.Aimbot.Hitparts.BasicAimpart
+        end
+        if getgenv().EXA.Aimbot.Hitparts.AimpartType == "Nearest Part" then
+            getgenv().EXA.Aimbot.Hitparts.Aimpart = tostring(
+                getClosestPartToCursor(AimlockTarget, getgenv().EXA.Aimbot))
+        end
+        if getgenv().EXA.Aimbot.FOV.FOVType == "Dynamic" then
+            if Local.Player.Character:FindFirstChild("HumanoidRootPart") then
+                feign = (Local.Camera.CFrame.Position - AimlockTarget.HumanoidRootPart.Position).magnitude
+                getgenv().EXA.Aimbot.FOV.FOVRadius = (getgenv().EXA.Aimbot.FOV.DynamicAmmount / feign)
+            end
+        end
+        if SelfAlive(getgenv().EXA.Aimbot.Checks) and TargetKO(AimlockTarget, getgenv().EXA.Aimbot.Checks) and
+            IsOnScreen(AimlockTarget[getgenv().EXA.Aimbot.Hitparts.Aimpart], getgenv().EXA.Aimbot.Checks) and
+            WallCheck(AimlockTarget, getgenv().EXA.Aimbot.Checks) and
+            IsInRadius(AimlockTarget, getgenv().EXA.Aimbot.Checks) and
+            TargetForceField(AimlockTarget, getgenv().EXA.Aimbot.Checks) and
+            TargetCrew(AimlockTargetName, getgenv().EXA.Aimbot.Checks) and SelfReload(getgenv().EXA.Aimbot.Checks) and
+            IsInFirstPerson(getgenv().EXA.Aimbot.Checks) and IsInThirdPerson(getgenv().EXA.Aimbot.Checks) and
+            GrabbedCheck(AimlockTarget, getgenv().EXA.Aimbot.Checks) and
+            AimlockTarget:FindFirstChild("HumanoidRootPart") then
+            if getgenv().EXA.Aimbot.Hitparts.AimpartType == "Nearest Part" or
+                getgenv().EXA.Aimbot.Hitparts.AimpartType == "Basic" then
+                ac = AimlockTarget[getgenv().EXA.Aimbot.Hitparts.Aimpart].Position
+            elseif getgenv().EXA.Aimbot.Hitparts.AimpartType == "Nearest Point" then
+                getgenv().EXA.Aimbot.Hitparts.Aimpart = tostring(
+                    getClosestPartToCursor(AimlockTarget, getgenv().EXA.Aimbot))
+                ac = getClosestPointOnPart(AimlockTarget[getgenv().EXA.Aimbot.Hitparts.Aimpart])
+            end
+            pcall(function()
+                local currentPosition = AimlockTarget.HumanoidRootPart.Position
+                local currentTime = tick()
+                local deltaPos = currentPosition - lastPosition
+                local deltaTime = currentTime - lastTime
+                if getgenv().EXA.Aimbot.Resolving.Resolver then
+                    if getgenv().EXA.Aimbot.Resolving.ResolverType == "When Velocity is too high" then
+                        if (AimlockTarget.HumanoidRootPart.Velocity).magnitude >
+                            getgenv().EXA.Aimbot.Resolving.PosResolverMax or
+                            (AimlockTarget.HumanoidRootPart.Velocity).magnitude <
+                            -getgenv().EXA.Aimbot.Resolving.NegResolverMax then
+                            if deltaTime >= 0.03 then
+                                Velocity = deltaPos / deltaTime
+                                lastPosition = currentPosition
+                                lastTime = currentTime
+                            end
+                            if getgenv().EXA.Aimbot.Checks.UseYAxis == false then
+                                Velocity = Vector3.new(Velocity.X, 0, Velocity.Z)
+                            end
+                        else
+                            if getgenv().EXA.Aimbot.Checks.UseYAxis == false then
+                                Velocity = Vector3.new(AimlockTarget.HumanoidRootPart.Velocity.X, 0,
+                                    AimlockTarget.HumanoidRootPart.Velocity.Z)
+                            else
+                                Velocity = AimlockTarget.HumanoidRootPart.Velocity
+                            end
+                        end
+                    else
+                        if deltaTime >= 0.03 then
+                            Velocity = deltaPos / deltaTime
+                            lastPosition = currentPosition
+                            lastTime = currentTime
+                        end
+                        if getgenv().EXA.Aimbot.Checks.UseYAxis == false then
+                            Velocity = Vector3.new(Velocity.X, 0, Velocity.Z)
+                        end
+                    end
+                else
+                    if getgenv().EXA.Aimbot.Checks.UseYAxis == false then
+                        Velocity = Vector3.new(AimlockTarget.HumanoidRootPart.Velocity.X, 0,
+                            AimlockTarget.HumanoidRootPart.Velocity.Z)
+                    else
+                        Velocity = AimlockTarget.HumanoidRootPart.Velocity
+                    end
+                end
+                if getgenv().EXA.Aimbot.Shaking.Shake then
+                    if getgenv().EXA.Aimbot.Predicting.Prediction then
+                        Main = CFrame.new(Local.Camera.CFrame.p, ac +
+                            Vector3.new(
+                                math.random(-getgenv().EXA.Aimbot.Shaking.ShakeAmmount,
+                                    getgenv().EXA.Aimbot.Shaking.ShakeAmmount) * 0.01,
+                                math.random(-getgenv().EXA.Aimbot.Shaking.ShakeAmmount,
+                                    getgenv().EXA.Aimbot.Shaking.ShakeAmmount) * 0.1, math.random(
+                                    -getgenv().EXA.Aimbot.Shaking.ShakeAmmount,
+                                    getgenv().EXA.Aimbot.Shaking.ShakeAmmount) * 0.1) +
+                            (Vector3.new(Velocity.X, Velocity.Y, Velocity.Z)) *
+                            getgenv().EXA.Aimbot.Predicting.PredictionAmmount)
+                    else
+                        Main = CFrame.new(Local.Camera.CFrame.p, ac +
+                            Vector3.new(
+                                math.random(-getgenv().EXA.Aimbot.Shaking.ShakeAmmount,
+                                    getgenv().EXA.Aimbot.Shaking.ShakeAmmount) * 0.01,
+                                math.random(-getgenv().EXA.Aimbot.Shaking.ShakeAmmount,
+                                    getgenv().EXA.Aimbot.Shaking.ShakeAmmount) * 0.1, math.random(
+                                    -getgenv().EXA.Aimbot.Shaking.ShakeAmmount,
+                                    getgenv().EXA.Aimbot.Shaking.ShakeAmmount) * 0.1))
+                    end
+                else
+                    if getgenv().EXA.Aimbot.Predicting.Prediction then
+                        Main = CFrame.new(Local.Camera.CFrame.p,
+                            ac + (Vector3.new(Velocity.X, Velocity.Y, Velocity.Z)) *
+                                getgenv().EXA.Aimbot.Predicting.PredictionAmmount)
+                    else
+                        Main = CFrame.new(Local.Camera.CFrame.p, ac)
+                    end
+                end
+                if getgenv().EXA.Aimbot.Smoothing.Smoothness then
+                    aimbot(Main)
+                else
+                    if getgenv().EXA.Aimbot.Predicting.Prediction then
+                        Local.Camera.CFrame = CFrame.new(Local.Camera.CFrame.Position, ac +
+                            (Vector3.new(Velocity.X, Velocity.Y, Velocity.Z)) *
+                            getgenv().EXA.Aimbot.Predicting.PredictionAmmount)
+                    else
+                        Local.Camera.CFrame = CFrame.new(Local.Camera.CFrame.Position, ac)
+                    end
+                end
+            end)
+        end
+    else
+        getgenv().EXA.Aimbot.Locking = false
+        AimlockTarget = nil
+        CamCircle.Visible = false
+    end
+    if getgenv().EXA.SilentAim.Enabled then
+        SilentTarget = getClosestPlayerToCursor(700)
+        if SilentTarget and SilentTarget.Character and SilentTarget.Character:FindFirstChild("HumanoidRootPart") then
+            pcall(function()
+                local SilentcurrentPosition = SilentTarget.Character.HumanoidRootPart.Position
+                local SilentcurrentTime = tick()
+                local SilentdeltaPos = SilentcurrentPosition - SilentlastPosition
+                local SilentdeltaTime = SilentcurrentTime - SilentlastTime
+                if getgenv().EXA.SilentAim.Resolving.Resolver then
+                    if getgenv().EXA.SilentAim.ResolverType == "When Velocity is too high" then
+                        if (SilentTarget.Character.HumanoidRootPart.Velocity).magnitude >
+                            getgenv().EXA.SilentAim.Resolving.PosResolverMax or
+                            (SilentTarget.Character.HumanoidRootPart.Velocity).magnitude <
+                            -getgenv().EXA.SilentAim.Resolving.NegResolverMax then
+                            if SilentdeltaTime >= 0.03 then
+                                SilentVelocity = SilentdeltaPos / SilentdeltaTime
+                                SilentlastPosition = SilentcurrentPosition
+                                SilentlastTime = SilentcurrentTime
+                            end
+                            if getgenv().EXA.SilentAim.Checks.UseYAxis == false then
+                                SilentVelocity = Vector3.new(SilentVelocity.X, 0, SilentVelocity.Z)
+                            end
+                        else
+                            if getgenv().EXA.SilentAim.Checks.UseYAxis == false then
+                                SilentVelocity = Vector3.new(SilentTarget.Character.HumanoidRootPart.Velocity.X, 0,
+                                    SilentTarget.Character.HumanoidRootPart.Velocity.Z)
+                            else
+                                SilentVelocity = SilentTarget.Character.HumanoidRootPart.Velocity
+                            end
+                        end
+                    else
+                        if SilentdeltaTime >= 0.03 then
+                            SilentVelocity = SilentdeltaPos / SilentdeltaTime
+                            SilentlastPosition = SilentcurrentPosition
+                            SilentlastTime = SilentcurrentTime
+                        end
+                        if getgenv().EXA.SilentAim.Checks.UseYAxis == false then
+                            SilentVelocity = Vector3.new(Velocity.X, 0, Velocity.Z)
+                        end
+                    end
+                else
+                    if getgenv().EXA.SilentAim.Checks.UseYAxis == false then
+                        SilentVelocity = Vector3.new(SilentTarget.Character.HumanoidRootPart.Velocity.X, 0,
+                            SilentTarget.Character.HumanoidRootPart.Velocity.Z)
+                    else
+                        SilentVelocity = SilentTarget.Character.HumanoidRootPart.Velocity
+                    end
+                end
+                if getgenv().EXA.SilentAim.Hitparts.AimpartType == "Nearest Part" then
+                    getgenv().EXA.SilentAim.Hitparts.Aimpart =
+                        tostring(getClosestPartToCursor(SilentTarget.Character, getgenv().EXA.SilentAim))
+                    Aimplace = (SilentTarget.Character[getgenv().EXA.SilentAim.Hitparts.Aimpart].Position) +
+                                   (SilentVelocity * getgenv().EXA.SilentAim.Predicting.PredictionAmmount)
+                elseif getgenv().EXA.SilentAim.Hitparts.AimpartType == "Basic" then
+                    getgenv().EXA.SilentAim.Hitparts.Aimpart = getgenv().EXA.SilentAim.Hitparts.BasicAimpart
+                    Aimplace = (SilentTarget.Character[getgenv().EXA.SilentAim.Hitparts.Aimpart].Position) +
+                                   (SilentVelocity * getgenv().EXA.SilentAim.Predicting.PredictionAmmount)
+                elseif getgenv().EXA.SilentAim.Hitparts.AimpartType == "Nearest Point" then
+                    getgenv().EXA.SilentAim.Hitparts.Aimpart =
+                        tostring(getClosestPartToCursor(SilentTarget.Character, getgenv().EXA.SilentAim))
+                    Aimplace = (getClosestPointOnPart(
+                        SilentTarget.Character[getgenv().EXA.SilentAim.Hitparts.Aimpart]) +
+                                   (SilentVelocity * getgenv().EXA.SilentAim.Predicting.PredictionAmmount))
+                end
+            end)
+        end
+        if getgenv().EXA.SilentAim.FOV.ShowFOV then
+            SilentCircle.Radius = getgenv().EXA.SilentAim.FOV.FOVRadius
+            if getgenv().EXA.SilentAim.FOV.FOVType2 == "Cursor" then
+                SilentCircle.Visible = getgenv().EXA.SilentAim.FOV.ShowFOV
+                SilentCircle.Position = Vector2.new(Local.Mouse.X, Local.Mouse.Y + Services.GuiService:GetGuiInset().Y)
+            else
+                if SilentTarget then
+                    local PlayerPosition = SilentTarget.Character.HumanoidRootPart.Position + SilentVelocity *
+                                               getgenv().EXA.SilentAim.Predicting.PredictionAmmount
+                    local OnScreenPosition = Local.Camera:WorldToViewportPoint(PlayerPosition)
+                    SilentCircle.Position = (Vector2.new(OnScreenPosition.X, OnScreenPosition.Y))
+                    SilentCircle.Visible = getgenv().EXA.SilentAim.FOV.ShowFOV
+                else
+                    SilentCircle.Visible = false
+                end
+            end
+        else
+            SilentCircle.Visible = getgenv().EXA.SilentAim.FOV.ShowFOV
+        end
+        if SilentTarget and SilentTarget.Character and SilentTarget.Character.HumanoidRootPart then
+            if getgenv().EXA.SilentAim.FOV.FOVType == "Dynamic" then
+                if Local.Player.Character:FindFirstChild("HumanoidRootPart") then
+                    idk = (Local.Camera.CFrame.Position - SilentTarget.Character.HumanoidRootPart.Position).magnitude
+                    getgenv().EXA.SilentAim.FOV.FOVRadius = (getgenv().EXA.SilentAim.FOV.DynamicAmmount / idk)
+                end
+            end
+        end
+    else
+        if SilentCircle.Visible ~= false then
+            SilentCircle.Visible = false
+        end
+    end
+end))
+
+local function getgamesnamecall()
+    if game.PlaceId == 2788229376 or game.PlaceId == 4106313503 or game.PlaceId == 12442317726 then
+        return "UpdateMousePos"
+    elseif game.PlaceId == 5602055394 or game.PlaceId == 7951883376 then
+        return "MousePos"
+    elseif game.PlaceId == 9825515356 then
+        return "GetMousePos"
+    else
+        return "UpdateMousePos"
+    end
+end
+
+local function MainEventLocate()
+    for _, v in pairs(Services.ReplicatedStorage:GetChildren()) do
+        if v.Name == "MainEvent" then
+            return v
+        end
+    end
+end
+
+local function SilentActivator(Place)
+    if getgenv().EXA.SilentAim.Enabled then
+        if SilentTarget and SilentTarget.Character and SilentVelocity then
+            if TargetKO(SilentTarget.Character, getgenv().EXA.SilentAim.Checks) and
+                IsOnScreen(SilentTarget.Character[getgenv().EXA.SilentAim.Hitparts.Aimpart],
+                    getgenv().EXA.SilentAim.Checks) and
+                WallCheck(SilentTarget.Character, getgenv().EXA.SilentAim.Checks) and
+                IsInRadius(SilentTarget.Character, getgenv().EXA.SilentAim.Checks) and
+                TargetForceField(SilentTarget.Character, getgenv().EXA.SilentAim.Checks) and
+                TargetCrew(SilentTarget.Name, getgenv().EXA.SilentAim.Checks) and
+                GrabbedCheck(SilentTarget.Character, getgenv().EXA.SilentAim.Checks) and
+                SilentTarget.Character:FindFirstChild("HumanoidRootPart") then
+                MainEventLocate():FireServer(getgamesnamecall(), Place)
+            end
+        end
+    end
+end
+
+Local.Player.Character.ChildAdded:Connect(LPH_JIT_MAX(function(tool)
+    if tool:IsA("Tool") and
+        (tool:FindFirstChild("Script") or tool:FindFirstChild("GunScript") or tool:FindFirstChild("weaponInfo")) then
+        tool.Activated:Connect(function()
+            SilentActivator(Aimplace)
+        end)
+    end
+end))
+
+Local.Player.CharacterAdded:Connect(LPH_JIT_MAX(function(Character)
+    Character.ChildAdded:Connect(function(tool)
+        if tool:IsA("Tool") and
+            (tool:FindFirstChild("Script") or tool:FindFirstChild("GunScript") or tool:FindFirstChild("weaponInfo")) then
+            tool.Activated:Connect(function()
+                SilentActivator(Aimplace)
+            end)
+        end
+    end)
+end))
+
+Services.UserInputService.InputBegan:Connect(LPH_JIT_MAX(function(input)
+    if not (Services.UserInputService:GetFocusedTextBox()) then
+        if input.KeyCode == Keybinds.SilentAim then
+            if getgenv().EXA.SilentAim.Enabled then
+                getgenv().EXA.SilentAim.Enabled = false
+            elseif getgenv().EXA.SilentAim.Enabled == false then
+                getgenv().EXA.SilentAim.Enabled = true
+            end
+        end
+    end
+end))
+
+wait(0.5)
+
+if getgenv().EXA.Startup.Intro then
+    local Tracer = Drawing.new("Image")
+    local Blur = Instance.new("BlurEffect")
+    local screenSize = Services.Workspace.CurrentCamera.ViewportSize
+    local centerPosition = Vector2.new(screenSize.X / 2, screenSize.Y / 2)
+    Tracer.Position = centerPosition
+    Tracer.Size = Vector2.new(0, 0)
+    Tracer.Visible = true
+    Blur.Size = 0
+    Blur.Parent = Services.Workspace.CurrentCamera
+    for i = 1, 100 do
+        Tracer.Size = Tracer.Size + (Vector2.new(540, 540) - Tracer.Size) / 20
+        Tracer.Position = centerPosition - Tracer.Size / 2
+        if Blur.Size ~= 10 then
+            Blur.Size = Blur.Size + 1
+        end
+        task.wait()
+    end
+    Tracer.Size = Vector2.new(540, 540)
+    Tracer.Position = centerPosition - Tracer.Size / 2
+    wait(0.75)
+    for i = 1, 85 do
+        if Tracer.Transparency ~= 0 then
+            Tracer.Transparency = Tracer.Transparency - 0.01
+        end
+        if Blur.Size ~= 0 then
+            Blur.Size = Blur.Size - 1
+        end
+        task.wait()
+    end
+    Tracer.Size = Vector2.new(0, 0)
+    Blur:Destroy()
+end
+
+-- // Misc
+
+-- // Macro
+
+local SpeedGlitch = false
+Mouse.KeyDown:Connect(function(Key)
+    if Key == (getgenv().EXA.Misc.Macro.Keybind) and getgenv().EXA.Misc.Macro.Type == "Third" then
+        SpeedGlitch = not SpeedGlitch
+        if SpeedGlitch == true then
+            repeat
+                task.wait(getgenv().EXA.Misc.Macro.Speed / 100)
+                game:GetService("VirtualInputManager"):SendKeyEvent(true, "I", false, game)
+                task.wait(getgenv().EXA.Misc.Macro.Speed / 100)
+                game:GetService("VirtualInputManager"):SendKeyEvent(true, "O", false, game)
+                task.wait(getgenv().EXA.Misc.Macro.Speed / 100)
+                game:GetService("VirtualInputManager"):SendKeyEvent(true, "I", false, game)
+                task.wait(getgenv().EXA.Misc.Macro.Speed / 100)
+                game:GetService("VirtualInputManager"):SendKeyEvent(true, "O", false, game)
+                task.wait(getgenv().EXA.Misc.Macro.Speed / 100)
+            until SpeedGlitch == false
+        end
+    end
+end)
+Mouse.KeyDown:Connect(function(Key)
+    if Key == (getgenv().EXA.Misc.Macro.Keybind) and getgenv().EXA.Misc.Macro.Type == "First" then
+        SpeedGlitch = not SpeedGlitch
+        if SpeedGlitch == true then
+            repeat
+                task.wait(getgenv().EXA.Misc.Macro.Speed / 100)
+                game:GetService("VirtualInputManager"):SendMouseWheelEvent("0", "0", true, game)
+                task.wait(getgenv().EXA.Misc.Macro.Speed / 100)
+                game:GetService("VirtualInputManager"):SendMouseWheelEvent("0", "0", false, game)
+                task.wait(getgenv().EXA.Misc.Macro.Speed / 100)
+                game:GetService("VirtualInputManager"):SendMouseWheelEvent("0", "0", true, game)
+                task.wait(getgenv().EXA.Misc.Macro.Speed / 100)
+                game:GetService("VirtualInputManager"):SendMouseWheelEvent("0", "0", false, game)
+                task.wait(getgenv().EXA.Misc.Macro.Speed / 100)
+            until SpeedGlitch == false
+        end
+    end
+end)
+
+-- // 360 Keybind
+
+local Players = game:GetService("Players")
+local UserInputService = game:GetService("UserInputService")
+local RunService = game:GetService("RunService")
+local Camera = workspace.CurrentCamera
+local Toggle = getgenv().EXA.Misc.Key360.Toggle
+local RotationSpeed = getgenv().EXA.Misc.Key360.RotationSpeed
+local Keybind = getgenv().EXA.Misc.Key360.Keybind
+
+local function OnKeyPress(Input, GameProcessedEvent)
+    if Input.KeyCode == Enum.KeyCode[Keybind:upper()] and not GameProcessedEvent then
+        Toggle = not Toggle
+    end
+end
+
+UserInputService.InputBegan:Connect(OnKeyPress)
+
+local LastRenderTime = 0
+local FullCircleRotation = 2 * math.pi
+local TotalRotation = 0
+
+local function RotateCamera()
+    if Toggle then
+        local CurrentTime = tick()
+        local TimeDelta = math.min(CurrentTime - LastRenderTime, 0.01)
+        LastRenderTime = CurrentTime
+
+        local Rotation = CFrame.fromAxisAngle(Vector3.new(0, 1, 0), math.rad(RotationSpeed * TimeDelta))
+        Camera.CFrame = Camera.CFrame * Rotation
+
+        TotalRotation = TotalRotation + math.rad(RotationSpeed * TimeDelta)
+        if TotalRotation >= FullCircleRotation then
+            Toggle = false
+            TotalRotation = 0
+        end
+    end
+end
+
+RunService.RenderStepped:Connect(RotateCamera)
+
+-- // NoClip
+
+if getgenv().EXA.Misc.NoClip.Enabled == true then
+    local Keybind = getgenv().EXA.Misc.NoClip.Key
+    while true do
+        local function OnKeyPress(Input)
+            if Input.KeyCode == Enum.KeyCode[Keybind:upper()] then
+                for i, v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
+                    if v.Name == getgenv().EXA.Misc.NoClip.GunName then
+                        game.Players.LocalPlayer.Character.Humanoid:EquipTool(v)
+                        task.wait(getgenv().EXA.Misc.NoClip.Delay)
+                        game.Players.LocalPlayer.Character.Humanoid:UnequipTools()
+                    end
+                end
+            end
+        end
+        task.wait(getgenv().EXA.Misc.NoClip.Delay)
+    end
+end
