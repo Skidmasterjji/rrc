@@ -123,7 +123,7 @@ getgenv().Yeki = {
             ["P10_20"] = (0.10087127181718181)
         },
         ["Fov"] = {
-            ["Visible"] = (false), -- // If The Circle Is Showing Or Not
+            ["Visible"] = (true), -- // If The Circle Is Showing Or Not
             ["Method"] = ("Mouse"), -- // What Type Of Position The Fov Is Gonna Be (Mouse, Screen)
             ["Filled"] = (true), -- // If The Circle Is Filled
             ["Transparency"] = (0.1), -- // The Circle Transparency
