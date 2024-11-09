@@ -1,4 +1,4 @@
--- // Silent Aim for Da Hood without using UpdateMousePos or main event args
+-- // Silent Aim for Da Hood without using UpdateMousePos or Mouse.Hit
 local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
 local LocalPlayer = Players.LocalPlayer
@@ -63,17 +63,35 @@ local function calculateAimPosition()
     return nil
 end
 
--- Using the custom aim position in your shooting logic
+-- Function to simulate shooting at the silent aim target
+local function shootAtTarget()
+    local aimPosition = calculateAimPosition()
+    if aimPosition then
+        -- Simulate a shot going to the calculated aim position
+        -- This should replace where your game usually handles shooting or raycasting
+
+        -- Example: Cast a ray to the target position
+        local origin = Camera.CFrame.Position
+        local direction = (aimPosition - origin).Unit * 500  -- Adjust ray length as needed
+
+        local raycastParams = RaycastParams.new()
+        raycastParams.FilterDescendantsInstances = {LocalPlayer.Character}
+        raycastParams.FilterType = Enum.RaycastFilterType.Blacklist
+
+        local result = Workspace:Raycast(origin, direction, raycastParams)
+
+        if result then
+            print("Hit: ", result.Instance)
+            -- Handle hit effect, damage application, etc. based on result.Instance
+        else
+            print("Missed")
+        end
+    end
+end
+
+-- Use `shootAtTarget` instead of the usual shooting logic to direct shots with silent aim
 RunService.RenderStepped:Connect(function()
     if Config.Enabled then
-        local aimPosition = calculateAimPosition()
-        if aimPosition then
-            -- Example: Direct the shot or aim at the calculated aimPosition
-            -- Replace the following line with your shooting logic using aimPosition
-            print("Silent Aim Target Position: ", aimPosition)
-            
-            -- If you have a function to handle shooting, you can pass aimPosition into it
-            -- Example: shootGun(aimPosition)
-        end
+        shootAtTarget()
     end
 end)
