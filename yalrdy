@@ -1,11 +1,12 @@
--- // Silent Aim for Da Hood without hookmetamethod
+-- // Silent Aim for Da Hood without modifying Mouse.Hit or using hookmetamethod
 local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
 local LocalPlayer = Players.LocalPlayer
 local Mouse = LocalPlayer:GetMouse()
-local SilentTarget = nil  -- The target to aim at
+local Workspace = game:GetService("Workspace")
+local Camera = Workspace.CurrentCamera
 
--- // Configuration
+-- Configuration
 local Config = {
     Enabled = true,
     PredictionVelocity = 0.165,  -- Adjust prediction value to fine-tune accuracy
@@ -15,7 +16,7 @@ local Config = {
     HumanizeValue = Vector3.new(0.1, 0.1, 0.1)  -- Randomization values for humanizing aim
 }
 
--- // Function to get the closest target to the crosshair
+-- Function to get the closest target to the crosshair
 local function getClosestTarget()
     local closestTarget = nil
     local closestDistance = math.huge
@@ -23,7 +24,7 @@ local function getClosestTarget()
     for _, player in pairs(Players:GetPlayers()) do
         if player ~= LocalPlayer and player.Character and player.Character:FindFirstChild(Config.Part) then
             local part = player.Character[Config.Part]
-            local screenPoint, onScreen = workspace.CurrentCamera:WorldToViewportPoint(part.Position)
+            local screenPoint, onScreen = Camera:WorldToViewportPoint(part.Position)
             local distance = (Vector2.new(screenPoint.X, screenPoint.Y) - Vector2.new(Mouse.X, Mouse.Y)).Magnitude
 
             if onScreen and distance < closestDistance then
@@ -36,20 +37,17 @@ local function getClosestTarget()
     return closestTarget
 end
 
--- // Update Mouse.Hit to point towards the target's position
-RunService.RenderStepped:Connect(function()
+-- Silent aim function to redirect aim
+local function silentAimRaycast(origin, direction)
     if Config.Enabled then
-        SilentTarget = getClosestTarget()
-
+        local SilentTarget = getClosestTarget()
         if SilentTarget and SilentTarget.Character and SilentTarget.Character:FindFirstChild(Config.Part) then
             local targetPart = SilentTarget.Character[Config.Part]
             local targetPosition = targetPart.Position
 
-            -- Predict movement by adding target velocity
-            if SilentTarget.Character:FindFirstChild("HumanoidRootPart") then
-                local velocity = SilentTarget.Character.HumanoidRootPart.Velocity
-                targetPosition = targetPosition + (velocity * Config.PredictionVelocity)
-            end
+            -- Apply prediction by adding target velocity
+            local velocity = SilentTarget.Character:FindFirstChild("HumanoidRootPart") and SilentTarget.Character.HumanoidRootPart.Velocity or Vector3.new(0, 0, 0)
+            targetPosition = targetPosition + (velocity * Config.PredictionVelocity)
 
             -- Humanize aim with slight random offset if enabled
             if Config.Humanize then
@@ -60,10 +58,24 @@ RunService.RenderStepped:Connect(function()
                 )
             end
 
-            -- Overwrite Mouse.Hit to point to the silent aim target
-            Mouse.Hit = CFrame.new(targetPosition)
+            -- Override the ray direction to point towards the target
+            direction = (targetPosition - origin).Unit * direction.Magnitude
         end
-    else
-        SilentTarget = nil
+    end
+    -- Perform the raycast
+    return Workspace:Raycast(origin, direction)
+end
+
+-- Replace regular Mouse.Target and Mouse.Hit usage with silentAimRaycast in your game logic
+RunService.RenderStepped:Connect(function()
+    if Config.Enabled then
+        local origin = Camera.CFrame.Position
+        local direction = (Mouse.Hit.p - origin).Unit * 1000  -- Example ray length, adjust as needed
+        local result = silentAimRaycast(origin, direction)
+        
+        if result then
+            -- Here you can set your silent aim behavior with the ray result, e.g., shooting or targeting
+            print("Silent Aim Target: ", result.Instance)
+        end
     end
 end)
