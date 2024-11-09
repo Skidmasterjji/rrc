@@ -2851,7 +2851,7 @@ Script.Functions.ToolActivated = function()
                     game:GetService("ReplicatedStorage").Bullets:FireServer(unpack(Args))
                 elseif game.PlaceId == 12787516123 or game.PlaceId == 11833542073 or game.PlaceId == 13051527453 or game.PlaceId == 13395952276 then
                     local Args = {
-                        [1] = "UpdateMusePos",
+                        [1] = "UpdateMousePos",
                         [2] = {
                             ["MousePos"] = TargetCF,
                             ["Camera"] = Vector3.new(Camera.CFrame.X, Camera.CFrame.Y, Camera.CFrame.Z)
