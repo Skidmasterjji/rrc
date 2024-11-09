@@ -1,4 +1,4 @@
--- // Silent Aim for Da Hood without modifying Mouse.Hit or using hookmetamethod
+-- // Silent Aim for Da Hood without using UpdateMousePos or main event args
 local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
 local LocalPlayer = Players.LocalPlayer
@@ -15,7 +15,7 @@ local Config = {
     HumanizeValue = Vector3.new(0.1, 0.1, 0.1) -- Randomization values for humanizing aim
 }
 
--- // Function to get the closest target to the crosshair
+-- Function to get the closest target to the crosshair
 local function getClosestTarget()
     local closestTarget = nil
     local closestDistance = math.huge
@@ -57,23 +57,23 @@ local function calculateAimPosition()
                 )
             end
 
-            return CFrame.new(Camera.CFrame.Position, targetPosition)
+            return targetPosition
         end
     end
     return nil
 end
 
--- Example usage: redirect aim in shooting logic
+-- Using the custom aim position in your shooting logic
 RunService.RenderStepped:Connect(function()
-    local aimCFrame = calculateAimPosition()
-    if aimCFrame then
-        -- Example: Aim gun or handle shooting direction based on calculated aim position
-        -- This depends on your game's shooting or aiming function
-        -- For demonstration, let's assume we're aiming a gun tool
-        if Config.Enabled and LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("Gun") then
-            -- Aim gun tool or apply direction here
-            -- Replace the following line with your shooting logic
-            LocalPlayer.Character.Gun.CFrame = aimCFrame
+    if Config.Enabled then
+        local aimPosition = calculateAimPosition()
+        if aimPosition then
+            -- Example: Direct the shot or aim at the calculated aimPosition
+            -- Replace the following line with your shooting logic using aimPosition
+            print("Silent Aim Target Position: ", aimPosition)
+            
+            -- If you have a function to handle shooting, you can pass aimPosition into it
+            -- Example: shootGun(aimPosition)
         end
     end
 end)
