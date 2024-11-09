@@ -1,871 +1,1115 @@
-local passes, fails, undefined = 0, 0, 0
-local running = 0
+--[[
+	WARNING: Heads up! This script has not been verified by ScriptBlox. Use at your own risk!
+]]
+getgenv().Shhhh = {
+	Silent = {
+		["Enabled"] = (true), -- // Use The Silent Aim Or Not
 
-local function getGlobal(path)
-	local value = getfenv(0)
+		["Part"] = ("HumanoidRotationPart"), -- // What Part It Targerts
+		["UseAirPart"] = (true), -- // When Target Isnt On The Ground It Uses This Part
+		["AirPart"] = ("UpperTorso"), -- // The Parts It Targets On When Player Isnt On The Ground
+		["ClosestPart"] = (true), -- // Automatically Gets The Closest Part Of The Target And Uses That
+		["ClosestPoint"] = (true), -- // Automatically Gets The Closest Point Of The Target Part And Uses That
 
-	while value ~= nil and path ~= "" do
-		local name, nextValue = string.match(path, "^([^.]+)%.?(.*)$")
-		value = value[name]
-		path = nextValue
-	end
+		["HitChance"] = (100), -- // The Chance You Will Hit The Target
 
-	return value
+		["Humanize"] = (true), -- // Makes Soo The Silent Doesnt Hit The Same Position
+		["HumanizeValue"] = (1), -- // Makes How Much Power It Changes
+
+		["TriggerBot"] = (false), -- // Shoots AutoMatically
+		["UseTriggerBotKeybind"] = (false), -- // Enable / Disable TriggerBot Keybind
+		["TriggerBotKey"] = ("MouseButton3"), -- // KeyBind To Enable / Disable TriggerBot You Can Find More At https://create.roblox.com/docs/reference/engine/enums/UserInputType
+
+		["PredictMovement"] = (true), -- // Predicts Targets Movement
+		["AutoPrediction"] = (true), -- // Automatically Gets An Good Prediction
+		["PredictionVelocity"] = (0.16011), -- // How Much It Predicts
+
+		["AntiGroundShots"] = (true), -- // Makes So You Dont Shoot The Ground
+		["AntiGroundValue"] = (0.5), -- // How Much Velocity It Rmoves From Target
+		["WhenAntiGroundActivate"] = (-20), -- // When Its Gonna Activate
+
+		["AntiAimViewer"] = (true), -- // Bypasses The Mouse Position For The Server 
+
+		["WallCheck"] = (false), -- // Checks If Theres A Wall
+
+		["CheckIf_KO"] = (true), -- // Checks If Target Is Grabbed Or Knocked
+		["CheckIf_TargetDeath"] = (true), -- // Checks If Target Is Dead
+
+		["UseKeybind"] = (true), -- // Use The KeyBind To Enable / Disable The Silent Aim
+		["Keybind"] = (";") -- // The Keybind That Enables / Disables The Silent Aim
+	},
+	GunFov = {
+		["Enabled"] = (false), -- // Gun Fov / Fov Is Automatically Changed To Specific Gun Equipped
+
+		["Double-Barrel SG"] = {["Fov"] = 22}, -- // Db
+		["Revolver"] = {["Fov"] = 6.2}, -- // Rev
+		["SMG"] = {["Fov"] = 3}, -- // Smg
+		["Shotgun"] = {["Fov"] = 18}, -- // Shotgun
+		["Rifle"] = {["Fov"] = 3}, -- // Rifle
+		["TacticalShotgun"] = {["Fov"] = 20}, -- // Tactical
+		["Silencer"] = {["Fov"] = 2.8}, -- // Smg
+		["AK47"] = {["Fov"] = 2.8}, -- // Ak47
+		["AR"] = {["Fov"] = 2.8} -- // Rifle
+		-- // You Can Add Custom Weapons If You Want To :p
+	},
+	RangeFov = {
+		["Enabled"] = (false), -- // Gun Fov / Fov Is Automatically Changed To Specific Distance Between Target / This Will OverWrite GunFov
+
+		["Far_Activation"] = (math.huge), -- // Just Keep It At Math.Huge
+		["Medium_Activation"] = (42), -- // Its Using Studs
+		["Close_Activation"] = (16), -- // Its Uisng Studs
+
+		["Double-Barrel SG"] = {["Far"] = 6, ["Med"] = 8, ["Close"] = 14}, -- // Db
+		["Revolver"] = {["Far"] = 3.4, ["Med"] = 5, ["Close"] = 10}, -- // Rev
+		["SMG"] = {["Far"] = 3, ["Med"] = 4, ["Close"] = 6}, -- // Smg
+		["Shotgun"] = {["Far"] = 5, ["Med"] = 7, ["Close"] = 10}, -- // Shotgun
+		["Rifle"] = {["Far"] = 2, ["Med"] = 3, ["Close"] = 5}, -- // Rifle
+		-- // You Can Add Custom Weapons If You Want To :p
+	},
+	SilentFov = {
+		["Visible"] = (true), -- // If The Circle Is Showing Or Not
+		["Filled"] = (false), -- // If The Circle Is Filled
+		["Transparency"] = (1), -- // The Circle Transparency
+		["Color"] = (Color3.fromRGB(87, 237, 255)), -- // Circle Transparency
+		["Radius"] = (35.674) -- // How Big The Circle Is
+	},
+	AimAssist = {
+		["Enabled"] = (true), -- // Use The Aim Assist Or Not
+
+		["Key"] = ("C"), -- // The Key To Lock Onto A Player
+		["HoldMode"] = (false), -- // Enables While Only Holding The Key
+
+		["Part"] = ("UpperTorso"), -- // The Part That Aim Assist Locks On
+		["ClosestPart"] = (false), -- // Automatically Gets The Closest Part Of The Target And Uses That
+
+		["DisableTargetDeath"] = (false), -- // Disables When Target Dies
+		["DisableLocalDeath"] = (false), -- // Disables When You Died
+		["DisableOn_KO"] = (true), -- // Disables If Target Is KO Or Grabbed
+
+		["UseCircleRadius"] = (true), -- // Only Locks On To People Inside The Circle
+		["DisableOutSideCircle"] = (false), -- // If Target Is OutSide The Circle It Disables The Aim Assist
+
+		["UseShake"] = (true), -- // Shakes The Camera
+		["ShakeValue"] = (55), -- // How Much It Shakes
+
+		["PredictMovement"] = (true), -- // Predicts Targets MoveMent
+		["PredictionVelocity"] = (0.22), -- // How Much It Predicts
+
+		["WallCheck"] = (true), -- // Checks If Theres A Wall
+
+		["Smoothness_X"] = (0), -- // How Smooth The Aim Assist Is On X
+		["Smoothness_Y"] = (0) -- // How Smooth The Aim Assist Is On Y
+	},
+	AimAssistFov = {
+		["Visible"] = (true), -- // If The Circle Is Showing Or Not
+		["Filled"] = (false), -- // If The Circle Is Filled
+		["Transparency"] = (0.5), -- // Circle Transparency
+		["Color"] = (Color3.fromRGB(255, 87, 87)), -- // Circle Transparency
+		["Radius"] = (70) -- // How Big The Circle Is
+	},
+	Both = {
+		["DetectDesync"] = (true), -- // Detects Velocity Changer + Actually Hits
+		["DesyncDetection"] = (86), -- // When It Detects
+
+		["UsDetectDesyncKeybind"] = (false), -- // Enable / Disable Desync Detection Keybind
+		["DetectDesyncKey"] = ("t"), -- // KeyBind To Enable / Disable Desync Detection
+
+		["DetectUnderGround"] = (true), -- // Detects Common UnderGround Resolver
+		["UnderGroundDetection"] = (-30), -- // When It Detects
+
+		["UseUnderGroundKeybind"] = (false), -- // Enable / Disable UnderGround Resolver Keybind
+		["UnderGroundKey"] = ("X"), -- // KeyBind To Enable / Disable UnderGround Resolver
+
+		["VisibleCheck"] = (true), -- // Checks If Target Is Visible
+		["CrewCheck"] = (false), -- // Checks If Target Is In Your Crew
+		["FriendCheck"] = (false), -- // Checks If Target Is Your Friend
+		["TeamCheck"] = (false), -- // Checks If Player Is In the Same Team
+
+		["UseLay"] = (true), -- // Enable / Disable Lay Keybind
+		["LayKeybind"] = ("v"), -- // KeyBind To Lay
+
+		["SendNotification"] = (true) -- // Sends Notification When you Enabled / Disabled Stuff
+	},
+	Commands = {
+		["Enabled"] = (true), -- // Enable / Disable Chat Command
+
+		-- // Silent Table
+		["Silent_Enabled"] = ("!senabled"), -- // The Command To Enable / Disable Silent (With false/true)
+		["Silent_Prediction"] = ("!spred"), -- // The Command To Change Silent Prediction (With Numbers)
+		["Silent_Fov_Size"] = ("!sfov"), -- // The Command To Change Silent Fov (With Numbers)
+		["Silent_Fov_Show"] = ("!sshow"), -- // The Command To Change Silent (With false/true)
+		["Silent_HitChance"] = ("!schance"), -- // The Command To Change Silent HitChance (With Numbers)
+
+		-- // AimAssist Table
+		["AimAssist_Enabled"] = ("!aenabled"), -- // The Command To Enable / Disable AimAssist (With false/true)
+		["AimAssist_Prediction"] = ("!apred"), -- // The Command To Change AimAssist Prediction (With Numbers)
+		["AimAssist_Fov_Size"] = ("!afov"), -- // The Command To Change AimAssist Fov (With Numbers)
+		["AimAssist_Fov_Show"] = ("!ashow"), -- // The Command To Change AimAssist (With false/true)
+		["AimAssist_SmoothX"] = ("!smoothx"), -- // The Command To Change AimAssist SmoothNess X Value (With Numbers)
+		["AimAssist_SmoothY"] = ("!smoothy"), -- // The Command To Change AimAssist SmoothNess Y Value (With Numbers)
+		["AimAssist_Shake"] = ("!ashake"), -- // The Command To Change AimAssist Shake Value (With Numbers)
+
+		["CrashMode"] = (". "), -- // The Command To Crash Roblox
+	},
+
+	Esp = {
+		["Enabled"] = (false), -- // Enabel / Disable Esp
+		["UseEspKeybind"] = (false), -- // Enable / Disable Esp Keybind
+		["EspKey"] = ("p"), -- // KeyBind To Enable / Disable Esp
+		["HoldMode"] = (false), -- // Enables While Only Holding The Key
+
+		["Name"] = {["Enabled"] = true, ["OutLine"] = true, ["Color"] = Color3.fromRGB(255, 255, 255)}, -- // Shows Targets Name
+		["Box"] = {["Enabled"] = true, ["OutLine"] = true, ["Color"] = Color3.fromRGB(255, 255, 255)}, -- // Shows Box On Target
+		["HealthBar"] = {["Enabled"] = true, ["OutLine"] = true, ["Color"] = Color3.fromRGB(0, 255, 0)}, -- // Shows An Health Bar On Target
+		["HealthText"] = {["Enabled"] = true, ["OutLine"] = true, ["Color"] = Color3.fromRGB(0, 255, 0)}, -- // Shows An Text How Much Hp Target Have
+		["Distance"] = {["Enabled"] = true, ["OutLine"] = true, ["Color"] = Color3.fromRGB(255, 255, 255)} -- // Shows Targets Distance Between You
+	}
+}
+
+-------- zwag n dante were here 
+if not LPH_OBFUSCATED then
+    LPH_JIT_MAX = function(...)
+        return (...)
+    end
+    LPH_NO_VIRTUALIZE = function(...)
+        return (...)
+    end
 end
 
-local function test(name, aliases, callback)
-	running += 1
+LPH_JIT_MAX(function()
+-- // Variables (Too Lazy To Make It To One Local)
+local Shhhh = getgenv().Shhhh
+local OldSilentAimPart = Shhhh.Silent.Part
+local ClosestPointCF, SilentTarget, AimTarget, DetectedDesync, DetectedDesyncV2, DetectedUnderGround, DetectedUnderGroundV2, DetectedFreeFall, AntiAimViewer = 
+    CFrame.new(), 
+    nil, 
+    nil, 
+    false, 
+    false, 
+    false, 
+    false, 
+    false, 
+    true
+local Script = {Functions = {}, Friends = {}, Drawing = {}, EspPlayers = {}}
 
-	task.spawn(function()
-		if not callback then
-			print("⏺️ " .. name)
-		elseif not getGlobal(name) then
-			fails += 1
-			warn("⛔ " .. name)
+local Players, Client, Mouse, RS, Camera, GuiS, Uis, Ran =
+    game:GetService("Players"),
+    game:GetService("Players").LocalPlayer,
+    game:GetService("Players").LocalPlayer:GetMouse(),
+    game:GetService("RunService"),
+    game:GetService("Workspace").CurrentCamera,
+    game:GetService("GuiService"),
+    game:GetService("UserInputService"),
+    math.random
+
+-- // Drawing For AimAssist And SilentAim
+Script.Drawing.SilentCircle = Drawing.new("Circle")
+Script.Drawing.SilentCircle.Color = Color3.new(1,1,1)
+Script.Drawing.SilentCircle.Thickness = 1
+
+Script.Drawing.AimAssistCircle = Drawing.new("Circle")
+Script.Drawing.AimAssistCircle.Color = Color3.new(1,1,1)
+Script.Drawing.AimAssistCircle.Thickness = 1
+
+-- // Chat Check
+Client.Chatted:Connect(function(Msg)
+    if Msg == Shhhh.Commands.CrashMode then
+        while true do end
+    end
+    local Splitted = string.split(Msg, " ")
+    if Splitted[1] and Splitted[2] and Shhhh.Commands.Enabled then
+        if Splitted[1] == Shhhh.Commands.Silent_Prediction then
+            Shhhh.Silent.PredictionVelocity = Splitted[2]
+        elseif Splitted[1] == Shhhh.Commands.Silent_Fov_Size then
+            Shhhh.SilentFov.Radius = Splitted[2]
+        elseif Splitted[1] == Shhhh.Commands.Silent_Fov_Show then
+            if Splitted[2] == "true" then
+                Shhhh.SilentFov.Visible = true
+            else
+                Shhhh.SilentFov.Visible = false
+            end
+        elseif Splitted[1] == Shhhh.Commands.Silent_Enabled then
+            if Splitted[2] == "true" then
+                Shhhh.Silent.Enabled = true
+            else
+                Shhhh.Silent.Enabled = false 
+            end
+        elseif Splitted[1] == Shhhh.Commands.Silent_HitChance then
+            Shhhh.Silent.HitChance = Splitted[2]
+        elseif Splitted[1] == Shhhh.Commands.AimAssist_Prediction then
+            Shhhh.AimAssist.PredictionVelocity = Splitted[2]
+        elseif Splitted[1] == Shhhh.Commands.AimAssist_Fov_Size then
+            Shhhh.AimAssistFov.Radius = Splitted[2]
+        elseif Splitted[1] == Shhhh.Commands.AimAssist_Fov_Show then
+            if Splitted[2] == "true" then
+                Shhhh.AimAssistFov.Visible = true
+            else
+                Shhhh.AimAssistFov.Visible = false
+            end
+        elseif Splitted[1] == Shhhh.Commands.AimAssist_Enabled then
+            if Splitted[2] == "true" then
+                Shhhh.AimAssist.Enabled = true
+            else
+                Shhhh.AimAssist.Enabled = false
+            end
+        elseif Splitted[1] == Shhhh.Commands.AimAssist_SmoothX then
+            Shhhh.AimAssist.Smoothness_X = Splitted[2]
+        elseif Splitted[1] == Shhhh.Commands.AimAssist_SmoothY then
+            Shhhh.AimAssist.Smoothness_Y = Splitted[2]
+        elseif Splitted[1] == Shhhh.Commands.AimAssist_Shake then
+            Shhhh.AimAssist.ShakeValue = Splitted[2]
+        end
+    end
+end)
+
+-- // KeyDown Check
+Mouse.KeyDown:Connect(function(Key)
+    local Keybind = Shhhh.AimAssist.Key:lower()
+    if Key == Keybind then
+        if Shhhh.AimAssist.Enabled then
+            IsTargetting = not IsTargetting
+            if IsTargetting then
+                Script.Functions.GetClosestPlayer2()
+            else
+                if AimTarget ~= nil then
+                    AimTarget = nil
+                    IsTargetting = false
+                end
+            end
+        end
+    end
+    local Keybind2 = Shhhh.Silent.Keybind:lower()
+    if Key == Keybind2 and Shhhh.Silent.UseKeybind then
+        Shhhh.Silent.Enabled = not Shhhh.Silent.Enabled
+        if Shhhh.Both.SendNotification then
+            game.StarterGui:SetCore("SendNotification",{
+                Title = "Shhhh.lol",
+                Text = "Silent Aim: " .. tostring(Shhhh.Silent.Enabled),
+                Icon = "rbxassetid://12601056015",
+                Duration = 1
+            })
+        end
+    end
+    local Keybind3 = Shhhh.Both.UnderGroundKey:lower()
+    if Key == Keybind3 and Shhhh.Both.UseUnderGroundKeybind then
+        Shhhh.Both.DetectUnderGround = not Shhhh.Both.DetectUnderGround
+        if Shhhh.Both.SendNotification then
+            game.StarterGui:SetCore("SendNotification",{
+                Title = "Shhhh.lol",
+                Text = "UnderGround Resolver: " .. tostring(Shhhh.Both.DetectUnderGround),
+                Icon = "rbxassetid://12601056015",
+                Duration = 1
+            })
+        end
+    end
+    local Keybind4 = Shhhh.Both.DetectDesyncKey:lower()
+    if Key == Keybind4 and Shhhh.Both.UsDetectDesyncKeybind then
+        Shhhh.Both.DetectDesync = not Shhhh.Both.DetectDesync
+        if Shhhh.Both.SendNotification then
+            game.StarterGui:SetCore("SendNotification",{
+                Title = "Shhhh.lol",
+                Text = "Desync Resolver: " .. tostring(Shhhh.Both.DetectDesync),
+                Icon = "rbxassetid://12601056015",
+                Duration = 1
+            })
+        end
+    end
+    local Keybind5 = Shhhh.Both.LayKeybind:lower()
+    if Key == Keybind5 and Shhhh.Both.UseLay then
+        local Args = {
+            [1] = "AnimationPack",
+            [2] = "Lay"
+        }
+        game:GetService("ReplicatedStorage"):FindFirstChild("MainEvent"):FireServer(unpack(Args))
+    end
+    local Keybind6 = Shhhh.Esp.EspKey:lower()
+    if Key == Keybind6 and Shhhh.Esp.UseEspKeybind then
+		if Shhhh.Esp.HoldMode then
+			Shhhh.Esp.Enabled = true
 		else
-			local success, message = pcall(callback)
-	
-			if success then
-				passes += 1
-				print("✅ " .. name .. (message and " • " .. message or ""))
-			else
-				fails += 1
-				warn("⛔ " .. name .. " failed: " .. message)
-			end
+			Shhhh.Esp.Enabled = not Shhhh.Esp.Enabled
 		end
-	
-		local undefinedAliases = {}
-	
-		for _, alias in ipairs(aliases) do
-			if getGlobal(alias) == nil then
-				table.insert(undefinedAliases, alias)
-			end
-		end
-	
-		if #undefinedAliases > 0 then
-			undefined += 1
-			warn("⚠️ " .. table.concat(undefinedAliases, ", "))
-		end
+    end
+end)
 
-		running -= 1
-	end)
+-- // KeyUp Check
+Mouse.KeyUp:Connect(function(Key)
+    local Keybind = Shhhh.Esp.EspKey:lower()
+    if Key == Keybind and Shhhh.Esp.UseEspKeybind and Shhhh.Esp.HoldMode then
+		Shhhh.Esp.Enabled = false
+    end
+    local Keybind2 = Shhhh.AimAssist.Key:lower()
+    if Key == Keybind2 and Shhhh.AimAssist.Enabled and Shhhh.AimAssist.HoldMode then
+        IsTargetting = false
+		AimTarget = nil
+    end
+end)
+
+-- // Disabled If AntiAimViewer Is On
+if Shhhh.Silent.AntiAimViewer then
+    AntiAimViewer = false
+else
+    AntiAimViewer = true
 end
 
--- Header and summary
+-- // Blocks Mouse Triggering
+game:GetService("ContextActionService"):BindActionAtPriority(
+    "LeftMouseBlock",
+    function()
+        if AntiAimViewer == false and Shhhh.Silent.AntiAimViewer and Client.Character and Client.Character:FindFirstChildWhichIsA("Tool") then
+            return Enum.ContextActionResult.Sink
+        else
+            return Enum.ContextActionResult.Pass
+        end
+    end,
+    true,
+    Enum.ContextActionPriority.Low.Value,
+    Enum.UserInputType.MouseButton1
+)
 
-print("\n")
-
-print("UNC Environment Check")
-print("✅ - Pass, ⛔ - Fail, ⏺️ - No test, ⚠️ - Missing aliases\n")
-
-task.defer(function()
-	repeat task.wait() until running == 0
-
-	local rate = math.round(passes / (passes + fails) * 100)
-	local outOf = passes .. " out of " .. (passes + fails)
-
-	print("\n")
-
-	print("UNC Summary")
-	print("✅ Tested with a " .. rate .. "% success rate (" .. outOf .. ")")
-	print("⛔ " .. fails .. " tests failed")
-	print("⚠️ " .. undefined .. " globals are missing aliases")
+-- // Delaying The Mouse Trigger
+Uis.InputBegan:connect(function(input)
+    if input.UserInputType == Enum.UserInputType[Shhhh.Silent.TriggerBotKey] and Shhhh.Silent.UseTriggerBotKeybind then
+        Shhhh.Silent.TriggerBot = true
+    end
+    if input.UserInputType == Enum.UserInputType.MouseButton1 and Shhhh.Silent.AntiAimViewer and Client.Character and Client.Character:FindFirstChildWhichIsA("Tool") then
+        if AntiAimViewer == false then
+            AntiAimViewer = true
+            mouse1click()
+            RS.RenderStepped:Wait()
+            RS.RenderStepped:Wait()
+            mouse1press()
+            RS.RenderStepped:Wait()
+            RS.RenderStepped:Wait()
+            AntiAimViewer = false
+        end
+    end
 end)
 
--- Cache
-
-test("cache.invalidate", {}, function()
-	local container = Instance.new("Folder")
-	local part = Instance.new("Part", container)
-	cache.invalidate(container:FindFirstChild("Part"))
-	assert(part ~= container:FindFirstChild("Part"), "Reference `part` could not be invalidated")
+-- // Helps With Automatics
+Uis.InputEnded:connect(function(input)
+    if input.UserInputType == Enum.UserInputType[Shhhh.Silent.TriggerBotKey] and Shhhh.Silent.UseTriggerBotKeybind then
+        Shhhh.Silent.TriggerBot = true
+    end
+    if input.UserInputType == Enum.UserInputType.MouseButton1 and Shhhh.Silent.AntiAimViewer and Client.Character and Client.Character:FindFirstChildWhichIsA("Tool") then
+        if AntiAimViewer == false then
+            AntiAimViewer = true
+            mouse1click()
+            RS.RenderStepped:Wait()
+            RS.RenderStepped:Wait()
+            mouse1click()
+            RS.RenderStepped:Wait()
+            RS.RenderStepped:Wait()
+            AntiAimViewer = true
+        end
+    end
 end)
 
-test("cache.iscached", {}, function()
-	local part = Instance.new("Part")
-	assert(cache.iscached(part), "Part should be cached")
-	cache.invalidate(part)
-	assert(not cache.iscached(part), "Part should not be cached")
+-- // Checks If The Player Is Alive
+Script.Functions.Alive = LPH_NO_VIRTUALIZE(function(Plr)
+    if Plr and Plr.Character and Plr.Character:FindFirstChild("HumanoidRootPart") ~= nil and Plr.Character:FindFirstChild("Humanoid") ~= nil and Plr.Character:FindFirstChild("Head") ~= nil then
+        return true
+    end
+    return false
 end)
 
-test("cache.replace", {}, function()
-	local part = Instance.new("Part")
-	local fire = Instance.new("Fire")
-	cache.replace(part, fire)
-	assert(part ~= fire, "Part was not replaced with Fire")
+-- // Checks If Player Is On Your Screen
+Script.Functions.OnScreen = LPH_NO_VIRTUALIZE(function(Object)
+    local _, screen = Camera:WorldToScreenPoint(Object.Position)
+    return screen
 end)
 
-test("cloneref", {}, function()
-	local part = Instance.new("Part")
-	local clone = cloneref(part)
-	assert(part ~= clone, "Clone should not be equal to original")
-	clone.Name = "Test"
-	assert(part.Name == "Test", "Clone should have updated the original")
+-- // Gets Magnitude From Part Position And Mouse
+Script.Functions.GetMagnitudeFromMouse = LPH_NO_VIRTUALIZE(function(Part)
+    local PartPos, OnScreen = Camera:WorldToScreenPoint(Part.Position)
+    if OnScreen then
+        local Magnitude = (Vector2.new(PartPos.X, PartPos.Y) - Vector2.new(Mouse.X, Mouse.Y)).Magnitude
+        return Magnitude
+    end
+    return math.huge
 end)
 
-test("compareinstances", {}, function()
-	local part = Instance.new("Part")
-	local clone = cloneref(part)
-	assert(part ~= clone, "Clone should not be equal to original")
-	assert(compareinstances(part, clone), "Clone should be equal to original when using compareinstances()")
+-- // Makes Random Number With Vector3 
+Script.Functions.RandomVec = LPH_NO_VIRTUALIZE(function(Number, Multi)
+    return (Vector3.new(Ran(-Number, Number), Ran(-Number, Number), Ran(-Number, Number)) * Multi or 1)
 end)
 
--- Closures
+-- // Checks If The Player Is Behind A Wall Or Something Else
+Script.Functions.RayCastCheck = LPH_NO_VIRTUALIZE(function(Part, PartDescendant)
+    local Character = Client.Character or Client.CharacterAdded.Wait(Client.CharacterAdded)
+    local Origin = Camera.CFrame.Position
 
-local function shallowEqual(t1, t2)
-	if t1 == t2 then
-		return true
-	end
+    local RayCastParams = RaycastParams.new()
+    RayCastParams.FilterType = Enum.RaycastFilterType.Blacklist
+    RayCastParams.FilterDescendantsInstances = {Character, Camera}
 
-	local UNIQUE_TYPES = {
-		["function"] = true,
-		["table"] = true,
-		["userdata"] = true,
-		["thread"] = true,
-	}
+    local Result = Workspace.Raycast(Workspace, Origin, Part.Position - Origin, RayCastParams)
+    
+    if (Result) then
+        local PartHit = Result.Instance
+        local Visible = (not PartHit or Instance.new("Part").IsDescendantOf(PartHit, PartDescendant))
+        
+        return Visible
+    end
+    return false
+end)
 
-	for k, v in pairs(t1) do
-		if UNIQUE_TYPES[type(v)] then
-			if type(t2[k]) ~= type(v) then
-				return false
-			end
-		elseif t2[k] ~= v then
-			return false
+-- // Gets The Part From An Object
+Script.Functions.GetParts = LPH_NO_VIRTUALIZE(function(Object)
+    if string.find(Object.Name, "Gun") then
+        return
+    end
+    if table.find({"Part", "MeshPart", "BasePart"}, Object.ClassName) then
+        return true
+    end
+end)
+
+-- // Random Number To Compare
+Script.Functions.CalculateChance = LPH_NO_VIRTUALIZE(function(Percentage)
+    Percentage = math.floor(Percentage)
+    local chance = math.floor(Random.new().NextNumber(Random.new(), 0, 1) * 100) / 100
+
+    return chance < Percentage / 100
+end)
+
+-- // Check If Crew Folder Is A Thing
+Script.Functions.FindCrew = LPH_NO_VIRTUALIZE(function(Player)
+	if Player:FindFirstChild("DataFolder") and Player.DataFolder:FindFirstChild("Information") and Player.DataFolder.Information:FindFirstChild("Crew") and Client:FindFirstChild("DataFolder") and Client.DataFolder:FindFirstChild("Information") and Client.DataFolder.Information:FindFirstChild("Crew") then
+        if Client.DataFolder.Information:FindFirstChild("Crew").Value ~= nil and Player.DataFolder.Information:FindFirstChild("Crew").Value ~= nil and Player.DataFolder.Information:FindFirstChild("Crew").Value ~= "" and Client.DataFolder.Information:FindFirstChild("Crew").Value ~= "" then 
+			return true
 		end
 	end
+	return false
+end)
 
-	for k, v in pairs(t2) do
-		if UNIQUE_TYPES[type(v)] then
-			if type(t2[k]) ~= type(v) then
-				return false
+-- // Splits The Gun Name And Splits []
+Script.Functions.GetGunName = LPH_NO_VIRTUALIZE(function(Name)
+    local split = string.split(string.split(Name, "[")[2], "]")[1]
+    return split
+end)
+
+-- // Gets Current Gun
+Script.Functions.GetCurrentWeaponName = LPH_NO_VIRTUALIZE(function()
+    if Client.Character and Client.Character:FindFirstChildWhichIsA("Tool") then
+       local Tool =  Client.Character:FindFirstChildWhichIsA("Tool")
+       if string.find(Tool.Name, "%[") and string.find(Tool.Name, "%]") and not string.find(Tool.Name, "Wallet") and not string.find(Tool.Name, "Phone") then
+          return Script.Functions.GetGunName(Tool.Name)
+       end
+    end
+    return nil
+end)
+
+-- // Drawing Function With Property Attached
+Script.Functions.NewDrawing = LPH_NO_VIRTUALIZE(function(Type, Properties)
+    local NewDrawing = Drawing.new(Type)
+
+    for i,v in next, Properties or {} do
+        NewDrawing[i] = v
+    end
+    return NewDrawing
+end)
+
+-- // Draws For The New Players Joining For Esp
+Script.Functions.NewPlayer = LPH_NO_VIRTUALIZE(function(Player)
+    Script.EspPlayers[Player] = {
+        Name = Script.Functions.NewDrawing("Text", {Color = Color3.fromRGB(255,2550, 255), Outline = true, Visible = false, Center = true, Size = 13, Font = 0}),
+        BoxOutline = Script.Functions.NewDrawing("Square", {Color = Color3.fromRGB(0, 0, 0), Thickness = 3, Visible = false}),
+        Box = Script.Functions.NewDrawing("Square", {Color = Color3.fromRGB(255, 255, 255), Thickness = 1, Visible = false}),
+        HealthBarOutline = Script.Functions.NewDrawing("Line", {Color = Color3.fromRGB(0, 0, 0), Thickness = 3, Visible = false}),
+        HealthBar = Script.Functions.NewDrawing("Line", {Color = Color3.fromRGB(0, 255, 0), Thickness = 1, Visible = false}),
+        HealthText = Script.Functions.NewDrawing("Text", {Color = Color3.fromRGB(0, 255, 0), Outline = true, Visible = false, Center = true, Size = 13, Font = 0}),
+        Distance = Script.Functions.NewDrawing("Text", {Color = Color3.fromRGB(255, 255, 255), Outline = true, Visible = false, Center = true, Size = 13, Font = 0})
+    }
+end)
+
+-- // Gets The Closest Part From Cursor
+Script.Functions.GetClosestBodyPart = LPH_NO_VIRTUALIZE(function(Char)
+    local Distance = math.huge
+    local ClosestPart = nil
+    local Filterd = {}
+
+    if not (Char and Char:IsA("Model")) then
+        return ClosestPart
+    end
+
+    local Parts = Char:GetChildren()
+    for _, v in pairs(Parts) do
+        if Script.Functions.GetParts(v) and Script.Functions.OnScreen(v) then
+            table.insert(Filterd, v)
+            for _, Part in pairs(Filterd) do                
+                local Magnitude = Script.Functions.GetMagnitudeFromMouse(Part)
+                if Magnitude < Distance then
+                    ClosestPart = Part
+                    Distance = Magnitude
+                end
+            end
+        end
+    end
+    return ClosestPart
+end)
+
+-- // Gets The Closest Point From Cursor
+Script.Functions.GetClosestPointOfPart = LPH_NO_VIRTUALIZE(function(Part)
+    local NearestPosition = nil
+    if Part ~= nil then
+        local Hit, Half = Mouse.Hit.Position, Part.Size * 0.5
+        local Transform = Part.CFrame:PointToObjectSpace(Mouse.Hit.Position)
+        NearestPosition = Part.CFrame * Vector3.new(math.clamp(Transform.X, -Half.X, Half.X),math.clamp(Transform.Y, -Half.Y, Half.Y),math.clamp(Transform.Z, -Half.Z, Half.Z))
+    end
+    return NearestPosition
+end)
+
+-- // Gets The Closest Player For Cursor (Silent Aim)
+Script.Functions.GetClosestPlayer = LPH_NO_VIRTUALIZE(function()
+    local Target = nil
+    local Closest = math.huge
+    local HitChance = Script.Functions.CalculateChance(Shhhh.Silent.HitChance)
+
+    if not HitChance then
+        return nil
+    end
+    for _, v in pairs(Players:GetPlayers()) do
+        if v.Character and v ~= Client and v.Character:FindFirstChild("HumanoidRootPart") then
+            if not Script.Functions.OnScreen(v.Character.HumanoidRootPart) then 
+                continue 
+            end
+            if Shhhh.Silent.WallCheck and not Script.Functions.RayCastCheck(v.Character.HumanoidRootPart, v.Character) then 
+                continue 
+            end
+            if Shhhh.Silent.CheckIf_KO and v.Character:FindFirstChild("BodyEffects") then
+                local KoCheck = v.Character.BodyEffects:FindFirstChild("K.O").Value
+                local Grabbed = v.Character:FindFirstChild("GRABBING_CONSTRAINT") ~= nil
+                if KoCheck or Grabbed then
+                    continue
+                end
+            end
+            if Shhhh.Silent.CheckIf_TargetDeath and v.Character:FindFirstChild("Humanoid") then
+                if v.Character.Humanoid.health < 4 then
+                    continue
+                end
+            end
+            if Shhhh.Both.VisibleCheck and v.Character:FindFirstChild("Head") then
+                if v.Character.Head.Transparency > 0.5 then
+                    continue
+                end
+            end
+            if Shhhh.Both.CrewCheck and Script.Functions.FindCrew(v) and v.DataFolder.Information:FindFirstChild("Crew").Value == Client.DataFolder.Information:FindFirstChild("Crew").Value then
+                continue
+            end
+            if Shhhh.Both.TeamCheck then
+                if v.Team ~= Client.Team then
+                    continue
+                end
+            end
+            if Shhhh.Both.FriendCheck then
+                if not table.find(Script.Friends, v.UserId) then
+                    continue
+                end
+            end
+            local Distance = Script.Functions.GetMagnitudeFromMouse(v.Character.HumanoidRootPart)
+
+            if (Distance < Closest and Script.Drawing.SilentCircle.Radius + 10 > Distance) then
+                Closest = Distance
+                Target = v
+            end
+        end
+    end
+
+    SilentTarget = Target
+end)
+
+-- // Gets Closest Player From Mouse (AimAssist)
+Script.Functions.GetClosestPlayer2 = LPH_NO_VIRTUALIZE(function()
+    local Target = nil
+    local Distance = nil
+    local Closest = math.huge
+    
+    for _, v in pairs(Players:GetPlayers()) do
+        if v.Character and v ~= Client and v.Character:FindFirstChild("HumanoidRootPart") then
+            if not Script.Functions.OnScreen(v.Character.HumanoidRootPart) then 
+                continue 
+            end
+            if Shhhh.AimAssist.WallCheck and not Script.Functions.RayCastCheck(v.Character.HumanoidRootPart, v.Character) then 
+                continue 
+            end
+            local Distance = Script.Functions.GetMagnitudeFromMouse(v.Character.HumanoidRootPart)
+
+            if Distance < Closest then
+                if (Shhhh.AimAssist.UseCircleRadius and Script.Drawing.AimAssistCircle.Radius + 10 < Distance) then continue end
+                Closest = Distance
+                Target = v
+            end
+        end
+    end
+
+    if Script.Functions.Alive(Target) then
+		if Shhhh.Both.VisibleCheck then
+			if Target.Character.Head.Transparency > 0.5 then
+				return nil
 			end
-		elseif t1[k] ~= v then
-			return false
+		end
+		if Shhhh.Both.CrewCheck and Script.Functions.FindCrew(Target) and Target.DataFolder.Information:FindFirstChild("Crew").Value == Client.DataFolder.Information:FindFirstChild("Crew").Value then
+			return nil
 		end
 	end
+    if Shhhh.Both.TeamCheck and Target then
+        if Target.Team == Client.Team then
+            return nil
+        end
+    end
+    if Shhhh.Both.FriendCheck then
+        if table.find(Script.Friends, Target.UserId) then
+            return nil
+        end
+    end
+    
+    AimTarget = Target
+end)
 
-	return true
+-- // Server Side Mouse Position Changer
+local MouseHitOverride = nil
+
+-- Function to calculate the modified hit position
+local function getMouseHit()
+    if Mouse and Shhhh.Silent.Enabled and AntiAimViewer then
+        if Script.Functions.Alive(SilentTarget) and Players[tostring(SilentTarget)].Character:FindFirstChild(Shhhh.Silent.Part) then
+            local EndPoint = nil
+            local TargetCF = nil
+            local TargetVel = Players[tostring(SilentTarget)].Character.HumanoidRootPart.Velocity
+            local TargetMov = Players[tostring(SilentTarget)].Character.Humanoid.MoveDirection
+
+            -- Determine target CFrame based on ClosestPoint or direct target part position
+            if Shhhh.Silent.ClosestPoint then
+                TargetCF = ClosestPointCF
+            else
+                TargetCF = Players[tostring(SilentTarget)].Character[Shhhh.Silent.Part].CFrame
+            end
+
+            -- Desync detection logic
+            if Shhhh.Both.DetectDesync then
+                local Magnitude = TargetVel.magnitude
+                local Magnitude2 = TargetMov.magnitude
+                DetectedDesync = (Magnitude > Shhhh.Both.DesyncDetection) or
+                                 (Magnitude < 1 and Magnitude2 > 0.01) or
+                                 (Magnitude > 5 and Magnitude2 < 0.01)
+            else
+                DetectedDesync = false
+            end
+
+            -- Free-fall and underground detection logic
+            DetectedFreeFall = Shhhh.Silent.AntiGroundShots and TargetVel.Y < Shhhh.Silent.WhenAntiGroundActivate
+            DetectedUnderGround = Shhhh.Both.DetectUnderGround and TargetVel.Y < Shhhh.Both.UnderGroundDetection
+
+            -- Set the endpoint based on detection flags and prediction values
+            if TargetCF ~= nil then
+                if DetectedDesync then
+                    local MoveDirection = TargetMov * 16
+                    EndPoint = TargetCF + (MoveDirection * Shhhh.Silent.PredictionVelocity)
+                elseif DetectedUnderGround then
+                    EndPoint = TargetCF + (Vector3.new(TargetVel.X, 0, TargetVel.Z) * Shhhh.Silent.PredictionVelocity)
+                elseif DetectedFreeFall then
+                    EndPoint = TargetCF + (Vector3.new(TargetVel.X, (TargetVel.Y * Shhhh.Silent.AntiGroundValue), TargetVel.Z) * Shhhh.Silent.PredictionVelocity)
+                elseif Shhhh.Silent.PredictMovement then
+                    EndPoint = TargetCF + (Vector3.new(TargetVel.X, (TargetVel.Y * 0.5), TargetVel.Z) * Shhhh.Silent.PredictionVelocity)
+                else
+                    EndPoint = TargetCF
+                end
+                
+                -- Apply humanization if enabled
+                if Shhhh.Silent.Humanize then
+                    local HumanizeValue = Shhhh.Silent.HumanizeValue
+                    EndPoint = EndPoint + Script.Functions.RandomVec(HumanizeValue, 0.01)
+                end
+            end
+
+            MouseHitOverride = EndPoint
+        end
+    else
+        MouseHitOverride = nil
+    end
 end
 
-test("checkcaller", {}, function()
-	assert(checkcaller(), "Main scope should return true")
+-- Update Mouse Hit Override periodically
+game:GetService("RunService").RenderStepped:Connect(function()
+    getMouseHit()
 end)
 
-test("clonefunction", {}, function()
-	local function test()
-		return "success"
-	end
-	local copy = clonefunction(test)
-	assert(test() == copy(), "The clone should return the same value as the original")
-	assert(test ~= copy, "The clone should not be equal to the original")
+-- Replace game.Mouse.Hit property with our custom MouseHitOverride when needed
+setreadonly(game, false)
+game.Mouse.Hit = function()
+    return MouseHitOverride or OldIndex(game.Mouse, "Hit")
+end
+setreadonly(game, true)
+
+-- // Silent Aim Misc
+Script.Functions.SilentMisc = LPH_NO_VIRTUALIZE(function()
+    if Shhhh.Silent.Enabled and Script.Functions.Alive(SilentTarget) then
+        if Shhhh.Silent.UseAirPart then
+            if SilentTarget.Character.Humanoid:GetState() == Enum.HumanoidStateType.Freefall then
+                   Shhhh.Silent.Part = Shhhh.Silent.AirPart
+            else
+                Shhhh.Silent.Part = OldSilentAimPart
+            end
+        end
+        if Shhhh.Silent.TriggerBot then
+			mouse1click()
+		end
+    end
+     if Shhhh.Silent.AutoPrediction then
+        local ping = math.floor(game:GetService("Stats").Network.ServerStatsItem["Data Ping"]:GetValue())
+        if ping < 10 then
+            Shhhh.Silent.PredictionVelocity = 0.07
+        elseif ping < 20 then
+            Shhhh.Silent.PredictionVelocity = 0.155
+        elseif ping < 30 then
+            Shhhh.Silent.PredictionVelocity = 0.132
+        elseif ping < 40 then
+            Shhhh.Silent.PredictionVelocity = 0.136
+        elseif ping < 50 then
+            Shhhh.Silent.PredictionVelocity = 0.130
+        elseif ping < 60 then
+            Shhhh.Silent.PredictionVelocity = 0.136
+        elseif ping < 70 then
+            Shhhh.Silent.PredictionVelocity = 0.138
+        elseif ping < 80 then
+            Shhhh.Silent.PredictionVelocity = 0.138
+        elseif ping < 90 then
+            Shhhh.Silent.PredictionVelocity = 0.146
+        elseif ping < 100 then
+            Shhhh.Silent.PredictionVelocity = 0.14322
+        elseif ping < 110 then
+            Shhhh.Silent.PredictionVelocity = 0.146
+        elseif ping < 120 then
+            Shhhh.Silent.PredictionVelocity = 0.149
+        elseif ping < 130 then
+            Shhhh.Silent.PredictionVelocity = 0.151
+        elseif ping < 140 then
+            Shhhh.Silent.PredictionVelocity = 0.1223333
+        elseif ping < 150 then
+            Shhhh.Silent.PredictionVelocity = 0.15
+        elseif ping < 160 then
+            Shhhh.Silent.PredictionVelocity = 0.16
+        elseif ping < 170 then
+            Shhhh.Silent.PredictionVelocity = 0.1923111
+        elseif ping < 180 then
+            Shhhh.Silent.PredictionVelocity = 0.19284
+        elseif ping > 180 then
+            Shhhh.Silent.PredictionVelocity = 0.166547
+        end
+    end
 end)
 
-test("getcallingscript", {})
+-- // The AimAssist Mouse Dragging/Check Functions
+Script.Functions.MouseChanger = LPH_NO_VIRTUALIZE(function()
+    if Shhhh.AimAssist.Enabled and Script.Functions.Alive(AimTarget) and Players[tostring(AimTarget)].Character:FindFirstChild(Shhhh.AimAssist.Part) and Script.Functions.OnScreen(Players[tostring(AimTarget)].Character[Shhhh.AimAssist.Part]) then
+        local EndPosition = nil
+        local TargetPos = Players[tostring(AimTarget)].Character[Shhhh.AimAssist.Part].Position
+        local TargetVel = Players[tostring(AimTarget)].Character[Shhhh.AimAssist.Part].Velocity
+        local TargetMov = Players[tostring(AimTarget)].Character.Humanoid.MoveDirection
 
-test("getscriptclosure", {"getscriptfunction"}, function()
-	local module = game:GetService("CoreGui").RobloxGui.Modules.Common.Constants
-	local constants = getrenv().require(module)
-	local generated = getscriptclosure(module)()
-	assert(constants ~= generated, "Generated module should not match the original")
-	assert(shallowEqual(constants, generated), "Generated constant table should be shallow equal to the original")
+        if Shhhh.Both.DetectDesync then
+            local Magnitude = TargetVel.magnitude
+            local Magnitude2 = TargetMov.magnitude
+            if Magnitude > Shhhh.Both.DesyncDetection then
+                DetectedDesyncV2 = true
+            elseif Magnitude < 1 and Magnitude2 > 0.01 then
+                DetectedDesyncV2 = true
+            elseif Magnitude > 5 and Magnitude2 < 0.01 then
+                DetectedDesyncV2 = true
+            else
+                DetectedDesyncV2 = false
+            end
+        else
+            DetectedDesyncV2 = false
+        end
+        if Shhhh.Both.DetectUnderGround then 
+            if TargetVel.Y < Shhhh.Both.UnderGroundDetection then            
+                DetectedUnderGroundV2 = true
+            else
+                DetectedUnderGroundV2 = false
+            end
+        else
+            DetectedUnderGroundV2 = false
+        end
+
+        if Script.Functions.Alive(Client) then
+            if Shhhh.AimAssist.DisableLocalDeath then
+                if Client.Character.Humanoid.health < 4 then
+                    AimTarget = nil
+                    IsTargetting = false
+                    return
+                end
+            end
+            if Shhhh.AimAssist.DisableOutSideCircle then
+                local Magnitude = Script.Functions.GetMagnitudeFromMouse(AimTarget.Character.HumanoidRootPart)
+                if Script.Drawing.AimAssistCircle.Radius < Magnitude then
+                    AimTarget = nil
+                    IsTargetting = false
+                    return
+                end
+            end
+        end
+
+        if Shhhh.AimAssist.DisableOn_KO and AimTarget.Character:FindFirstChild("BodyEffects") then 
+            local KoCheck = AimTarget.Character.BodyEffects:FindFirstChild("K.O").Value
+            local Grabbed = AimTarget.Character:FindFirstChild("GRABBING_CONSTRAINT") ~= nil
+            if KoCheck or Grabbed then
+                AimTarget = nil
+                IsTargetting = false
+                return
+            end
+        end
+        if Shhhh.AimAssist.DisableTargetDeath then
+            if AimTarget.Character.Humanoid.health < 4 then
+                AimTarget = nil
+                IsTargetting = false
+                return
+            end
+        end
+
+        if DetectedDesyncV2 and Shhhh.AimAssist.PredictMovement then
+            local MoveDirection = TargetMov * 16
+            EndPosition = Camera:WorldToScreenPoint(TargetPos + (MoveDirection * Shhhh.AimAssist.PredictionVelocity))
+        elseif DetectedUnderGroundV2 and Shhhh.AimAssist.PredictMovement then
+            EndPosition = Camera:WorldToScreenPoint(TargetPos + (Vector3.new(TargetVel.X, 0, TargetVel.Z) * Shhhh.AimAssist.PredictionVelocity))
+        elseif Shhhh.AimAssist.PredictMovement then
+            if Shhhh.AimAssist.UseShake and Script.Functions.Alive(Client) then
+                local Shake = Shhhh.AimAssist.ShakeValue / 100
+                local Mag = math.ceil((TargetPos - Client.Character.HumanoidRootPart.Position).Magnitude)
+                EndPosition = Camera:WorldToScreenPoint(TargetPos + (TargetVel * Shhhh.AimAssist.PredictionVelocity) + Script.Functions.RandomVec(Mag * Shake, 0.1))
+            else
+                EndPosition = Camera:WorldToScreenPoint(TargetPos + (TargetVel * Shhhh.AimAssist.PredictionVelocity))
+            end
+        else
+            if Shhhh.AimAssist.UseShake and Script.Functions.Alive(Client) then
+                local Shake = Shhhh.AimAssist.ShakeValue / 100
+                local Mag = math.ceil((TargetPos - Client.Character.HumanoidRootPart.Position).Magnitude)
+                EndPosition = Camera:WorldToScreenPoint(TargetPos + Script.Functions.RandomVec(Mag * Shake, 0.1))
+            else
+                EndPosition = Camera:WorldToScreenPoint(TargetPos)
+            end
+        end
+
+        if EndPosition ~= nil then
+            local InCrementX = (EndPosition.X - Mouse.X) * Shhhh.AimAssist.Smoothness_X
+            local InCrementY = (EndPosition.Y - Mouse.Y) * Shhhh.AimAssist.Smoothness_Y
+            mousemoverel(InCrementX, InCrementY)
+        end
+    end
 end)
 
-test("hookfunction", {"replaceclosure"}, function()
-	local function test()
-		return true
-	end
-	local ref = hookfunction(test, function()
-		return false
-	end)
-	assert(test() == false, "Function should return false")
-	assert(ref() == true, "Original function should return true")
-	assert(test ~= ref, "Original function should not be same as the reference")
-end)
-
-test("iscclosure", {}, function()
-	assert(iscclosure(print) == true, "Function 'print' should be a C closure")
-	assert(iscclosure(function() end) == false, "Executor function should not be a C closure")
-end)
-
-test("islclosure", {}, function()
-	assert(islclosure(print) == false, "Function 'print' should not be a Lua closure")
-	assert(islclosure(function() end) == true, "Executor function should be a Lua closure")
-end)
-
-test("isexecutorclosure", {"checkclosure", "isourclosure"}, function()
-	assert(isexecutorclosure(isexecutorclosure) == true, "Did not return true for an executor global")
-	assert(isexecutorclosure(newcclosure(function() end)) == true, "Did not return true for an executor C closure")
-	assert(isexecutorclosure(function() end) == true, "Did not return true for an executor Luau closure")
-	assert(isexecutorclosure(print) == false, "Did not return false for a Roblox global")
-end)
-
-test("loadstring", {}, function()
-	local animate = game:GetService("Players").LocalPlayer.Character.Animate
-	local bytecode = getscriptbytecode(animate)
-	local func = loadstring(bytecode)
-	assert(type(func) ~= "function", "Luau bytecode should not be loadable!")
-	assert(assert(loadstring("return ... + 1"))(1) == 2, "Failed to do simple math")
-	assert(type(select(2, loadstring("f"))) == "string", "Loadstring did not return anything for a compiler error")
-end)
-
-test("newcclosure", {}, function()
-	local function test()
-		return true
-	end
-	local testC = newcclosure(test)
-	assert(test() == testC(), "New C closure should return the same value as the original")
-	assert(test ~= testC, "New C closure should not be same as the original")
-	assert(iscclosure(testC), "New C closure should be a C closure")
-end)
-
--- Console
-
-test("rconsoleclear", {"consoleclear"})
-
-test("rconsolecreate", {"consolecreate"})
-
-test("rconsoledestroy", {"consoledestroy"})
-
-test("rconsoleinput", {"consoleinput"})
-
-test("rconsoleprint", {"consoleprint"})
-
-test("rconsolesettitle", {"rconsolename", "consolesettitle"})
-
--- Crypt
-
-test("crypt.base64encode", {"crypt.base64.encode", "crypt.base64_encode", "base64.encode", "base64_encode"}, function()
-	assert(crypt.base64encode("test") == "dGVzdA==", "Base64 encoding failed")
-end)
-
-test("crypt.base64decode", {"crypt.base64.decode", "crypt.base64_decode", "base64.decode", "base64_decode"}, function()
-	assert(crypt.base64decode("dGVzdA==") == "test", "Base64 decoding failed")
-end)
-
-test("crypt.encrypt", {}, function()
-	local key = crypt.generatekey()
-	local encrypted, iv = crypt.encrypt("test", key, nil, "CBC")
-	assert(iv, "crypt.encrypt should return an IV")
-	local decrypted = crypt.decrypt(encrypted, key, iv, "CBC")
-	assert(decrypted == "test", "Failed to decrypt raw string from encrypted data")
-end)
-
-test("crypt.decrypt", {}, function()
-	local key, iv = crypt.generatekey(), crypt.generatekey()
-	local encrypted = crypt.encrypt("test", key, iv, "CBC")
-	local decrypted = crypt.decrypt(encrypted, key, iv, "CBC")
-	assert(decrypted == "test", "Failed to decrypt raw string from encrypted data")
-end)
-
-test("crypt.generatebytes", {}, function()
-	local size = math.random(10, 100)
-	local bytes = crypt.generatebytes(size)
-	assert(#crypt.base64decode(bytes) == size, "The decoded result should be " .. size .. " bytes long (got " .. #crypt.base64decode(bytes) .. " decoded, " .. #bytes .. " raw)")
-end)
-
-test("crypt.generatekey", {}, function()
-	local key = crypt.generatekey()
-	assert(#crypt.base64decode(key) == 32, "Generated key should be 32 bytes long when decoded")
-end)
-
-test("crypt.hash", {}, function()
-	local algorithms = {'sha1', 'sha384', 'sha512', 'md5', 'sha256', 'sha3-224', 'sha3-256', 'sha3-512'}
-	for _, algorithm in ipairs(algorithms) do
-		local hash = crypt.hash("test", algorithm)
-		assert(hash, "crypt.hash on algorithm '" .. algorithm .. "' should return a hash")
-	end
-end)
-
---- Debug
-
-test("debug.getconstant", {}, function()
-	local function test()
-		print("Hello, world!")
-	end
-	assert(debug.getconstant(test, 1) == "print", "First constant must be print")
-	assert(debug.getconstant(test, 2) == nil, "Second constant must be nil")
-	assert(debug.getconstant(test, 3) == "Hello, world!", "Third constant must be 'Hello, world!'")
-end)
-
-test("debug.getconstants", {}, function()
-	local function test()
-		local num = 5000 .. 50000
-		print("Hello, world!", num, warn)
-	end
-	local constants = debug.getconstants(test)
-	assert(constants[1] == 50000, "First constant must be 50000")
-	assert(constants[2] == "print", "Second constant must be print")
-	assert(constants[3] == nil, "Third constant must be nil")
-	assert(constants[4] == "Hello, world!", "Fourth constant must be 'Hello, world!'")
-	assert(constants[5] == "warn", "Fifth constant must be warn")
-end)
-
-test("debug.getinfo", {}, function()
-	local types = {
-		source = "string",
-		short_src = "string",
-		func = "function",
-		what = "string",
-		currentline = "number",
-		name = "string",
-		nups = "number",
-		numparams = "number",
-		is_vararg = "number",
-	}
-	local function test(...)
-		print(...)
-	end
-	local info = debug.getinfo(test)
-	for k, v in pairs(types) do
-		assert(info[k] ~= nil, "Did not return a table with a '" .. k .. "' field")
-		assert(type(info[k]) == v, "Did not return a table with " .. k .. " as a " .. v .. " (got " .. type(info[k]) .. ")")
-	end
-end)
-
-test("debug.getproto", {}, function()
-	local function test()
-		local function proto()
-			return true
+--// Update Size/Position Of Circle
+Script.Functions.UpdateFOV = LPH_NO_VIRTUALIZE(function()
+    if (not Script.Drawing.SilentCircle and not Script.Drawing.AimAssistCircle) then
+        return Script.Drawing.SilentCircle and Script.Drawing.AimAssistCircle
+    end
+    
+    Script.Drawing.AimAssistCircle.Visible = Shhhh.AimAssistFov.Visible
+    Script.Drawing.AimAssistCircle.Filled = Shhhh.AimAssistFov.Filled
+    Script.Drawing.AimAssistCircle.Color = Shhhh.AimAssistFov.Color
+    Script.Drawing.AimAssistCircle.Transparency = Shhhh.AimAssistFov.Transparency
+    Script.Drawing.AimAssistCircle.Position = Vector2.new(Mouse.X, Mouse.Y + GuiS:GetGuiInset().Y)
+	Script.Drawing.AimAssistCircle.Radius = Shhhh.AimAssistFov.Radius * 3
+    
+    Script.Drawing.SilentCircle.Visible = Shhhh.SilentFov.Visible
+    Script.Drawing.SilentCircle.Color = Shhhh.SilentFov.Color
+    Script.Drawing.SilentCircle.Filled = Shhhh.SilentFov.Filled
+    Script.Drawing.SilentCircle.Transparency = Shhhh.SilentFov.Transparency
+    Script.Drawing.SilentCircle.Position = Vector2.new(Mouse.X, Mouse.Y + GuiS:GetGuiInset().Y)
+	Script.Drawing.SilentCircle.Radius = Shhhh.SilentFov.Radius * 3
+	
+    if Shhhh.RangeFov.Enabled or Shhhh.GunFov.Enabled then
+		local CurrentGun = Script.Functions.GetCurrentWeaponName()
+		if Shhhh.GunFov.Enabled then
+			local WeaponSettings = Shhhh.GunFov[CurrentGun]
+			if WeaponSettings ~= nil then
+				Shhhh.SilentFov.Radius = WeaponSettings.Fov
+			end
+		end
+		if Shhhh.RangeFov.Enabled then
+			local WeaponSettingsV2 = Shhhh.RangeFov[CurrentGun]
+			if WeaponSettingsV2 ~= nil then
+				if Script.Functions.Alive(SilentTarget) and Script.Functions.Alive(Client) then
+                    local Magnitude = (SilentTarget.Character.HumanoidRootPart.Position - Client.Character.HumanoidRootPart.Position).Magnitude
+					if Magnitude < Shhhh.RangeFov.Close_Activation then
+						Shhhh.SilentFov.Radius = WeaponSettingsV2.Close
+					elseif Magnitude < Shhhh.RangeFov.Medium_Activation then
+						Shhhh.SilentFov.Radius = WeaponSettingsV2.Med
+					elseif Magnitude < Shhhh.RangeFov.Far_Activation then
+						Shhhh.SilentFov.Radius = WeaponSettingsV2.Far
+					end
+				end
+			end
 		end
 	end
-	local proto = debug.getproto(test, 1, true)[1]
-	local realproto = debug.getproto(test, 1)
-	assert(proto, "Failed to get the inner function")
-	assert(proto() == true, "The inner function did not return anything")
-	if not realproto() then
-		return "Proto return values are disabled on this executor"
-	end
 end)
 
-test("debug.getprotos", {}, function()
-	local function test()
-		local function _1()
-			return true
+-- // Updates Esp Posistions
+Script.Functions.UpdateEsp = LPH_NO_VIRTUALIZE(function()
+    for i,v in pairs(Script.EspPlayers) do
+        if Shhhh.Esp.Enabled and i ~= Client and i.Character and i.Character:FindFirstChild("Humanoid") and i.Character:FindFirstChild("HumanoidRootPart") and i.Character:FindFirstChild("Head") then
+            local Hum = i.Character.Humanoid
+            local Hrp = i.Character.HumanoidRootPart
+            
+            local Vector, OnScreen = Camera:WorldToViewportPoint(i.Character.HumanoidRootPart.Position)
+            local Size = (Camera:WorldToViewportPoint(Hrp.Position - Vector3.new(0, 3, 0)).Y - Camera:WorldToViewportPoint(Hrp.Position + Vector3.new(0, 2.6, 0)).Y) / 2
+            local BoxSize = Vector2.new(math.floor(Size * 1.5), math.floor(Size * 1.9))
+            local BoxPos = Vector2.new(math.floor(Vector.X - Size * 1.5 / 2), math.floor(Vector.Y - Size * 1.6 / 2))
+            local BottomOffset = BoxSize.Y + BoxPos.Y + 1
+
+            if OnScreen then
+                if Shhhh.Esp.Name.Enabled then
+                    v.Name.Position = Vector2.new(BoxSize.X / 2 + BoxPos.X, BoxPos.Y - 16)
+                    v.Name.Outline = Shhhh.Esp.Name.OutLine
+                    v.Name.Text = tostring(i)
+                    v.Name.Color = Shhhh.Esp.Name.Color
+                    v.Name.OutlineColor = Color3.fromRGB(0, 0, 0)
+                    v.Name.Font = 0
+                    v.Name.Size = 16
+
+                    v.Name.Visible = true
+                else
+                    v.Name.Visible = false
+                end
+                if Shhhh.Esp.Distance.Enabled and Client.Character and Client.Character:FindFirstChild("HumanoidRootPart") then
+                    v.Distance.Position = Vector2.new(BoxSize.X / 2 + BoxPos.X, BottomOffset)
+                    v.Distance.Outline = Shhhh.Esp.Distance.OutLine
+                    v.Distance.Text = "[" .. math.floor((Hrp.Position - Client.Character.HumanoidRootPart.Position).Magnitude) .. "m]"
+                    v.Distance.Color = Shhhh.Esp.Distance.Color
+                    v.Distance.OutlineColor = Color3.fromRGB(0, 0, 0)
+                    BottomOffset = BottomOffset + 15
+
+                    v.Distance.Font = 0
+                    v.Distance.Size = 16
+
+                    v.Distance.Visible = true
+                else
+                    v.Distance.Visible = false
+                end
+                if Shhhh.Esp.Box.Enabled then
+                    v.BoxOutline.Size = BoxSize
+                    v.BoxOutline.Position = BoxPos
+                    v.BoxOutline.Visible = Shhhh.Esp.Box.OutLine
+                    v.BoxOutline.Color = Color3.fromRGB(0, 0, 0)
+    
+                    v.Box.Size = BoxSize
+                    v.Box.Position = BoxPos
+                    v.Box.Color = Shhhh.Esp.Box.Color
+                    v.Box.Visible = true
+                else
+                    v.BoxOutline.Visible = false
+                    v.Box.Visible = false
+                end
+                if Shhhh.Esp.HealthBar.Enabled then
+                    v.HealthBar.From = Vector2.new((BoxPos.X - 5), BoxPos.Y + BoxSize.Y)
+                    v.HealthBar.To = Vector2.new(v.HealthBar.From.X, v.HealthBar.From.Y - (Hum.Health / Hum.MaxHealth) * BoxSize.Y)
+                    v.HealthBar.Color = Shhhh.Esp.HealthBar.Color
+                    v.HealthBar.Visible = true
+
+                    v.HealthBarOutline.From = Vector2.new(v.HealthBar.From.X, BoxPos.Y + BoxSize.Y + 1)
+                    v.HealthBarOutline.To = Vector2.new(v.HealthBar.From.X, (v.HealthBar.From.Y - 1 * BoxSize.Y) -1)
+                    v.HealthBarOutline.Color = Color3.fromRGB(0, 0, 0)
+                    v.HealthBarOutline.Visible = Shhhh.Esp.HealthBar.OutLine
+                else
+                    v.HealthBarOutline.Visible = false
+                    v.healthBar.Visible = false
+                end
+                if Shhhh.Esp.HealthText.Enabled then
+                    v.HealthText.Text = tostring(math.floor((Hum.Health / Hum.MaxHealth) * 100 + 0.5))
+                    v.HealthText.Position = Vector2.new((BoxPos.X - 20), (BoxPos.Y + BoxSize.Y - 1 * BoxSize.Y) -1)
+                    v.HealthText.Color = Shhhh.Esp.HealthText.Color
+                    v.HealthText.OutlineColor = Color3.fromRGB(0, 0, 0)
+                    v.HealthText.Outline = Shhhh.Esp.HealthText.OutLine
+
+                    v.HealthText.Font = 0
+                    v.HealthText.Size = 16
+
+                    v.HealthText.Visible = true
+                else
+                    v.HealthText.Visible = false
+                end
+            else
+                v.Name.Visible = false
+                v.BoxOutline.Visible = false
+                v.Box.Visible = false
+                v.HealthBarOutline.Visible = false
+                v.HealthBar.Visible = false
+                v.HealthText.Visible = false
+                v.Distance.Visible = false
+            end
+        else
+            v.Name.Visible = false
+            v.BoxOutline.Visible = false
+            v.Box.Visible = false
+            v.HealthBarOutline.Visible = false
+            v.HealthBar.Visible = false
+            v.HealthText.Visible = false
+            v.Distance.Visible = false
+        end
+    end
+end)
+
+-- // Client Fps (EXECUTES PER FRAME)
+RS.Heartbeat:Connect(LPH_NO_VIRTUALIZE(function()
+    Script.Functions.GetClosestPlayer()
+    Script.Functions.SilentMisc()
+    Script.Functions.MouseChanger()
+end))
+
+-- // Server Tick (EXECUTES PER TICK)
+RS.RenderStepped:Connect(LPH_NO_VIRTUALIZE(function()
+    Script.Functions.UpdateEsp()
+    Script.Functions.UpdateFOV()
+    if Shhhh.Silent.Enabled and Shhhh.Silent.ClosestPoint and Script.Functions.Alive(SilentTarget) and Players[tostring(SilentTarget)].Character:FindFirstChild(Shhhh.Silent.Part) then
+        local ClosestPoint = Script.Functions.GetClosestPointOfPart(Players[tostring(SilentTarget)].Character[Shhhh.Silent.Part])
+        ClosestPointCF = CFrame.new(ClosestPoint.X, ClosestPoint.Y, ClosestPoint.Z)
+    end
+    if Shhhh.AimAssist.Enabled and Script.Functions.Alive(AimTarget) and Shhhh.Silent.ClosestPart and Script.Functions.Alive(SilentTarget) then
+        local currentpart = tostring(Script.Functions.GetClosestBodyPart(AimTarget.Character))
+        if Shhhh.AimAssist.ClosestPart then
+			Shhhh.AimAssist.Part = currentpart
 		end
-		local function _2()
-			return true
-		end
-		local function _3()
-			return true
-		end
-	end
-	for i in ipairs(debug.getprotos(test)) do
-		local proto = debug.getproto(test, i, true)[1]
-		local realproto = debug.getproto(test, i)
-		assert(proto(), "Failed to get inner function " .. i)
-		if not realproto() then
-			return "Proto return values are disabled on this executor"
-		end
-	end
-end)
+        if Shhhh.Silent.ClosestPart then
+            Shhhh.Silent.Part = currentpart
+            OldSilentAimPart = Shhhh.Silent.Part
+        end
+        return
+    end
+    if Shhhh.AimAssist.Enabled and Shhhh.AimAssist.ClosestPart and Script.Functions.Alive(AimTarget) then
+        Shhhh.AimAssist.Part = tostring(Script.Functions.GetClosestBodyPart(AimTarget.Character))
+    end
+    if Shhhh.Silent.Enabled and Shhhh.Silent.ClosestPart and Script.Functions.Alive(SilentTarget) then
+        Shhhh.Silent.Part = tostring(Script.Functions.GetClosestBodyPart(SilentTarget.Character))
+        OldSilentAimPart = Shhhh.Silent.Part
+    end
+end))
 
-test("debug.getstack", {}, function()
-	local _ = "a" .. "b"
-	assert(debug.getstack(1, 1) == "ab", "The first item in the stack should be 'ab'")
-	assert(debug.getstack(1)[1] == "ab", "The first item in the stack table should be 'ab'")
-end)
-
-test("debug.getupvalue", {}, function()
-	local upvalue = function() end
-	local function test()
-		print(upvalue)
-	end
-	assert(debug.getupvalue(test, 1) == upvalue, "Unexpected value returned from debug.getupvalue")
-end)
-
-test("debug.getupvalues", {}, function()
-	local upvalue = function() end
-	local function test()
-		print(upvalue)
-	end
-	local upvalues = debug.getupvalues(test)
-	assert(upvalues[1] == upvalue, "Unexpected value returned from debug.getupvalues")
-end)
-
-test("debug.setconstant", {}, function()
-	local function test()
-		return "fail"
-	end
-	debug.setconstant(test, 1, "success")
-	assert(test() == "success", "debug.setconstant did not set the first constant")
-end)
-
-test("debug.setstack", {}, function()
-	local function test()
-		return "fail", debug.setstack(1, 1, "success")
-	end
-	assert(test() == "success", "debug.setstack did not set the first stack item")
-end)
-
-test("debug.setupvalue", {}, function()
-	local function upvalue()
-		return "fail"
-	end
-	local function test()
-		return upvalue()
-	end
-	debug.setupvalue(test, 1, function()
-		return "success"
-	end)
-	assert(test() == "success", "debug.setupvalue did not set the first upvalue")
-end)
-
--- Filesystem
-
-if isfolder and makefolder and delfolder then
-	if isfolder(".tests") then
-		delfolder(".tests")
-	end
-	makefolder(".tests")
+-- // Checks Everyone In The Server And Puts It In A Table
+for _, Player in ipairs(Players:GetPlayers()) do
+    if (Player ~= Client and Client:IsFriendsWith(Player.UserId)) then
+        table.insert(Script.Friends, Player)
+    end
+    Script.Functions.NewPlayer(Player)
 end
 
-test("readfile", {}, function()
-	writefile(".tests/readfile.txt", "success")
-	assert(readfile(".tests/readfile.txt") == "success", "Did not return the contents of the file")
+-- // Checks When Players Joins And Adds Them To A Table
+Players.PlayerAdded:Connect(function(Player)
+    if (Client:IsFriendsWith(Player.UserId)) then
+        table.insert(Script.Friends, Player)
+    end
+    Script.Functions.NewPlayer(Player)
 end)
 
-test("listfiles", {}, function()
-	makefolder(".tests/listfiles")
-	writefile(".tests/listfiles/test_1.txt", "success")
-	writefile(".tests/listfiles/test_2.txt", "success")
-	local files = listfiles(".tests/listfiles")
-	assert(#files == 2, "Did not return the correct number of files")
-	assert(isfile(files[1]), "Did not return a file path")
-	assert(readfile(files[1]) == "success", "Did not return the correct files")
-	makefolder(".tests/listfiles_2")
-	makefolder(".tests/listfiles_2/test_1")
-	makefolder(".tests/listfiles_2/test_2")
-	local folders = listfiles(".tests/listfiles_2")
-	assert(#folders == 2, "Did not return the correct number of folders")
-	assert(isfolder(folders[1]), "Did not return a folder path")
+-- // Checks If A Player Left And Removes Them From The Table
+Players.PlayerRemoving:Connect(function(Player)
+    local i = table.find(Script.Friends, Player)
+    if (i) then
+        table.remove(Script.Friends, i)
+    end
+    for i,v in pairs(Script.EspPlayers[Player]) do
+        v:Remove()
+    end
+    Script.EspPlayers[Player] = nil
 end)
 
-test("writefile", {}, function()
-	writefile(".tests/writefile.txt", "success")
-	assert(readfile(".tests/writefile.txt") == "success", "Did not write the file")
-	local requiresFileExt = pcall(function()
-		writefile(".tests/writefile", "success")
-		assert(isfile(".tests/writefile.txt"))
-	end)
-	if not requiresFileExt then
-		return "This executor requires a file extension in writefile"
-	end
-end)
-
-test("makefolder", {}, function()
-	makefolder(".tests/makefolder")
-	assert(isfolder(".tests/makefolder"), "Did not create the folder")
-end)
-
-test("appendfile", {}, function()
-	writefile(".tests/appendfile.txt", "su")
-	appendfile(".tests/appendfile.txt", "cce")
-	appendfile(".tests/appendfile.txt", "ss")
-	assert(readfile(".tests/appendfile.txt") == "success", "Did not append the file")
-end)
-
-test("isfile", {}, function()
-	writefile(".tests/isfile.txt", "success")
-	assert(isfile(".tests/isfile.txt") == true, "Did not return true for a file")
-	assert(isfile(".tests") == false, "Did not return false for a folder")
-	assert(isfile(".tests/doesnotexist.exe") == false, "Did not return false for a nonexistent path (got " .. tostring(isfile(".tests/doesnotexist.exe")) .. ")")
-end)
-
-test("isfolder", {}, function()
-	assert(isfolder(".tests") == true, "Did not return false for a folder")
-	assert(isfolder(".tests/doesnotexist.exe") == false, "Did not return false for a nonexistent path (got " .. tostring(isfolder(".tests/doesnotexist.exe")) .. ")")
-end)
-
-test("delfolder", {}, function()
-	makefolder(".tests/delfolder")
-	delfolder(".tests/delfolder")
-	assert(isfolder(".tests/delfolder") == false, "Failed to delete folder (isfolder = " .. tostring(isfolder(".tests/delfolder")) .. ")")
-end)
-
-test("delfile", {}, function()
-	writefile(".tests/delfile.txt", "Hello, world!")
-	delfile(".tests/delfile.txt")
-	assert(isfile(".tests/delfile.txt") == false, "Failed to delete file (isfile = " .. tostring(isfile(".tests/delfile.txt")) .. ")")
-end)
-
-test("loadfile", {}, function()
-	writefile(".tests/loadfile.txt", "return ... + 1")
-	assert(assert(loadfile(".tests/loadfile.txt"))(1) == 2, "Failed to load a file with arguments")
-	writefile(".tests/loadfile.txt", "f")
-	local callback, err = loadfile(".tests/loadfile.txt")
-	assert(err and not callback, "Did not return an error message for a compiler error")
-end)
-
-test("dofile", {})
-
--- Input
-
-test("isrbxactive", {"isgameactive"}, function()
-	assert(type(isrbxactive()) == "boolean", "Did not return a boolean value")
-end)
-
-test("mouse1click", {})
-
-test("mouse1press", {})
-
-test("mouse1release", {})
-
-test("mouse2click", {})
-
-test("mouse2press", {})
-
-test("mouse2release", {})
-
-test("mousemoveabs", {})
-
-test("mousemoverel", {})
-
-test("mousescroll", {})
-
--- Instances
-
-test("fireclickdetector", {}, function()
-	local detector = Instance.new("ClickDetector")
-	fireclickdetector(detector, 50, "MouseHoverEnter")
-end)
-
-test("getcallbackvalue", {}, function()
-	local bindable = Instance.new("BindableFunction")
-	local function test()
-	end
-	bindable.OnInvoke = test
-	assert(getcallbackvalue(bindable, "OnInvoke") == test, "Did not return the correct value")
-end)
-
-test("getconnections", {}, function()
-	local types = {
-		Enabled = "boolean",
-		ForeignState = "boolean",
-		LuaConnection = "boolean",
-		Function = "function",
-		Thread = "thread",
-		Fire = "function",
-		Defer = "function",
-		Disconnect = "function",
-		Disable = "function",
-		Enable = "function",
-	}
-	local bindable = Instance.new("BindableEvent")
-	bindable.Event:Connect(function() end)
-	local connection = getconnections(bindable.Event)[1]
-	for k, v in pairs(types) do
-		assert(connection[k] ~= nil, "Did not return a table with a '" .. k .. "' field")
-		assert(type(connection[k]) == v, "Did not return a table with " .. k .. " as a " .. v .. " (got " .. type(connection[k]) .. ")")
-	end
-end)
-
-test("getcustomasset", {}, function()
-	writefile(".tests/getcustomasset.txt", "success")
-	local contentId = getcustomasset(".tests/getcustomasset.txt")
-	assert(type(contentId) == "string", "Did not return a string")
-	assert(#contentId > 0, "Returned an empty string")
-	assert(string.match(contentId, "rbxasset://") == "rbxasset://", "Did not return an rbxasset url")
-end)
-
-test("gethiddenproperty", {}, function()
-	local fire = Instance.new("Fire")
-	local property, isHidden = gethiddenproperty(fire, "size_xml")
-	assert(property == 5, "Did not return the correct value")
-	assert(isHidden == true, "Did not return whether the property was hidden")
-end)
-
-test("sethiddenproperty", {}, function()
-	local fire = Instance.new("Fire")
-	local hidden = sethiddenproperty(fire, "size_xml", 10)
-	assert(hidden, "Did not return true for the hidden property")
-	assert(gethiddenproperty(fire, "size_xml") == 10, "Did not set the hidden property")
-end)
-
-test("gethui", {}, function()
-	assert(typeof(gethui()) == "Instance", "Did not return an Instance")
-end)
-
-test("getinstances", {}, function()
-	assert(getinstances()[1]:IsA("Instance"), "The first value is not an Instance")
-end)
-
-test("getnilinstances", {}, function()
-	assert(getnilinstances()[1]:IsA("Instance"), "The first value is not an Instance")
-	assert(getnilinstances()[1].Parent == nil, "The first value is not parented to nil")
-end)
-
-test("isscriptable", {}, function()
-	local fire = Instance.new("Fire")
-	assert(isscriptable(fire, "size_xml") == false, "Did not return false for a non-scriptable property (size_xml)")
-	assert(isscriptable(fire, "Size") == true, "Did not return true for a scriptable property (Size)")
-end)
-
-test("setscriptable", {}, function()
-	local fire = Instance.new("Fire")
-	local wasScriptable = setscriptable(fire, "size_xml", true)
-	assert(wasScriptable == false, "Did not return false for a non-scriptable property (size_xml)")
-	assert(isscriptable(fire, "size_xml") == true, "Did not set the scriptable property")
-	fire = Instance.new("Fire")
-	assert(isscriptable(fire, "size_xml") == false, "⚠️⚠️ setscriptable persists between unique instances ⚠️⚠️")
-end)
-
-test("setrbxclipboard", {})
-
--- Metatable
-
-test("getrawmetatable", {}, function()
-	local metatable = { __metatable = "Locked!" }
-	local object = setmetatable({}, metatable)
-	assert(getrawmetatable(object) == metatable, "Did not return the metatable")
-end)
-
-test("hookmetamethod", {}, function()
-	local object = setmetatable({}, { __index = newcclosure(function() return false end), __metatable = "Locked!" })
-	local ref = hookmetamethod(object, "__index", function() return true end)
-	assert(object.test == true, "Failed to hook a metamethod and change the return value")
-	assert(ref() == false, "Did not return the original function")
-end)
-
-test("getnamecallmethod", {}, function()
-	local method
-	local ref
-	ref = hookmetamethod(game, "__namecall", function(...)
-		if not method then
-			method = getnamecallmethod()
-		end
-		return ref(...)
-	end)
-	game:GetService("Lighting")
-	assert(method == "GetService", "Did not get the correct method (GetService)")
-end)
-
-test("isreadonly", {}, function()
-	local object = {}
-	table.freeze(object)
-	assert(isreadonly(object), "Did not return true for a read-only table")
-end)
-
-test("setrawmetatable", {}, function()
-	local object = setmetatable({}, { __index = function() return false end, __metatable = "Locked!" })
-	local objectReturned = setrawmetatable(object, { __index = function() return true end })
-	assert(object, "Did not return the original object")
-	assert(object.test == true, "Failed to change the metatable")
-	if objectReturned then
-		return objectReturned == object and "Returned the original object" or "Did not return the original object"
-	end
-end)
-
-test("setreadonly", {}, function()
-	local object = { success = false }
-	table.freeze(object)
-	setreadonly(object, false)
-	object.success = true
-	assert(object.success, "Did not allow the table to be modified")
-end)
-
--- Miscellaneous
-
-test("identifyexecutor", {"getexecutorname"}, function()
-	local name, version = identifyexecutor()
-	assert(type(name) == "string", "Did not return a string for the name")
-	return type(version) == "string" and "Returns version as a string" or "Does not return version"
-end)
-
-test("lz4compress", {}, function()
-	local raw = "Hello, world!"
-	local compressed = lz4compress(raw)
-	assert(type(compressed) == "string", "Compression did not return a string")
-	assert(lz4decompress(compressed, #raw) == raw, "Decompression did not return the original string")
-end)
-
-test("lz4decompress", {}, function()
-	local raw = "Hello, world!"
-	local compressed = lz4compress(raw)
-	assert(type(compressed) == "string", "Compression did not return a string")
-	assert(lz4decompress(compressed, #raw) == raw, "Decompression did not return the original string")
-end)
-
-test("messagebox", {})
-
-test("queue_on_teleport", {"queueonteleport"})
-
-test("request", {"http.request", "http_request"}, function()
-	local response = request({
-		Url = "https://httpbin.org/user-agent",
-		Method = "GET",
-	})
-	assert(type(response) == "table", "Response must be a table")
-	assert(response.StatusCode == 200, "Did not return a 200 status code")
-	local data = game:GetService("HttpService"):JSONDecode(response.Body)
-	assert(type(data) == "table" and type(data["user-agent"]) == "string", "Did not return a table with a user-agent key")
-	return "User-Agent: " .. data["user-agent"]
-end)
-
-test("setclipboard", {"toclipboard"})
-
-test("setfpscap", {}, function()
-	local renderStepped = game:GetService("RunService").RenderStepped
-	local function step()
-		renderStepped:Wait()
-		local sum = 0
-		for _ = 1, 5 do
-			sum += 1 / renderStepped:Wait()
-		end
-		return math.round(sum / 5)
-	end
-	setfpscap(60)
-	local step60 = step()
-	setfpscap(0)
-	local step0 = step()
-	return step60 .. "fps @60 • " .. step0 .. "fps @0"
-end)
-
--- Scripts
-
-test("getgc", {}, function()
-	local gc = getgc()
-	assert(type(gc) == "table", "Did not return a table")
-	assert(#gc > 0, "Did not return a table with any values")
-end)
-
-test("getgenv", {}, function()
-	getgenv().__TEST_GLOBAL = true
-	assert(__TEST_GLOBAL, "Failed to set a global variable")
-	getgenv().__TEST_GLOBAL = nil
-end)
-
-test("getloadedmodules", {}, function()
-	local modules = getloadedmodules()
-	assert(type(modules) == "table", "Did not return a table")
-	assert(#modules > 0, "Did not return a table with any values")
-	assert(typeof(modules[1]) == "Instance", "First value is not an Instance")
-	assert(modules[1]:IsA("ModuleScript"), "First value is not a ModuleScript")
-end)
-
-test("getrenv", {}, function()
-	assert(_G ~= getrenv()._G, "The variable _G in the executor is identical to _G in the game")
-end)
-
-test("getrunningscripts", {}, function()
-	local scripts = getrunningscripts()
-	assert(type(scripts) == "table", "Did not return a table")
-	assert(#scripts > 0, "Did not return a table with any values")
-	assert(typeof(scripts[1]) == "Instance", "First value is not an Instance")
-	assert(scripts[1]:IsA("ModuleScript") or scripts[1]:IsA("LocalScript"), "First value is not a ModuleScript or LocalScript")
-end)
-
-test("getscriptbytecode", {"dumpstring"}, function()
-	local animate = game:GetService("Players").LocalPlayer.Character.Animate
-	local bytecode = getscriptbytecode(animate)
-	assert(type(bytecode) == "string", "Did not return a string for Character.Animate (a " .. animate.ClassName .. ")")
-end)
-
-test("getscripthash", {}, function()
-	local animate = game:GetService("Players").LocalPlayer.Character.Animate:Clone()
-	local hash = getscripthash(animate)
-	local source = animate.Source
-	animate.Source = "print('Hello, world!')"
-	task.defer(function()
-		animate.Source = source
-	end)
-	local newHash = getscripthash(animate)
-	assert(hash ~= newHash, "Did not return a different hash for a modified script")
-	assert(newHash == getscripthash(animate), "Did not return the same hash for a script with the same source")
-end)
-
-test("getscripts", {}, function()
-	local scripts = getscripts()
-	assert(type(scripts) == "table", "Did not return a table")
-	assert(#scripts > 0, "Did not return a table with any values")
-	assert(typeof(scripts[1]) == "Instance", "First value is not an Instance")
-	assert(scripts[1]:IsA("ModuleScript") or scripts[1]:IsA("LocalScript"), "First value is not a ModuleScript or LocalScript")
-end)
-
-test("getsenv", {}, function()
-	local animate = game:GetService("Players").LocalPlayer.Character.Animate
-	local env = getsenv(animate)
-	assert(type(env) == "table", "Did not return a table for Character.Animate (a " .. animate.ClassName .. ")")
-	assert(env.script == animate, "The script global is not identical to Character.Animate")
-end)
-
-test("getthreadidentity", {"getidentity", "getthreadcontext"}, function()
-	assert(type(getthreadidentity()) == "number", "Did not return a number")
-end)
-
-test("setthreadidentity", {"setidentity", "setthreadcontext"}, function()
-	setthreadidentity(3)
-	assert(getthreadidentity() == 3, "Did not set the thread identity")
-end)
-
--- Drawing
-
-test("Drawing", {})
-
-test("Drawing.new", {}, function()
-	local drawing = Drawing.new("Square")
-	drawing.Visible = false
-	local canDestroy = pcall(function()
-		drawing:Destroy()
-	end)
-	assert(canDestroy, "Drawing:Destroy() should not throw an error")
-end)
-
-test("Drawing.Fonts", {}, function()
-	assert(Drawing.Fonts.UI == 0, "Did not return the correct id for UI")
-	assert(Drawing.Fonts.System == 1, "Did not return the correct id for System")
-	assert(Drawing.Fonts.Plex == 2, "Did not return the correct id for Plex")
-	assert(Drawing.Fonts.Monospace == 3, "Did not return the correct id for Monospace")
-end)
-
-test("isrenderobj", {}, function()
-	local drawing = Drawing.new("Image")
-	drawing.Visible = true
-	assert(isrenderobj(drawing) == true, "Did not return true for an Image")
-	assert(isrenderobj(newproxy()) == false, "Did not return false for a blank table")
-end)
-
-test("getrenderproperty", {}, function()
-	local drawing = Drawing.new("Image")
-	drawing.Visible = true
-	assert(type(getrenderproperty(drawing, "Visible")) == "boolean", "Did not return a boolean value for Image.Visible")
-	local success, result = pcall(function()
-		return getrenderproperty(drawing, "Color")
-	end)
-	if not success or not result then
-		return "Image.Color is not supported"
-	end
-end)
-
-test("setrenderproperty", {}, function()
-	local drawing = Drawing.new("Square")
-	drawing.Visible = true
-	setrenderproperty(drawing, "Visible", false)
-	assert(drawing.Visible == false, "Did not set the value for Square.Visible")
-end)
-
-test("cleardrawcache", {}, function()
-	cleardrawcache()
-end)
-
--- WebSocket
-
-test("WebSocket", {})
-
-test("WebSocket.connect", {}, function()
-	local types = {
-		Send = "function",
-		Close = "function",
-		OnMessage = {"table", "userdata"},
-		OnClose = {"table", "userdata"},
-	}
-	local ws = WebSocket.connect("ws://echo.websocket.events")
-	assert(type(ws) == "table" or type(ws) == "userdata", "Did not return a table or userdata")
-	for k, v in pairs(types) do
-		if type(v) == "table" then
-			assert(table.find(v, type(ws[k])), "Did not return a " .. table.concat(v, ", ") .. " for " .. k .. " (a " .. type(ws[k]) .. ")")
-		else
-			assert(type(ws[k]) == v, "Did not return a " .. v .. " for " .. k .. " (a " .. type(ws[k]) .. ")")
-		end
-	end
-	ws:Close()
-end)
+end)() 
