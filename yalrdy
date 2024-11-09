@@ -2883,11 +2883,11 @@ local game_support = {
         Remote = "MAINEVENT",
         Argument = "MoonUpdateMousePos"
     },
-    [113557336821197] = {
+    [112443790019909] = {
         Number = 11,
-        Name = "OG Da Hood",
+        Name = "Raid hood",
         Remote = "MainEvent",
-        Argument = "lenakistoptouchingme",
+        Argument = "UpdateMousePos",
         Adonis = true
     },
     [16033173781] = {
