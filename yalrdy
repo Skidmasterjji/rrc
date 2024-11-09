@@ -2,21 +2,20 @@
 local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
 local LocalPlayer = Players.LocalPlayer
-local Mouse = LocalPlayer:GetMouse()
 local Workspace = game:GetService("Workspace")
 local Camera = Workspace.CurrentCamera
 
 -- Configuration
 local Config = {
     Enabled = true,
-    PredictionVelocity = 0.165,  -- Adjust prediction value to fine-tune accuracy
-    Part = "Head",               -- Body part to aim at
-    ClosestToCrosshair = true,   -- Find target closest to crosshair
-    Humanize = true,             -- Add slight randomness to aiming for a more human feel
-    HumanizeValue = Vector3.new(0.1, 0.1, 0.1)  -- Randomization values for humanizing aim
+    PredictionVelocity = 0.165,   -- Adjust prediction value to fine-tune accuracy
+    Part = "Head",                -- Body part to aim at
+    ClosestToCrosshair = true,    -- Find target closest to crosshair
+    Humanize = true,              -- Add slight randomness to aiming for a more human feel
+    HumanizeValue = Vector3.new(0.1, 0.1, 0.1) -- Randomization values for humanizing aim
 }
 
--- Function to get the closest target to the crosshair
+-- // Function to get the closest target to the crosshair
 local function getClosestTarget()
     local closestTarget = nil
     local closestDistance = math.huge
@@ -25,7 +24,7 @@ local function getClosestTarget()
         if player ~= LocalPlayer and player.Character and player.Character:FindFirstChild(Config.Part) then
             local part = player.Character[Config.Part]
             local screenPoint, onScreen = Camera:WorldToViewportPoint(part.Position)
-            local distance = (Vector2.new(screenPoint.X, screenPoint.Y) - Vector2.new(Mouse.X, Mouse.Y)).Magnitude
+            local distance = (Vector2.new(screenPoint.X, screenPoint.Y) - Vector2.new(Camera.ViewportSize.X / 2, Camera.ViewportSize.Y / 2)).Magnitude
 
             if onScreen and distance < closestDistance then
                 closestDistance = distance
@@ -37,15 +36,15 @@ local function getClosestTarget()
     return closestTarget
 end
 
--- Silent aim function to redirect aim
-local function silentAimRaycast(origin, direction)
+-- Function to calculate aim position
+local function calculateAimPosition()
     if Config.Enabled then
         local SilentTarget = getClosestTarget()
         if SilentTarget and SilentTarget.Character and SilentTarget.Character:FindFirstChild(Config.Part) then
             local targetPart = SilentTarget.Character[Config.Part]
             local targetPosition = targetPart.Position
 
-            -- Apply prediction by adding target velocity
+            -- Predict movement by adding target velocity
             local velocity = SilentTarget.Character:FindFirstChild("HumanoidRootPart") and SilentTarget.Character.HumanoidRootPart.Velocity or Vector3.new(0, 0, 0)
             targetPosition = targetPosition + (velocity * Config.PredictionVelocity)
 
@@ -58,24 +57,23 @@ local function silentAimRaycast(origin, direction)
                 )
             end
 
-            -- Override the ray direction to point towards the target
-            direction = (targetPosition - origin).Unit * direction.Magnitude
+            return CFrame.new(Camera.CFrame.Position, targetPosition)
         end
     end
-    -- Perform the raycast
-    return Workspace:Raycast(origin, direction)
+    return nil
 end
 
--- Replace regular Mouse.Target and Mouse.Hit usage with silentAimRaycast in your game logic
+-- Example usage: redirect aim in shooting logic
 RunService.RenderStepped:Connect(function()
-    if Config.Enabled then
-        local origin = Camera.CFrame.Position
-        local direction = (Mouse.Hit.p - origin).Unit * 1000  -- Example ray length, adjust as needed
-        local result = silentAimRaycast(origin, direction)
-        
-        if result then
-            -- Here you can set your silent aim behavior with the ray result, e.g., shooting or targeting
-            print("Silent Aim Target: ", result.Instance)
+    local aimCFrame = calculateAimPosition()
+    if aimCFrame then
+        -- Example: Aim gun or handle shooting direction based on calculated aim position
+        -- This depends on your game's shooting or aiming function
+        -- For demonstration, let's assume we're aiming a gun tool
+        if Config.Enabled and LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("Gun") then
+            -- Aim gun tool or apply direction here
+            -- Replace the following line with your shooting logic
+            LocalPlayer.Character.Gun.CFrame = aimCFrame
         end
     end
 end)
