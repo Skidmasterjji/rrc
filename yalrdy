@@ -154,28 +154,28 @@ getgenv().Yeki = {
             ["Close_Activation"] = (32), -- // How Far By Using Studs
             
             ["Revolver"] = {
-            ["Fov"] = (50),        ["Prediction"] = (0.1322312),         ["HitChance"] = (100),      ["AirHitChance"] = (100),       ["Smoothness"] = (0.0123),         ["AirSmoothness"] = (0.0523),
-            ["CloseFov"] = (80),   ["ClosePrediction"] = (0.1311312),    ["CloseHitChance"] = (100), ["CloseAirHitChance"] = (100),  ["CloseSmoothness"] = (0.0123),    ["CloseAirSmoothness"] = (0.023),
-            ["MedFov"] = (65),      ["MedPrediction"] = (0.128152312),      ["MedHitChance"] = (100),   ["MedAirHitChance"] = (100),    ["MedSmoothness"] = (0.0123),      ["MedAirSmoothness"] = (0.023),
-            ["FarFov"] = (35),        ["FarPrediction"] = (0.12122312),      ["FarHitChance"] = (100),   ["FarAirHitChance"] = (100),    ["FarSmoothness"] = (0.0123),      ["FarAirSmoothness"] = (0.02523),
+            ["Fov"] = (30),        ["Prediction"] = (0.1322312),         ["HitChance"] = (100),      ["AirHitChance"] = (100),       ["Smoothness"] = (0.0123),         ["AirSmoothness"] = (0.0523),
+            ["CloseFov"] = (60),   ["ClosePrediction"] = (0.1311312),    ["CloseHitChance"] = (100), ["CloseAirHitChance"] = (100),  ["CloseSmoothness"] = (0.0123),    ["CloseAirSmoothness"] = (0.023),
+            ["MedFov"] = (35),      ["MedPrediction"] = (0.128152312),      ["MedHitChance"] = (100),   ["MedAirHitChance"] = (100),    ["MedSmoothness"] = (0.0123),      ["MedAirSmoothness"] = (0.023),
+            ["FarFov"] = (25),        ["FarPrediction"] = (0.12122312),      ["FarHitChance"] = (100),   ["FarAirHitChance"] = (100),    ["FarSmoothness"] = (0.0123),      ["FarAirSmoothness"] = (0.02523),
             },
             ["Double-Barrel SG"] = {
             ["Fov"] = (70),          ["Prediction"] = (0.1312312),         ["HitChance"] = (100),      ["AirHitChance"] = (100),       ["Smoothness"] = (0.023),          ["AirSmoothness"] = (0.0523),
-            ["CloseFov"] = (85),     ["ClosePrediction"] = (0.1317232312),    ["CloseHitChance"] = (100), ["CloseAirHitChance"] = (100),  ["CloseSmoothness"] = (0.023),     ["CloseAirSmoothness"] = (0.082023),
-            ["MedFov"] = (50),       ["MedPrediction"] = (0.1263162312),      ["MedHitChance"] = (100),   ["MedAirHitChance"] = (100),    ["MedSmoothness"] = (0.023),       ["MedAirSmoothness"] = (0.023),
-            ["FarFov"] = (29),        ["FarPrediction"] = (0.1122312),      ["FarHitChance"] = (100),   ["FarAirHitChance"] = (100),    ["FarSmoothness"] = (0.023),       ["FarAirSmoothness"] = (0.0423),
+            ["CloseFov"] = (55),     ["ClosePrediction"] = (0.1317232312),    ["CloseHitChance"] = (100), ["CloseAirHitChance"] = (100),  ["CloseSmoothness"] = (0.023),     ["CloseAirSmoothness"] = (0.082023),
+            ["MedFov"] = (40),       ["MedPrediction"] = (0.1263162312),      ["MedHitChance"] = (100),   ["MedAirHitChance"] = (100),    ["MedSmoothness"] = (0.023),       ["MedAirSmoothness"] = (0.023),
+            ["FarFov"] = (9),        ["FarPrediction"] = (0.1122312),      ["FarHitChance"] = (100),   ["FarAirHitChance"] = (100),    ["FarSmoothness"] = (0.023),       ["FarAirSmoothness"] = (0.0423),
             },
             ["Shotgun"] = {
             ["Fov"] = (9.8),          ["Prediction"] = (0.1322312),         ["HitChance"] = (100),      ["AirHitChance"] = (100),       ["Smoothness"] = (0.023),          ["AirSmoothness"] = (0.023),
             ["CloseFov"] = (9.8),     ["ClosePrediction"] = (0.122312),    ["CloseHitChance"] = (100), ["CloseAirHitChance"] = (100),  ["CloseSmoothness"] = (0.023),     ["CloseAirSmoothness"] = (0.123),
-            ["MedFov"] = (7.2),       ["MedPrediction"] = (0.122312),      ["MedHitChance"] = (100),   ["MedAirHitChance"] = (100),    ["MedSmoothness"] = (0.023),       ["MedAirSmoothness"] = (0.123),
-            ["FarFov"] = (3.6),        ["FarPrediction"] = (0.122312),      ["FarHitChance"] = (100),   ["FarAirHitChance"] = (100),    ["FarSmoothness"] = (0.023),       ["FarAirSmoothness"] = (0.623),
+            ["MedFov"] = (7.2),       ["MedPrediction"] = (0.122312),      ["MedHitChance"] = (100),   ["MedAirHitChance"] = (100),    ["MedSmoothness"] = (0.023),       ["MedAirSmoothness"] = (0.05123),
+            ["FarFov"] = (3.6),        ["FarPrediction"] = (0.122312),      ["FarHitChance"] = (100),   ["FarAirHitChance"] = (100),    ["FarSmoothness"] = (0.023),       ["FarAirSmoothness"] = (0.0623),
             },
             ["TacticalShotgun"] = {
             ["Fov"] = (135),          ["Prediction"] = (0.1322312),         ["HitChance"] = (100),      ["AirHitChance"] = (100),       ["Smoothness"] = (0.023),          ["AirSmoothness"] = (0.123),
-            ["CloseFov"] = (79.8),     ["ClosePrediction"] = (0.1315922312),    ["CloseHitChance"] = (100), ["CloseAirHitChance"] = (100),  ["CloseSmoothness"] = (0.023),     ["CloseAirSmoothness"] = (0.123),
-            ["MedFov"] = (47.2),       ["MedPrediction"] = (0.125312),      ["MedHitChance"] = (100),   ["MedAirHitChance"] = (100),    ["MedSmoothness"] = (0.023),       ["MedAirSmoothness"] = (0.123),
-            ["FarFov"] = (23.6),        ["FarPrediction"] = (0.112312),      ["FarHitChance"] = (100),   ["FarAirHitChance"] = (100),    ["FarSmoothness"] = (0.023),       ["FarAirSmoothness"] = (0.0323),
+            ["CloseFov"] = (59.8),     ["ClosePrediction"] = (0.1315922312),    ["CloseHitChance"] = (100), ["CloseAirHitChance"] = (100),  ["CloseSmoothness"] = (0.023),     ["CloseAirSmoothness"] = (0.123),
+            ["MedFov"] = (37.2),       ["MedPrediction"] = (0.125312),      ["MedHitChance"] = (100),   ["MedAirHitChance"] = (100),    ["MedSmoothness"] = (0.023),       ["MedAirSmoothness"] = (0.123),
+            ["FarFov"] = (3.6),        ["FarPrediction"] = (0.112312),      ["FarHitChance"] = (100),   ["FarAirHitChance"] = (100),    ["FarSmoothness"] = (0.023),       ["FarAirSmoothness"] = (0.0323),
             },
             ["SMG"] = {
             ["Fov"] = (93.8),         ["Prediction"] = (0.122312),          ["HitChance"] = (100),      ["AirHitChance"] = (100),       ["Smoothness"] = (0.023),         ["AirSmoothness"] = (0.5023),
@@ -244,7 +244,7 @@ getgenv().Yeki = {
             ["EasingDirection"] = ("In") -- // What Smoothning Method For AimAssist To Control Direction
         },
         ["FrameSkip"] = {
-            ["Enabled"] = (true), -- // Flicks To Targets Part
+            ["Enabled"] = (false), -- // Flicks To Targets Part
             ["Power"] = (5), -- // How Much Power It Flicks To The Target
             ["UsePrediction"] = (false), -- // Adds Prediction For Flicking
             ["TargetPart"] = {["Enabled"] = (false), ["Part"] = ("Head")}, -- // Flicks To The Part
@@ -289,7 +289,7 @@ getgenv().Yeki = {
         }
     },
     ["ChatCommands"] = {
-        ["Enabled"] = (false), -- // Enable / Disable Chat Commands
+        ["Enabled"] = (true), -- // Enable / Disable Chat Commands
 
         -- // Silent ChatCommands
         ["Silent_Enabled"] = ("!senabled"), -- // The Command To Enable / Disable Silent (With false/true)
