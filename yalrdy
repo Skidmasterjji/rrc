@@ -105,8 +105,8 @@ getgenv().Exodus = {
     },
     ["Misc"] = {
         ["Macro"] = {
-            Keybind = "x",
-            Speed = 1,
+            Keybind = "",
+            Speed = 0,
             Type = "First" -- // "First", "Third"
         },
         ["Key360"] = {
