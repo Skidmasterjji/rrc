@@ -80,7 +80,7 @@ getgenv().Exodus = {
         },
         ["FOV"] = {
             ShowFOV = false,
-            FOVRadius = 85,
+            FOVRadius = 300,
             FOVType = "Static", -- // "Dynamic", "Static"
             FOVType2 = "Cursor",
             DynamicAmmount = 3,
