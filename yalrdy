@@ -2883,7 +2883,7 @@ local game_support = {
         Remote = "MAINEVENT",
         Argument = "MoonUpdateMousePos"
     },
-    [119024210985192] = {
+    [80667249246558] = {
         Number = 11,
         Name = "DEs hod",
         Remote = "MainEvent",
