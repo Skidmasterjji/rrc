@@ -2877,11 +2877,11 @@ local game_support = {
         Remote = "MAINEVENT",
         Argument = "MOUSE"
     },
-    [15166543806] = {
+    [125525439268334] = {
         Number = 10,
-        Name = "Moon Hood",
+        Name = "des Hood",
         Remote = "MAINEVENT",
-        Argument = "MoonUpdateMousePos"
+        Argument = "UpdateMousePos"
     },
     [17897702920] = {
         Number = 11,
