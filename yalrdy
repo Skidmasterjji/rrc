@@ -273,11 +273,7 @@ getgenv().Evolution = {
     setfpscap(Evolution.Options["FPS Unlocker"].FPS)
 end]]
 
-for i,v in pairs(game.Workspace:GetDescendants()) do 
-    if v:IsA("Seat") then 
-        v.Disabled = Evolution["Extra"]["Disable Seats"]
-    end
-end
+
 
 local smoothplastic = Enum.Material.SmoothPlastic
 local objects = {}
