@@ -493,9 +493,6 @@ end)
 
 
 
-local AkaliNotif = loadstring(game:HttpGet("https://raw.githubusercontent.com/laagginq/Evolution/main/akali.lua"))();
-local gggg = AkaliNotif.Notify;
-
 local notificationLibrary = loadstring(game:HttpGet("https://raw.githubusercontent.com/laagginq/ui-libraries/main/xaxas-notification/src.lua"))();
 local notifications = notificationLibrary.new({            
     NotificationLifetime = 3, 
