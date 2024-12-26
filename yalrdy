@@ -2860,7 +2860,7 @@ Script.Functions.ToolActivated = function()
                     game:GetService("ReplicatedStorage").MainEvent:FireServer(unpack(Args))
                 else
                     local Args = {
-                        [1] = "b7c14466c",
+                        [1] = "UpdateMousePos",
                         [2] = TargetCF
                     }
                     game:GetService("ReplicatedStorage").MainEvent:FireServer(unpack(Args))
