@@ -211,7 +211,7 @@ getgenv().Yeki = {
     },
     ["AimAssist"] = {
         ["Enabled"] = (true), -- // Enable / Disable AimAssist
-        ["KeyBind"] = ("Q"), -- // The Key To Lock Onto A Player
+        ["KeyBind"] = ("C"), -- // The Key To Lock Onto A Player
         ["HoldMode"] = (false), -- // Enables While Only Holding The Key
         ["Method"] = ("Camera"), -- // Wich Thing It Uses For AimAssist (Mouse, Camera)
 
@@ -228,7 +228,7 @@ getgenv().Yeki = {
         ["FirstPerson"] = (true), -- // Only Enables When Your On FirstPerson
         ["ThirdPerson"] = (true), -- // Only Enables When Your On ThirdPerson
         
-        ["UseSmoothness"] = (false), -- // Enable / Disable Smoothness
+        ["UseSmoothness"] = (true), -- // Enable / Disable Smoothness
         ["Smoothness_X"] = (0.058), -- // How Smooth The Aim Assist Is On X
         ["Smoothness_Y"] = (0.044), -- // How Smooth The Aim Assist Is On Y 
 
