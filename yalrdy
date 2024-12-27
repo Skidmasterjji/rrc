@@ -98,7 +98,7 @@ getgenv().Yeki = {
             end)
         },
          ["PingPrediction"] = {
-            ["Enabled"] = (true), -- // Automatically Sets The Prediction On What Ping You Are On
+            ["Enabled"] = (false), -- // Automatically Sets The Prediction On What Ping You Are On
             ["AutoMatic"] = (true), -- // Automatically Generates An Prediction For Your Ping
             ["RefreshRate"] = (0.02), -- // Waits This Seconds To Execute Again
             ["P200_Inf"] = (0.2354),
@@ -211,12 +211,12 @@ getgenv().Yeki = {
     },
     ["AimAssist"] = {
         ["Enabled"] = (true), -- // Enable / Disable AimAssist
-        ["KeyBind"] = ("C"), -- // The Key To Lock Onto A Player
+        ["KeyBind"] = ("Q"), -- // The Key To Lock Onto A Player
         ["HoldMode"] = (false), -- // Enables While Only Holding The Key
         ["Method"] = ("Camera"), -- // Wich Thing It Uses For AimAssist (Mouse, Camera)
 
         ["PredictMovement"] = (true), -- // Predicts Target Position And MoveMent
-        ["Prediction"] = (0.1), -- // How Much Power It Predicts The Target
+        ["Prediction"] = (0), -- // How Much Power It Predicts The Target
         ["Part"] = ("UpperTorso"), -- // The Part That Aim Assist Locks On
         ["ClosestPart"] = (true), -- // Automatically Gets The Closest Part Of The Target And Uses That Position
         ["RandomPart"] = (false), -- // Randomizes An Part Of The Target And Uses That Position. Will OverWrite ClosestPart
