@@ -232,7 +232,7 @@ getgenv().Yeki = {
         ["Smoothness_X"] = (0.058), -- // How Smooth The Aim Assist Is On X
         ["Smoothness_Y"] = (0.044), -- // How Smooth The Aim Assist Is On Y 
 
-        ["AirSmoothness"] = (true), -- // Uses AirSmoothness When The Target Is In The Air
+        ["AirSmoothness"] = (false), -- // Uses AirSmoothness When The Target Is In The Air
         ["AirSmoothness_X"] = (0.021), -- // How Smooth The Aim Assist Is On X In Target Air
         ["AirSmoothness_Y"] = (0.03088), -- // How Smooth The Aim Assist Is On Y In Target Air
         
