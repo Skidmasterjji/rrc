@@ -228,7 +228,7 @@ getgenv().Yeki = {
         ["FirstPerson"] = (true), -- // Only Enables When Your On FirstPerson
         ["ThirdPerson"] = (true), -- // Only Enables When Your On ThirdPerson
         
-        ["UseSmoothness"] = (true), -- // Enable / Disable Smoothness
+        ["UseSmoothness"] = (false), -- // Enable / Disable Smoothness
         ["Smoothness_X"] = (0.058), -- // How Smooth The Aim Assist Is On X
         ["Smoothness_Y"] = (0.044), -- // How Smooth The Aim Assist Is On Y 
 
