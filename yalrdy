@@ -30,7 +30,7 @@ getgenv().wass = {
     },
     HitboxExpander = { -- Works on dh,arsenal and other games
         Enabled = true,
-        HeadSize = 50, -- Size of the HumanoidRootPart hitbox
+        HeadSize = 950, -- Size of the HumanoidRootPart hitbox
         Transparency = 0, -- Transparency of the hitbox
         Color = Color3.new(0, 0, 1), -- Hitbox color (blue)
         Material = Enum.Material.Neon,
