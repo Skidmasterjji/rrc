@@ -1,19 +1,233 @@
-local Players = Game:GetService("Players")
+getgenv().wass = {
+    General = {
+        Keybind = Enum.KeyCode.Q, -- Can be set to mouse buttons (e.g., MouseButton1)
+        HoldMode = false,
+        Method = "Camera", -- Only Camera method now
+        TeamCheck = false, -- Enable or disable team checking
+    },
+    Targeting = {
+        HitPart = "HumanoidRootPart", 
+        VelocityPrediction = 0.134,
+    },
+    Smoothness = {
+        Ground = {X = 1, Y = 1},
+        Air = {X = 1, Y = 1},
+        EasingStyle = Enum.EasingStyle.Sine,
+    },
+    Effects = {
+        Shake = {X = 0, Y = 0, Z = 0},
+        HighlightEnabled = true,
+        HighlightColor = Color3.new(1, 1, 1), -- Default highlight color (white)
+    },
+    Visuals = {
+        ShowTargetPart = true,  -- Enable/disable visual of the hit part
+        TargetPartColor = Color3.new(1, 0, 0), -- Target part visual color (red)
+    },
+    FOV = {
+        Enabled = true,
+        Radius = 100, -- FOV radius in pixels
+        Color = Color3.new(1, 1, 1), -- FOV circle color (white)
+    },
+    HitboxExpander = { -- Works on dh,arsenal and other games
+        Enabled = true,
+        HeadSize = 20, -- Size of the HumanoidRootPart hitbox
+        Transparency = 0, -- Transparency of the hitbox
+        Color = Color3.new(0, 0, 1), -- Hitbox color (blue)
+        Material = Enum.Material.Neon,
+        TeamCheck = true, -- Enable team checking for hitbox expander
+    },
+}
+
+local UserInputService = game:GetService("UserInputService")
+local RunService = game:GetService("RunService")
+local Camera = workspace.CurrentCamera
+local Players = game:GetService("Players")
 local LocalPlayer = Players.LocalPlayer
 
-getgenv().HitboxExpander = true
-getgenv().HitboxSize = 99
-getgenv().HitboxRefreshTime = 5
+local Target = nil
+local TargetPart = nil
+local Highlight = nil
+local IsActive = false
+local LockedTarget = nil
+local LockedPart = nil
 
-while getgenv().HitboxExpander do
-for Index, Player in ipairs(Players:GetPlayers()) do
-    if Player.UserId ~= LocalPlayer.UserId and Player.Character and Player.Character:FindFirstChildOfClass("Humanoid") and Player.Character:FindFirstChildOfClass("Humanoid").RootPart then
-        local PlayerHumanoid = Player.Character:FindFirstChildOfClass("Humanoid")
-        local PlayerRootPart = PlayerHumanoid.RootPart
+-- Draw the FOV circle
+local FOVCircle = Drawing.new("Circle")
+FOVCircle.Visible = getgenv().wass.FOV.Enabled
+FOVCircle.Thickness = 1
+FOVCircle.Color = getgenv().wass.FOV.Color
+FOVCircle.Filled = false
+FOVCircle.Radius = getgenv().wass.FOV.Radius
 
-        PlayerRootPart.CanCollide = false
-        PlayerRootPart.Size = Vector3.new(getgenv().HitboxSize, getgenv().HitboxSize, getgenv().HitboxSize)
+local function UpdateFOVCircle()
+    FOVCircle.Position = UserInputService:GetMouseLocation()
+    FOVCircle.Visible = getgenv().wass.FOV.Enabled
+end
+
+local function Lerp(a, b, t)
+    return a + (b - a) * t
+end
+
+local function SmoothCameraAim(targetPos)
+    local currentPos = Camera.CFrame.Position
+    local newCFrame = CFrame.new(currentPos, targetPos)
+    local smoothness = getgenv().wass.Smoothness.Ground
+    if TargetPart and TargetPart.Position.Y > Camera.CFrame.Position.Y then
+        smoothness = getgenv().wass.Smoothness.Air
+    end
+    Camera.CFrame = Camera.CFrame:Lerp(newCFrame, smoothness.X)
+end
+
+local function ApplyShake()
+    local shake = getgenv().wass.Effects.Shake
+    local offset = Vector3.new(
+        math.random(-shake.X, shake.X),
+        math.random(-shake.Y, shake.Y),
+        math.random(-shake.Z, shake.Z)
+    )
+    Camera.CFrame = Camera.CFrame * CFrame.new(offset)
+end
+
+local function ApplyHighlight(targetCharacter)
+    if not getgenv().wass.Effects.HighlightEnabled then
+        return
+    end
+
+    if not Highlight then
+        Highlight = Instance.new("Highlight")
+        Highlight.Parent = targetCharacter
+    end
+
+    Highlight.Adornee = targetCharacter
+    Highlight.FillColor = getgenv().wass.Effects.HighlightColor
+    Highlight.FillTransparency = 0.5
+    Highlight.OutlineTransparency = 1
+end
+
+local function RemoveHighlight()
+    if Highlight then
+        Highlight:Destroy()
+        Highlight = nil
     end
 end
-task.wait(getgenv().HitboxRefreshTime)
+
+local function IsInFOV(targetPos)
+    local screenPos, onScreen = Camera:WorldToScreenPoint(targetPos)
+    if not onScreen then return false end
+
+    local mousePos = UserInputService:GetMouseLocation()
+    local distance = (Vector2.new(screenPos.X, screenPos.Y) - mousePos).Magnitude
+    return distance <= getgenv().wass.FOV.Radius
 end
+
+local function IsVisible(targetPart)
+    local rayParams = RaycastParams.new()
+    rayParams.FilterType = Enum.RaycastFilterType.Blacklist
+    rayParams.FilterDescendantsInstances = {LocalPlayer.Character, Camera}
+
+    local result = workspace:Raycast(Camera.CFrame.Position, (targetPart.Position - Camera.CFrame.Position).Unit * 500, rayParams)
+    return result and result.Instance and result.Instance:IsDescendantOf(targetPart.Parent)
+end
+
+local function IsOnSameTeam(player)
+    return getgenv().wass.General.TeamCheck
+        and LocalPlayer.Team ~= nil
+        and player.Team ~= nil
+        and LocalPlayer.Team == player.Team
+end
+
+local function GetClosestTarget()
+    local closestTarget = nil
+    local closestPart = nil
+    local closestCursorDistance = math.huge
+
+    for _, player in ipairs(Players:GetPlayers()) do
+        if player ~= LocalPlayer and player.Character and not IsOnSameTeam(player) then
+            local hitPart = player.Character:FindFirstChild(getgenv().wass.Targeting.HitPart)
+            if hitPart and IsVisible(hitPart) then
+                if IsInFOV(hitPart.Position) then
+                    local screenPos, onScreen = Camera:WorldToScreenPoint(hitPart.Position)
+                    if onScreen then
+                        local mousePos = UserInputService:GetMouseLocation()
+                        local distance = (Vector2.new(screenPos.X, screenPos.Y) - mousePos).Magnitude
+                        if distance < closestCursorDistance then
+                            closestPart = hitPart
+                            closestTarget = player.Character
+                            closestCursorDistance = distance
+                        end
+                    end
+                end
+            end
+        end
+    end
+
+    return closestTarget, closestPart
+end
+
+local function ApplyHitboxExpansion()
+    local hitboxSettings = getgenv().wass.HitboxExpander
+    if not hitboxSettings.Enabled then return end
+
+    for _, player in ipairs(Players:GetPlayers()) do
+        if player ~= LocalPlayer then
+            if hitboxSettings.TeamCheck and LocalPlayer.Team == player.Team then continue end
+
+            local humanoidRootPart = player.Character and player.Character:FindFirstChild("HumanoidRootPart")
+            if humanoidRootPart then
+                humanoidRootPart.Size = Vector3.new(hitboxSettings.HeadSize, hitboxSettings.HeadSize, hitboxSettings.HeadSize)
+                humanoidRootPart.Transparency = hitboxSettings.Transparency
+                humanoidRootPart.Color = hitboxSettings.Color
+                humanoidRootPart.Material = hitboxSettings.Material
+                humanoidRootPart.CanCollide = false
+            end
+        end
+    end
+end
+
+local function RevertHitboxes()
+    for _, player in ipairs(Players:GetPlayers()) do
+        local humanoidRootPart = player.Character and player.Character:FindFirstChild("HumanoidRootPart")
+        if humanoidRootPart then
+            humanoidRootPart.Size = Vector3.new(2, 2, 1) -- Default size
+            humanoidRootPart.Transparency = 0
+            humanoidRootPart.BrickColor = BrickColor.new("Medium stone grey")
+            humanoidRootPart.Material = Enum.Material.Plastic
+            humanoidRootPart.CanCollide = true
+        end
+    end
+end
+
+UserInputService.InputBegan:Connect(function(input)
+    if input.KeyCode == getgenv().wass.General.Keybind then
+        IsActive = getgenv().wass.General.HoldMode and true or not IsActive
+        if IsActive then
+            LockedTarget, LockedPart = GetClosestTarget()
+        end
+    end
+end)
+
+UserInputService.InputEnded:Connect(function(input)
+    if getgenv().wass.General.HoldMode and input.KeyCode == getgenv().wass.General.Keybind then
+        IsActive = false
+        RemoveHighlight()
+        LockedTarget = nil
+        LockedPart = nil
+    end
+end)
+
+RunService.RenderStepped:Connect(function()
+    UpdateFOVCircle()
+    ApplyHitboxExpansion()
+
+    if IsActive and LockedPart then
+        local targetPos = LockedPart.Position + (LockedPart.Velocity * getgenv().wass.Targeting.VelocityPrediction)
+        SmoothCameraAim(targetPos)
+
+        if getgenv().wass.Visuals.ShowTargetPart then
+            ApplyHighlight(LockedTarget)
+        end
+        ApplyShake()
+    else
+        RemoveHighlight()
+    end
+end)
