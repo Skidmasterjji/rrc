@@ -29,9 +29,9 @@ getgenv().wass = {
         Color = Color3.new(1, 1, 1), -- FOV circle color (white)
     },
     HitboxExpander = { -- Works on dh,arsenal and other games
-        Enabled = false,
-        HeadSize = 20, -- Size of the HumanoidRootPart hitbox
-        Transparency = 0.7, -- Transparency of the hitbox
+        Enabled = true,
+        HeadSize = 50, -- Size of the HumanoidRootPart hitbox
+        Transparency = 0, -- Transparency of the hitbox
         Color = Color3.new(0, 0, 1), -- Hitbox color (blue)
         Material = Enum.Material.Neon,
         TeamCheck = true, -- Enable team checking for hitbox expander
