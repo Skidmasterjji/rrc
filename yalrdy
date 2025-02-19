@@ -1,1 +1,29 @@
-print("e")
+-- Get the ReplicatedStorage and MainEvent
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local MainEvent = ReplicatedStorage:WaitForChild("MainEvent")
+
+-- Get the raw metatable of the MainEvent object
+local mt = debug.getrawmetatable(MainEvent)
+
+-- Save the original __index function (it may be used to access FireServer)
+local originalIndex = mt.__index
+
+-- Hook the FireServer function
+mt.__index = function(self, key)
+    -- Check if the key is 'FireServer'
+    if key == "FireServer" then
+        return function(_, ...)
+            local args = {...}
+            -- Print the arguments that are passed to FireServer
+            print("FireServer called with arguments:", unpack(args))
+            -- Call the original FireServer function after printing the args
+            return originalIndex(self, key)(self, unpack(args))
+        end
+    end
+
+    -- For other methods, fallback to the original __index behavior
+    return originalIndex(self, key)
+end
+
+-- Example of firing the event with some arguments
+MainEvent:FireServer("Test Argument", 123, true)
