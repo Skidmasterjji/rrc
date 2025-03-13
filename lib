@@ -1,3 +1,4 @@
+
 -- vars
 
 local lib = {}
@@ -156,8 +157,9 @@ function lib:init(ti, dosplash, visiblekey, deleteprevious)
     workarea.Name = "workarea"
     workarea.Parent = main
     workarea.BackgroundColor3 = Color3.fromRGB(89, 89, 89)
+    workarea.BackgroundTransparency = 0.3
     workarea.Position = UDim2.new(0.36403501, 0, 0, 0)
-    workarea.Size = UDim2.new(0, 550, 0, 700)
+    workarea.Size = UDim2.new(0, 550, 0, 800)
 
 
 
