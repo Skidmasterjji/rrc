@@ -107,7 +107,7 @@ function lib:init(ti, dosplash, visiblekey, deleteprevious)
     main.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
     main.BackgroundTransparency = 0.150
     main.Position = UDim2.new(0.5, 0, 2, 0)
-    main.Size = UDim2.new(0, 721, 0, 584)
+    main.Size = UDim2.new(0, 1200, 0, 700)
 
     local uc = Instance.new("UICorner")
     uc.CornerRadius = UDim.new(0, 18)
