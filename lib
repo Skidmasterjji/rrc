@@ -104,8 +104,8 @@ function lib:init(ti, dosplash, visiblekey, deleteprevious)
     main.Name = "main"
     main.Parent = scrgui
     main.AnchorPoint = Vector2.new(0.5, 0.5)
-    main.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-    main.BackgroundTransparency = 0.150
+    main.BackgroundColor3 = Color3.fromRGB(122, 0, 0)
+    main.BackgroundTransparency = 0.6
     main.Position = UDim2.new(0.5, 0, 2, 0)
     main.Size = UDim2.new(0, 1000, 0, 800)
 
@@ -298,9 +298,7 @@ function lib:init(ti, dosplash, visiblekey, deleteprevious)
     minimize.TextSize = 14
 
 
-    local uc_19 = Instance.new("UICorner")
-    uc_19.CornerRadius = UDim.new(1, 0)
-    uc_19.Parent = minimize
+
 
 
     local resize = Instance.new("TextButton")
@@ -754,7 +752,7 @@ function lib:init(ti, dosplash, visiblekey, deleteprevious)
         workareamain.BackgroundTransparency = 1
         workareamain.BorderSizePixel = 0
         workareamain.Position = UDim2.new(0.0393013097, 0, 0.0958904102, 0)
-        workareamain.Size = UDim2.new(0, 422, 0, 512)
+        workareamain.Size = UDim2.new(0, 422, 0, 750)
         workareamain.ZIndex = 3
         workareamain.CanvasSize = UDim2.new(0, 0, 0, 0)
         workareamain.ScrollBarThickness = 2
