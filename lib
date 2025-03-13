@@ -105,7 +105,7 @@ function lib:init(ti, dosplash, visiblekey, deleteprevious)
     main.Parent = scrgui
     main.AnchorPoint = Vector2.new(0.5, 0.5)
     main.BackgroundColor3 = Color3.fromRGB(122, 0, 0)
-    main.BackgroundTransparency = 0.6
+    main.BackgroundTransparency = 0.1
     main.Position = UDim2.new(0.5, 0, 2, 0)
     main.Size = UDim2.new(0, 1000, 0, 800)
 
@@ -164,7 +164,7 @@ function lib:init(ti, dosplash, visiblekey, deleteprevious)
     local workareacornerhider = Instance.new("Frame")
     workareacornerhider.Name = "workareacornerhider"
     workareacornerhider.Parent = workarea
-    workareacornerhider.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    workareacornerhider.BackgroundColor3 = Color3.fromRGB(89, 89, 89)
     workareacornerhider.BorderSizePixel = 0
     workareacornerhider.Size = UDim2.new(0, 18, 0.99895674, 0)
 
@@ -200,7 +200,7 @@ function lib:init(ti, dosplash, visiblekey, deleteprevious)
     searchtextbox.ClipsDescendants = true
     searchtextbox.Position = UDim2.new(0.180257514, 0, -0.0162218884, 0)
     searchtextbox.Size = UDim2.new(0, 176, 0, 34)
-    searchtextbox.Font = Enum.Font.Gotham
+    searchtextbox.Font = Enum.Font.SciFi
     searchtextbox.LineHeight = 0.870
     searchtextbox.PlaceholderText = "Search"
     searchtextbox.Text = ""
@@ -327,7 +327,7 @@ function lib:init(ti, dosplash, visiblekey, deleteprevious)
     title.BorderSizePixel = 2
     title.Position = UDim2.new(0.389000326, 0, 0.0351027399, 0)
     title.Size = UDim2.new(0, 400, 0, 15)
-    title.Font = Enum.Font.Gotham
+    title.Font = Enum.Font.SciFi
     title.LineHeight = 1.180
     title.TextColor3 = Color3.fromRGB(0, 0, 0)
     title.TextSize = 28
@@ -367,7 +367,7 @@ function lib:init(ti, dosplash, visiblekey, deleteprevious)
     notifbutton1.Position = UDim2.new(0.0559210554, 0, 0.817679524, 0)
     notifbutton1.Size = UDim2.new(0, 270, 0, 50)
     notifbutton1.ZIndex = 3
-    notifbutton1.Font = Enum.Font.Gotham
+    notifbutton1.Font = Enum.Font.SciFi
     notifbutton1.Text = "OK"
     notifbutton1.TextColor3 = Color3.fromRGB(255, 255, 255)
     notifbutton1.TextSize = 21
@@ -408,7 +408,7 @@ function lib:init(ti, dosplash, visiblekey, deleteprevious)
     notiftitle.Position = UDim2.new(0.167763159, 0, 0.375690609, 0)
     notiftitle.Size = UDim2.new(0, 200, 0, 50)
     notiftitle.ZIndex = 3
-    notiftitle.Font = Enum.Font.GothamMedium
+    notiftitle.Font = Enum.Font.SciFi
     notiftitle.Text = "Notice"
     notiftitle.TextColor3 = Color3.fromRGB(95, 95, 95)
     notiftitle.TextSize = 28
@@ -421,7 +421,7 @@ function lib:init(ti, dosplash, visiblekey, deleteprevious)
     notiftext.Position = UDim2.new(0.0822368413, 0, 0.513812184, 0)
     notiftext.Size = UDim2.new(0, 254, 0, 66)
     notiftext.ZIndex = 3
-    notiftext.Font = Enum.Font.Gotham
+    notiftext.Font = Enum.Font.SciFi
     notiftext.Text = "We would like to contact you regarding your car's extended warranty."
     notiftext.TextColor3 = Color3.fromRGB(95, 95, 95)
     notiftext.TextSize = 16
@@ -462,7 +462,7 @@ function lib:init(ti, dosplash, visiblekey, deleteprevious)
     notif2title.Position = UDim2.new(0.167763159, 0, 0.375690609, 0)
     notif2title.Size = UDim2.new(0, 200, 0, 50)
     notif2title.ZIndex = 3
-    notif2title.Font = Enum.Font.GothamMedium
+    notif2title.Font = Enum.Font.SciFi
     notif2title.Text = "Notice"
     notif2title.TextColor3 = Color3.fromRGB(95, 95, 95)
     notif2title.TextSize = 28
@@ -476,7 +476,7 @@ function lib:init(ti, dosplash, visiblekey, deleteprevious)
     notif2text.Position = UDim2.new(0.0822368413, 0, 0.513812184, 0)
     notif2text.Size = UDim2.new(0, 254, 0, 66)
     notif2text.ZIndex = 3
-    notif2text.Font = Enum.Font.Gotham
+    notif2text.Font = Enum.Font.SciFi
     notif2text.Text = "We would like to contact you regarding your car's extended warranty."
     notif2text.TextColor3 = Color3.fromRGB(95, 95, 95)
     notif2text.TextSize = 16
@@ -490,7 +490,7 @@ function lib:init(ti, dosplash, visiblekey, deleteprevious)
     notif2button1.Position = UDim2.new(0.0559210517, 0, 0.715469658, 0)
     notif2button1.Size = UDim2.new(0, 270, 0, 40)
     notif2button1.ZIndex = 3
-    notif2button1.Font = Enum.Font.Gotham
+    notif2button1.Font = Enum.Font.SciFi
     notif2button1.Text = "Sure!"
     notif2button1.TextColor3 = Color3.fromRGB(255, 255, 255)
     notif2button1.TextSize = 21
@@ -535,7 +535,7 @@ function lib:init(ti, dosplash, visiblekey, deleteprevious)
     notif2button2.Position = UDim2.new(0.0526315793, 0, 0.842541456, 0)
     notif2button2.Size = UDim2.new(0, 270, 0, 40)
     notif2button2.ZIndex = 3
-    notif2button2.Font = Enum.Font.Gotham
+    notif2button2.Font = Enum.Font.SciFi
     notif2button2.Text = "Go away."
     notif2button2.TextColor3 = Color3.fromRGB(95, 95, 95)
     notif2button2.TextSize = 21
@@ -615,7 +615,7 @@ function lib:init(ti, dosplash, visiblekey, deleteprevious)
         t2.Position = UDim2.new(0.236927822, 0, 0.470085472, 0)
         t2.Size = UDim2.new(0, 326, 0, 52)
         t2.ZIndex = 4
-        t2.Font = Enum.Font.Gotham
+        t2.Font = Enum.Font.SciFi
         t2.Text = text2
         t2.TextColor3 = Color3.fromRGB(1, 1, 1)
         t2.TextSize = 16
@@ -632,7 +632,7 @@ function lib:init(ti, dosplash, visiblekey, deleteprevious)
         t1.Position = UDim2.new(0.234690696, 0, 0.193464488, 0)
         t1.Size = UDim2.new(0, 327, 0, 25)
         t1.ZIndex = 4
-        t1.Font = Enum.Font.GothamMedium
+        t1.Font = Enum.Font.SciFi
         t1.Text = text1
         t1.TextColor3 = Color3.fromRGB(1, 1, 1)
         t1.TextSize = 28
@@ -716,7 +716,7 @@ function lib:init(ti, dosplash, visiblekey, deleteprevious)
         sidebardivider.BorderSizePixel = 2
         sidebardivider.Position = UDim2.new(0, 0, 0.00215982716, 0)
         sidebardivider.Size = UDim2.new(0, 226, 0, 26)
-        sidebardivider.Font = Enum.Font.Gotham
+        sidebardivider.Font = Enum.Font.SciFi
         sidebardivider.Text = name
         sidebardivider.TextColor3 = Color3.fromRGB(1, 1, 1)
         sidebardivider.TextSize = 21
@@ -734,7 +734,7 @@ function lib:init(ti, dosplash, visiblekey, deleteprevious)
         sidebar2.Size = UDim2.new(0, 226, 0, 37)
         sidebar2.ZIndex = 2
         sidebar2.AutoButtonColor = false
-        sidebar2.Font = Enum.Font.Gotham
+        sidebar2.Font = Enum.Font.SciFi
         sidebar2.Text = name
         sidebar2.TextColor3 = Color3.fromRGB(0, 0, 0)
         sidebar2.TextSize = 21
@@ -787,7 +787,7 @@ function lib:init(ti, dosplash, visiblekey, deleteprevious)
             section.BackgroundTransparency = 1
             section.BorderSizePixel = 2
             section.Size = UDim2.new(0, 418, 0, 50)
-            section.Font = Enum.Font.Gotham
+            section.Font = Enum.Font.SciFi
             section.LineHeight = 1.180
             section.Text = name
             section.TextColor3 = Color3.fromRGB(0, 0, 0)
@@ -805,7 +805,7 @@ function lib:init(ti, dosplash, visiblekey, deleteprevious)
             button.BackgroundTransparency = 1
             button.Size = UDim2.new(0, 418, 0, 37)
             button.ZIndex = 2
-            button.Font = Enum.Font.Gotham
+            button.Font = Enum.Font.SciFi
             button.TextColor3 = Color3.fromRGB(153, 0, 0)
             button.TextSize = 21
 
@@ -839,7 +839,7 @@ function lib:init(ti, dosplash, visiblekey, deleteprevious)
             label.BackgroundTransparency = 1
             label.BorderSizePixel = 2
             label.Size = UDim2.new(0, 418, 0, 37)
-            label.Font = Enum.Font.Gotham
+            label.Font = Enum.Font.SciFi
             label.TextColor3 = Color3.fromRGB(1, 1, 1)
             label.TextSize = 21
             label.TextWrapped = true
@@ -855,7 +855,7 @@ function lib:init(ti, dosplash, visiblekey, deleteprevious)
             toggleswitch.BackgroundTransparency = 1
             toggleswitch.BorderSizePixel = 2
             toggleswitch.Size = UDim2.new(0, 418, 0, 37)
-            toggleswitch.Font = Enum.Font.Gotham
+            toggleswitch.Font = Enum.Font.SciFi
             toggleswitch.Text = name
             toggleswitch.TextColor3 = Color3.fromRGB(1, 1, 1)
             toggleswitch.TextSize = 21
@@ -932,7 +932,7 @@ function lib:init(ti, dosplash, visiblekey, deleteprevious)
             textfield.BackgroundTransparency = 1
             textfield.BorderSizePixel = 2
             textfield.Size = UDim2.new(0, 418, 0, 37)
-            textfield.Font = Enum.Font.Gotham
+            textfield.Font = Enum.Font.SciFi
             textfield.Text = name
             textfield.TextColor3 = Color3.fromRGB(1, 1, 1)
             textfield.TextSize = 21
@@ -959,7 +959,7 @@ function lib:init(ti, dosplash, visiblekey, deleteprevious)
             TextBox.Position = UDim2.new(0.0643776804, 0, 0, -2)
             TextBox.Size = UDim2.new(0, 203, 0, 34)
             TextBox.ClearTextOnFocus = false
-            TextBox.Font = Enum.Font.Gotham
+            TextBox.Font = Enum.Font.SciFi
             TextBox.LineHeight = 0.870
             TextBox.PlaceholderColor3 = Color3.fromRGB(113, 113, 113)
             TextBox.PlaceholderText = placeholder or "Type..."
