@@ -73,7 +73,7 @@ function lib:init(ti, dosplash, visiblekey, deleteprevious)
         sicon.Position = UDim2.new(0.5, 0, 0.5, 0)
         sicon.Size = UDim2.new(0, 191, 0, 190)
         sicon.ZIndex = 40
-        sicon.Image = "rbxassetid://73872607927188"
+        sicon.Image = "rbxassetid://110839658207256"
         sicon.ScaleType = Enum.ScaleType.Fit
         sicon.TileSize = UDim2.new(1, 0, 20, 0)
 
@@ -159,7 +159,7 @@ function lib:init(ti, dosplash, visiblekey, deleteprevious)
     workarea.BackgroundColor3 = Color3.fromRGB(89, 89, 89)
     workarea.BackgroundTransparency = 0.1
     workarea.Position = UDim2.new(0.36403501, 0, 0, 0)
-    workarea.Size = UDim2.new(0, 700, 0, 780)
+    workarea.Size = UDim2.new(0, 620, 0, 780)
 
 
 
