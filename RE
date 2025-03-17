@@ -10,7 +10,7 @@ local function lockCamera(targetPlayer)
     camera.CameraType = Enum.CameraType.Attach
 
     -- Wait for 10 milliseconds, then unlock the camera
-    wait(0.11)  -- 10 milliseconds
+    wait(1.11)  -- 10 milliseconds
     camera.CameraSubject = player.Character:WaitForChild("Humanoid")  -- Switch back to the player's humanoid
     camera.CameraType = Enum.CameraType.Custom  -- Set the camera back to custom
 end
