@@ -9,8 +9,8 @@ local function resetCharacter(Character)
     if not Character then return end
     local HRP = Character:FindFirstChild("HumanoidRootPart")
     if HRP then
-        HRP.Size = Vector3.new(10, 5, 1) -- Reset to default size
-        HRP.Transparency = 0.4
+        HRP.Size = Vector3.new(12, 5, 1) -- Reset to default size
+        HRP.Transparency = 1
         HRP.CanCollide = true
     end
 end
