@@ -1,4 +1,4 @@
-local size = 1000
+local size = 1
 local hitboxExpanderEnabled = false
 local Client = game.Players.LocalPlayer
 local RunService = game:GetService("RunService")
