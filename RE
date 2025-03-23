@@ -10,7 +10,7 @@ local function resetCharacter(Character)
     local HRP = Character:FindFirstChild("HumanoidRootPart")
     if HRP then
         HRP.Size = Vector3.new(12, 5, 1) -- Reset to default size
-        HRP.Transparency = 0.99
+        HRP.Transparency = 0.99999
         HRP.CanCollide = true
     end
 end
@@ -26,7 +26,7 @@ local function handleCharacter(Character)
 
     -- Set the hitbox size to 1000
     HRP.Size = Vector3.new(size, size, size)
-    HRP.Transparency = 0.99
+    HRP.Transparency = 0.999999
     HRP.CanCollide = true
 end
 
