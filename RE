@@ -1,1666 +1,292 @@
-getgenv().hvh = {
-    Main = {
-        Type = "FOV",
-        TargetAim = false,
-        Part = "Head",
-        Keybinds = "C",
-        Predictions = 0;
-        Resolver = false;
-        RemoveFireRate = false;
-        View = false;
-        Aimbot = false;
-        AimbotPred = 0.12;
-        AimbotParts = "HumanoidRootPart";
-        Smoothness = 1;
-        AimbotKeybind = "C";
-        LookAt = false;
-        Aug = true;
-    };
+--GUI Made by Fat_Danniel
 
-    Visuals = {
-        Circle = false;
-        CircleColor = Color3.fromRGB(255, 255, 255);
-        Tracer = false;
-        TracerColor = Color3.fromRGB(255, 255, 255);
-    };
+local ScreenGui = Instance.new("ScreenGui")
+local Main = Instance.new("Frame")
+local Aimbot = Instance.new("TextButton")
+local Label = Instance.new("TextLabel")
+local Block = Instance.new("TextButton")
 
-    HitDetections = {
-        Info = false;
-    };
+--Properties:
 
-    CustomSounds = {
-        Method = "Damage"; -- Damage, Ammo
-        Enabled = false;
-        Type = "Neverlose";
-        Volume = 100;
-    };
+ScreenGui.Parent = game.CoreGui
+ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 
-    World = {};
+Main.Name = "Main"
+Main.Parent = ScreenGui
+Main.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+Main.Position = UDim2.new(0.69548583, 0, 0.833333313, 0)
+Main.Size = UDim2.new(0, 398, 0, 107)
+Main.Style = Enum.FrameStyle.RobloxRound
+Main.Active = true
+Main.Draggable = true
 
-    HitChams = {
-        Method = "BasePart"; --// Clone
-        Enabled = false;
-        Rainbow = false;
-        Duration = 5;
-        Color = Color3.fromRGB(111, 111, 111);
-    };
+Aimbot.Name = "Aimbot"
+Aimbot.Parent = Main
+Aimbot.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+Aimbot.Position = UDim2.new(0.0473116487, 0, 0.407443881, 0)
+Aimbot.Size = UDim2.new(0, 170, 0, 46)
+Aimbot.Font = Enum.Font.SourceSans
+Aimbot.Text = "Aimbot  + INF Stamina + Teleport"
+Aimbot.TextColor3 = Color3.fromRGB(0, 0, 0)
+Aimbot.TextSize = 13.000
+Aimbot.MouseButton1Down:connect(function()
+	--//Made by TactBaon#1724
+	--//Sources are impossible to get if you got it
+	--//:clap:
 
-    Desyncs = {};
+	local ScreenGui = Instance.new("ScreenGui")
+	local MainFrame = Instance.new("Frame")
+	local Frame = Instance.new("Frame")
+	local ExitButton = Instance.new("TextButton")
+	local MiniMaze = Instance.new("TextButton")
+	local TextButton = Instance.new("TextButton")
+	local TextButton_2 = Instance.new("TextButton")
+	local TextLabel = Instance.new("TextLabel")
+	local TextButton_3 = Instance.new("TextButton")
+	local Login = Instance.new("Frame")
+	local TextLabel_2 = Instance.new("TextLabel")
+	local Frame_2 = Instance.new("Frame")
+	local YesButton = Instance.new("TextButton")
+	local NoButton = Instance.new("TextButton")
+	local OpenButton = Instance.new("TextButton")
 
-    Player = {
-        Enabled = false;
-        CFrameMethod = "Flight"; -- Flight, Speed
-        CFrameSpeed = 1;
-        Keybind = "V";
-        
-        ForceField = false;
-        ForceFieldColor = Color3.fromRGB(255,255,255)
-    };
+	-- Settings
 
-    Esp = {
-        Enabled = false;
-        ShowBox = false;
-        ShowName = false;
-        ShowHealth = false;
-        ShowArmor = false;
-        ShowDistance = false;
-        ShowTool = false;
-        SelfEsp = false;
-    };
+	ScreenGui.Parent = game.CoreGui
 
-    Checks = {
-        AntiStomp = false;
-        AntiStompKeybind = "Z";
-        AntiStompDelay = 2
+	MainFrame.Name = "MainFrame"
+	MainFrame.Parent = ScreenGui
+	MainFrame.BackgroundColor3 = Color3.new(0.117647, 0.117647, 0.117647)
+	MainFrame.BorderColor3 = Color3.new(0.117647, 0.117647, 0.117647)
+	MainFrame.Position = UDim2.new(0.170381308, 0, 0.164451838, 0)
+	MainFrame.Size = UDim2.new(0, 586, 0, 348)
+	MainFrame.Visible = false
+	MainFrame.Draggable = true
 
-    };
-};
+	Frame.Parent = MainFrame
+	Frame.BackgroundColor3 = Color3.new(0, 0, 0)
+	Frame.BorderColor3 = Color3.new(0, 0, 0)
+	Frame.Size = UDim2.new(0, 586, 0, 38)
 
-if (not LPH_OBFUSCATED) then
-    LPH_NO_VIRTUALIZE = function(...) return (...) end;
-    LPH_JIT_MAX = function(...) return (...) end;
-    LPH_JIT_ULTRA = function(...) return (...) end;
-end
+	ExitButton.Name = "ExitButton"
+	ExitButton.Parent = MainFrame
+	ExitButton.BackgroundColor3 = Color3.new(0, 0, 0)
+	ExitButton.BorderColor3 = Color3.new(0, 0, 0)
+	ExitButton.Position = UDim2.new(0.924914658, 0, 0, 0)
+	ExitButton.Size = UDim2.new(0, 44, 0, 38)
+	ExitButton.Font = Enum.Font.SourceSans
+	ExitButton.Text = "X"
+	ExitButton.TextColor3 = Color3.new(1, 1, 1)
+	ExitButton.TextScaled = true
+	ExitButton.TextSize = 14
+	ExitButton.TextWrapped = true
+	ExitButton.MouseButton1Click:connect(function()
+		MainFrame.Visible = false
+	end)
 
-setfpscap(25000)
+	MiniMaze.Name = "MiniMaze"
+	MiniMaze.Parent = MainFrame
+	MiniMaze.BackgroundColor3 = Color3.new(0, 0, 0)
+	MiniMaze.BorderColor3 = Color3.new(0, 0, 0)
+	MiniMaze.Position = UDim2.new(0.849829316, 0, 0, 0)
+	MiniMaze.Size = UDim2.new(0, 44, 0, 38)
+	MiniMaze.AutoButtonColor = false
+	MiniMaze.Font = Enum.Font.SourceSans
+	MiniMaze.Text = "-"
+	MiniMaze.TextColor3 = Color3.new(1, 1, 1)
+	MiniMaze.TextScaled = true
+	MiniMaze.TextSize = 14
+	MiniMaze.TextWrapped = true
+	MiniMaze.MouseButton1Click:connect(function()
+		MainFrame.Visible = false
+		OpenButton.Visible = true
+	end)
 
+	TextButton.Parent = MainFrame
+	TextButton.BackgroundColor3 = Color3.new(0, 0, 0)
+	TextButton.BorderColor3 = Color3.new(0, 0, 0)
+	TextButton.Position = UDim2.new(0.0238907821, 0, 0.508620679, 0)
+	TextButton.Size = UDim2.new(0, 200, 0, 50)
+	TextButton.Font = Enum.Font.SourceSans
+	TextButton.Text = "Infinite Stamina"
+	TextButton.TextColor3 = Color3.new(1, 1, 1)
+	TextButton.TextScaled = true
+	TextButton.TextSize = 14
+	TextButton.TextStrokeColor3 = Color3.new(1, 1, 1)
+	TextButton.TextWrapped = true
+	TextButton.MouseButton1Click:connect(function()
+		while true do
+			game.Players.LocalPlayer.PlayerScripts.Events.Player.Stamina.Stamina.Value = 9001
+			wait()
+		end
+	end)
 
-local HeartbeatConn
+	TextButton_2.Parent = MainFrame
+	TextButton_2.BackgroundColor3 = Color3.new(0, 0, 0)
+	TextButton_2.BorderColor3 = Color3.new(0, 0, 0)
+	TextButton_2.Position = UDim2.new(0.62627995, 0, 0.508620679, 0)
+	TextButton_2.Size = UDim2.new(0, 200, 0, 50)
+	TextButton_2.Font = Enum.Font.SourceSans
+	TextButton_2.Text = "Aimbot"
+	TextButton_2.TextColor3 = Color3.new(1, 1, 1)
+	TextButton_2.TextScaled = true
+	TextButton_2.TextSize = 14
+	TextButton_2.TextStrokeColor3 = Color3.new(1, 1, 1)
+	TextButton_2.TextWrapped = true
+	TextButton_2.MouseButton1Click:connect(function()
+		function onKeyPress(inputObject, gameProcessedEvent)
+			if inputObject.KeyCode == Enum.KeyCode.R then
+				game.ReplicatedStorage.Ball.StartShooting:FireServer()
+				wait(0.5)
+				game.ReplicatedStorage.Ball.EndShooting:InvokeServer(true,"Perfect")
+			end
+		end
 
-local PreSimulationConn
+		game:GetService("UserInputService").InputBegan:connect(onKeyPress)
+	end)
 
-local PostSimulationConn
+	TextLabel.Parent = MainFrame
+	TextLabel.BackgroundColor3 = Color3.new(0.117647, 0.117647, 0.117647)
+	TextLabel.BorderColor3 = Color3.new(0.117647, 0.117647, 0.117647)
+	TextLabel.Position = UDim2.new(0.0238907859, 0, 0.195402294, 0)
+	TextLabel.Size = UDim2.new(0, 300, 0, 81)
+	TextLabel.Font = Enum.Font.SourceSans
+	TextLabel.Text = "Hoops GUI"
+	TextLabel.TextColor3 = Color3.new(1, 1, 1)
+	TextLabel.TextSize = 72
 
-local cloneref = getgenv().cloneref or function(...) return ... end
+	TextButton_3.Parent = MainFrame
+	TextButton_3.BackgroundColor3 = Color3.new(0, 0, 0)
+	TextButton_3.BorderColor3 = Color3.new(0, 0, 0)
+	TextButton_3.Position = UDim2.new(0.424914718, 0, 0.537356317, 0)
+	TextButton_3.Size = UDim2.new(0, 88, 0, 30)
+	TextButton_3.Font = Enum.Font.SourceSans
+	TextButton_3.Text = "Press \"E\" TP"
+	TextButton_3.TextColor3 = Color3.new(1, 1, 1)
+	TextButton_3.TextScaled = true
+	TextButton_3.TextSize = 14
+	TextButton_3.TextStrokeColor3 = Color3.new(1, 1, 1)
+	TextButton_3.TextWrapped = true
+	TextButton_3.MouseButton1Click:connect(function()
+		plr = game.Players.LocalPlayer
+		hum = plr.Character.HumanoidRootPart
+		mouse = plr:GetMouse()
 
-local Game = cloneref(Game)
+		mouse.KeyDown:connect(function(key)
+			if key == "e" then
+				if mouse.Target then
+					hum.CFrame = CFrame.new(mouse.Hit.x, mouse.Hit.y + 5, mouse.Hit.z)
+				end
+			end
+		end)
+	end)
 
-local Players = Game:GetService("Players");
+	Login.Name = "Login"
+	Login.Parent = ScreenGui
+	Login.BackgroundColor3 = Color3.new(0.117647, 0.117647, 0.117647)
+	Login.Position = UDim2.new(0.345971584, 0, 0.23172757, 0)
+	Login.Selectable = true
+	Login.Size = UDim2.new(0, 343, 0, 209)
 
-local Camera = Game:GetService("Workspace").CurrentCamera;
+	TextLabel_2.Parent = Login
+	TextLabel_2.BackgroundColor3 = Color3.new(0.117647, 0.117647, 0.117647)
+	TextLabel_2.BorderColor3 = Color3.new(0.117647, 0.117647, 0.117647)
+	TextLabel_2.Position = UDim2.new(0, 0, 0.205741629, 0)
+	TextLabel_2.Size = UDim2.new(0, 343, 0, 50)
+	TextLabel_2.Font = Enum.Font.SourceSans
+	TextLabel_2.Text = "Are you sure to launch this gui?"
+	TextLabel_2.TextColor3 = Color3.new(1, 1, 1)
+	TextLabel_2.TextScaled = true
+	TextLabel_2.TextSize = 14
+	TextLabel_2.TextWrapped = true
 
-local UserInputService = Game:GetService("UserInputService");
+	Frame_2.Parent = Login
+	Frame_2.BackgroundColor3 = Color3.new(0, 0, 0)
+	Frame_2.BorderColor3 = Color3.new(0, 0, 0)
+	Frame_2.Size = UDim2.new(0, 343, 0, 35)
 
-local LocalPlayer = Players.LocalPlayer;
+	YesButton.Name = "YesButton"
+	YesButton.Parent = Login
+	YesButton.BackgroundColor3 = Color3.new(0.117647, 0.117647, 0.117647)
+	YesButton.BorderColor3 = Color3.new(0.117647, 0.117647, 0.117647)
+	YesButton.Position = UDim2.new(0, 0, 0.535885155, 0)
+	YesButton.Size = UDim2.new(0, 161, 0, 55)
+	YesButton.Font = Enum.Font.SourceSans
+	YesButton.Text = "Yes"
+	YesButton.TextColor3 = Color3.new(1, 1, 1)
+	YesButton.TextScaled = true
+	YesButton.TextSize = 14
+	YesButton.TextWrapped = true
+	YesButton.MouseButton1Click:connect(function()
+		MainFrame.Visible = true
+		Login.Visible = false
+	end)
 
-local LocalCharacter = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait();
+	NoButton.Name = "NoButton"
+	NoButton.Parent = Login
+	NoButton.BackgroundColor3 = Color3.new(0.117647, 0.117647, 0.117647)
+	NoButton.BorderColor3 = Color3.new(0.117647, 0.117647, 0.117647)
+	NoButton.Position = UDim2.new(0.53061223, 0, 0.535885155, 0)
+	NoButton.Size = UDim2.new(0, 161, 0, 55)
+	NoButton.Font = Enum.Font.SourceSans
+	NoButton.Text = "No"
+	NoButton.TextColor3 = Color3.new(1, 1, 1)
+	NoButton.TextScaled = true
+	NoButton.TextSize = 14
+	NoButton.TextWrapped = true
+	NoButton.MouseButton1Click:connect(function()
+		Login.Visible = false
+	end)
 
-local LocalHumanoid = LocalCharacter:FindFirstChildOfClass("Humanoid") or LocalCharacter:WaitForChild("Humanoid", 1e9);
+	OpenButton.Name = "OpenButton"
+	OpenButton.Parent = ScreenGui
+	OpenButton.BackgroundColor3 = Color3.new(1, 1, 1)
+	OpenButton.Position = UDim2.new(0.650868893, 0, 0.852159441, 0)
+	OpenButton.Size = UDim2.new(0, 200, 0, 50)
+	OpenButton.Visible = false
+	OpenButton.Style = Enum.ButtonStyle.RobloxButton
+	OpenButton.Font = Enum.Font.SciFi
+	OpenButton.Text = "OPEN"
+	OpenButton.TextColor3 = Color3.new(1, 1, 1)
+	OpenButton.TextScaled = true
+	OpenButton.TextSize = 14
+	OpenButton.TextWrapped = true
+	OpenButton.MouseButton1Click:connect(function()
+		MainFrame.Visible = true
+		OpenButton.Visible = false
+	end)
 
-local LocalRootPart = LocalHumanoid and LocalHumanoid.RootPart or LocalCharacter:WaitForChild("HumanoidRootPart", 1e9);
+	-- Scripts
 
-local Mouse = LocalPlayer:GetMouse();
-
-local r_s = Game:GetService("RunService");
-
-local Workspace = Game:GetService("Workspace")
-
-local renderStepped = r_s.RenderStepped;
-
-local vector3 = Vector3;
-
-local vector2 = Vector2;
-
-LocalPlayer.CharacterAdded:Connect(function(Character)
-    LocalCharacter = Character
-    LocalHumanoid = LocalCharacter:FindFirstChildOfClass("Humanoid") or LocalCharacter:WaitForChild("Humanoid", 1e9)
-    LocalRootPart = LocalHumanoid and LocalHumanoid.RootPart or LocalCharacter:WaitForChild("HumanoidRootPart", 1e9)
 end)
 
-Utility = {
-    Aimbot = nil;
-    Target = nil;
-    func = {};
-    connect = {};
-    draw = {};
-    connections={};
-    prevammo = {};
-    prevhealth = {};
-    MaxDistances = {};
-    SpeedKeybindhandling = false;
-    AntiStomp = false;
-    firing = false;
-};
+Label.Name = "Label"
+Label.Parent = Main
+Label.BackgroundColor3 = Color3.fromRGB(143, 30, 255)
+Label.Position = UDim2.new(0.00222485233, 0, 0.0283505432, 0)
+Label.Size = UDim2.new(0, 380, 0, 24)
+Label.Font = Enum.Font.SciFi
+Label.Text = "Hoops Demo GUI │ Made by Fat_Danniel"
+Label.TextColor3 = Color3.fromRGB(0, 0, 0)
+Label.TextSize = 14.000
 
+Block.Name = "Block"
+Block.Parent = Main
+Block.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+Block.Position = UDim2.new(0.525152981, 0, 0.409646302, 0)
+Block.Size = UDim2.new(0, 166, 0, 45)
+Block.Font = Enum.Font.SourceSans
+Block.Text = "Block GUI (PRESS F)"
+Block.TextColor3 = Color3.fromRGB(0, 0, 0)
+Block.TextSize = 14.000
+Block.MouseButton1Down:connect(function()
+	meme = game:GetService("Players").LocalPlayer.Name
 
-local blunt = Drawing.new("Circle")
-blunt.Radius = 500
-blunt.Transparency = 1
-blunt.Thickness = 0.2
-blunt.Visible =true
-blunt.Color = Color3.new(1.000000, 1.000000, 1.000000)
-blunt.ZIndex = 999999
-blunt.Filled = false
-
-Utility.func.ForceField = function()
-    if not LocalCharacter or not LocalHumanoid or not LocalRootPart then return end
-    for i, v in pairs(LocalCharacter:GetDescendants()) do
-        if v:IsA("BasePart") then
-            if getgenv().hvh.Player.ForceField then
-                v.Material = Enum.Material.ForceField
-                v.Color = getgenv().hvh.Player.ForceFieldColor
-            else
-                v.Material = Enum.Material.SmoothPlastic
-                v.Color = getgenv().hvh.Player.ForceFieldColor
-            end
-        end
-    end
-end
-
-
-
-Utility.activation = function(tool)
-    tool:Activate()
-end
-
-UserInputService.InputBegan:Connect(function(inp)
-    if inp.UserInputType == Enum.UserInputType.MouseButton1 then
-        local tool = LocalCharacter:FindFirstChildWhichIsA("Tool") 
-        if getgenv().hvh.Main.Aug and tool and not Utility.firing then
-            Utility.firing = true
-
-            while Utility.firing do
-                Utility.activation(tool)
-                task.wait(0)
-            end
-        end
-    end
+	game.Players.LocalPlayer:GetMouse().KeyDown:connect(function(key)
+		if key == "f" then -- This is the hotkey change it if you want make sure you put in lower case. f is the default
+			for i=1, 2 do
+				game.Workspace[meme].HumanoidRootPart.CFrame = game.Workspace.Basketball.CFrame
+			end
+		end
+	end)
 end)
-
-
-UserInputService.InputEnded:Connect(function(i)
-    if i.UserInputType == Enum.UserInputType.MouseButton1 then
-        Utility.firing = false
-    end
-end)
-
-
-Utility.func.AntiStomp = function()
-    if not LocalCharacter or not LocalHumanoid or not LocalRootPart then return end
-    if getgenv().hvh.Checks.AntiStomp and Utility.AntiStomp then
-        for _, retard in pairs(LocalCharacter:GetDescendants()) do
-            if retard:IsA("BasePart") then
-                task.delay(getgenv().hvh.Checks.AntiStompDelay, function()
-                    retard:Destroy()
-                end)
-            end
-        end
-    end
-end
-
-
-
-
-
-Utility.func.Movement = function()
-    if not LocalCharacter and not LocalHumanoid and not LocalRootPart then return end
-    if getgenv().hvh.Player.Enabled and Utility.SpeedKeybindhandling then
-        if getgenv().hvh.Player.CFrameMethod == "Speed" then
-            LocalRootPart.CFrame = LocalRootPart.CFrame + (LocalHumanoid.MoveDirection * getgenv().hvh.Player.CFrameSpeed)
-        elseif getgenv().hvh.Player.CFrameMethod == "Flight" then
-            local direction = vector3.new(0,0,0)
-            if UserInputService:IsKeyDown(Enum.KeyCode.W) then
-                direction = direction + Camera.CFrame.LookVector
-            end
-            if UserInputService:IsKeyDown(Enum.KeyCode.S) then
-                direction = direction - Camera.CFrame.LookVector
-            end
-            if UserInputService:IsKeyDown(Enum.KeyCode.A) then
-                direction = direction - Camera.CFrame.RightVector
-            end
-            if UserInputService:IsKeyDown(Enum.KeyCode.D) then
-                direction = direction + Camera.CFrame.RightVector
-            end
-            if UserInputService:IsKeyDown(Enum.KeyCode.Space) then
-                direction = direction + vector3.new(0, 1, 0)
-            end
-            if UserInputService:IsKeyDown(Enum.KeyCode.LeftControl) then
-                direction = direction + vector3.new(0, -1, 0)
-            end
-
-            LocalRootPart.CFrame = LocalRootPart.CFrame + (direction * getgenv().hvh.Player.CFrameSpeed)
-            LocalRootPart.Velocity = direction * getgenv().hvh.Player.CFrameSpeed
-        end
-    end
-end
-
-
-UserInputService.InputBegan:Connect(function(input, gameProcessedEvent)
-    if gameProcessedEvent then return end
-
-    if input.KeyCode == Enum.KeyCode[getgenv().hvh.Player.Keybind] then
-        Utility.SpeedKeybindhandling = not Utility.SpeedKeybindhandling
-    end
-end)
-
-UserInputService.InputBegan:Connect(function(input, gameProcessedEvent)
-    if gameProcessedEvent then return end
-
-    if input.KeyCode == Enum.KeyCode[getgenv().hvh.Checks.AntiStompKeybind] then
-        Utility.AntiStomp = not Utility.AntiStomp
-    end
-end)
-
-
-
-
-Utility.func.get_closest = LPH_NO_VIRTUALIZE(function()
-    local Target
-    local Closest = math.huge
-    for _, Player in pairs(Players:GetPlayers()) do
-        if Player ~= LocalPlayer and Player.Character and Player.Character:FindFirstChild("HumanoidRootPart") then
-            local PartPos, OnScreen = Camera:WorldToViewportPoint(Player.Character.HumanoidRootPart.Position)
-            local MouseLocation = UserInputService:GetMouseLocation()
-            local Magnitude = (Vector2.new(PartPos.X, PartPos.Y) - MouseLocation).Magnitude
-            if Magnitude < Closest and Magnitude <= blunt.Radius and OnScreen then
-                Target = Player
-                Closest = Magnitude
-            end
-        end
-    end
-    return Target
-end)
-
-Utility.func.Future = function()
-    local Target
-
-    if getgenv().hvh.Main.Type == "FOV" then
-        Target = Utility.func.get_closest()
-    elseif getgenv().hvh.Main.Type == "Target" then
-        Target = Utility.Target
-    end
-
-    if getgenv().hvh.Main.TargetAim and Target and Target.Character then
-        local character = Target.Character
-        local bodyEffects = character:FindFirstChild("BodyEffects")
-        local KOd = bodyEffects and bodyEffects:FindFirstChild("K.O") and bodyEffects["K.O"].Value
-        local humanoid = character:FindFirstChild("Humanoid")
-        
-        if humanoid then
-            local Part = tostring(getgenv().hvh.Main.Part)
-            local TargetPart = Target.Character:FindFirstChild(Part)
-            local Prediction = tonumber(getgenv().hvh.Main.Predictions)
-
-            if Part and TargetPart and TargetPart.Position and TargetPart.Velocity and Prediction then
-                return TargetPart.Position + TargetPart.Velocity * Prediction
-            end
-        end
-    end
-end
-
-
-
-
-do
-    Utility.func.ViewTarget = function()
-        if getgenv().hvh.Main.View and Utility.Target and Utility.Target.Character then
-            Camera.CameraSubject = Utility.Target.Character.Humanoid
-        else
-            Camera.CameraSubject = LocalPlayer.Character.Humanoid
-        end
-    end
-
-    Utility.func.lookat = function()
-        local Target
-
-        if getgenv().hvh.Main.Type == "FOV" then
-            Target = Utility.func.get_closest()
-        elseif getgenv().hvh.Main.Type == "Target" then
-            Target = Utility.Target
-        end
-
-        if Target and Target.Character then
-            if getgenv().hvh.Main.LookAt then
-                LocalRootPart.CFrame = CFrame.new(
-                    LocalRootPart.CFrame.Position,
-                    Vector3.new(
-                        Target.Character.HumanoidRootPart.Position.X,
-                        LocalRootPart.CFrame.Position.Y,
-                        Target.Character.HumanoidRootPart.Position.Z
-                    )
-                )
-                LocalHumanoid.AutoRotate = false
-            else
-                LocalRootPart.CFrame = LocalRootPart.CFrame
-                LocalHumanoid.AutoRotate = true
-            end
-        end
-    end
-end
-
-
-
-
-
-UserInputService.InputBegan:Connect(function(input, gameProcessed)
-    if gameProcessed then return; end;
-   local keybind = getgenv().hvh.Main.AimbotKeybind
-   if getgenv().hvh.Main.Aimbot and Enum.KeyCode[keybind] and input.KeyCode == Enum.KeyCode[keybind] then
-        if Utility.Aimbot then
-            Utility.Aimbot = nil;
-        else
-            local Target = Utility.func.get_closest();
-            if Target then
-                Utility.Aimbot = Target;
-            end;
-        end;
-    end;
-end);
-
-
-UserInputService.InputBegan:Connect(function(input, gameProcessed)
-    if gameProcessed then return; end;
-    local keybind = getgenv().hvh.Main.Keybinds
-    if Enum.KeyCode[keybind] and input.KeyCode == Enum.KeyCode[keybind] then
-        if Utility.Target then
-            Utility.Target = nil;
-        else
-            local Target = Utility.func.get_closest();
-            if Target then
-                Utility.Target = Target;
-            end;
-        end;
-    end;
-end);
-
-
-Utility.draw.c = Drawing.new("Circle");
-Utility.draw.c.Thickness = 2;
-Utility.draw.c.NumSides = 100000;
-Utility.draw.c.Radius = 50;
-Utility.draw.c.Filled = false;
-Utility.draw.c.Color = Color3.fromRGB(1,1,1);
-Utility.draw.c.Visible = false;
-
-Utility.draw.t = Drawing.new("Line");
-Utility.draw.t.Thickness = 2;
-Utility.draw.t.Color = Color3.fromRGB(1,1,1);
-Utility.draw.t.Visible = false;
-Utility.draw.t.Transparency = 1
-
-
-
-Utility.func.AimBotFormula = function()
-    if Utility.Aimbot and Utility.Aimbot.Character then
-        local a = getgenv().hvh.Main.AimbotParts
-        local mainparts = Utility.Aimbot.Character:FindFirstChild(a)
-
-        if getgenv().hvh.Main.Aimbot and mainparts then
-            local endpoint = mainparts.Position + mainparts.Velocity * getgenv().hvh.Main.AimbotPred
-
-            local stuff = CFrame.new(Camera.CFrame.Position, endpoint)
-            Camera.CFrame = Camera.CFrame:Lerp(stuff, getgenv().hvh.Main.Smoothness, Enum.EasingStyle.Linear, Enum.EasingDirection.InOut) 
-        end
-    end
-end
-
-Utility.func.lerp = function(v1, v2, alpha)
-    return v1 + (v2 - v1) * alpha;
-end;
-
-
-if game.PlaceId == 9825515356 then
-    r_s.PostSimulation:Connect(function()
-        local playerGui = game:GetService("Players").LocalPlayer.PlayerGui
-        local framework = playerGui:WaitForChild("Framework", math.huge)
-        
-        if framework then
-            local env = getsenv(framework)
-            if env and env._G then
-                local BIGNIGGER = Utility.func.Future()
-                if BIGNIGGER then
-                    env._G.MOUSE_POSITION = BIGNIGGER
-                end
-            end
-        end
-    end)
-end
-
-
-if game.PlaceId ~= 9825515356 and not string.find(identifyexecutor(), "Solara") and not string.find(identifyexecutor(), "Wave") and not string.find(identifyexecutor(), "Xeno") and not string.find(identifyexecutor(), "Synapse Z") then
-    local grm = getrawmetatable(game)
-    local MousePosChanger2 = nil
-    setreadonly(grm, false)
-    MousePosChanger2 = grm.__index
-    grm.__index = function(self, Index)
-        if not checkcaller() and self == Mouse then
-            if Index == "Hit" then
-                local EndPoint = Utility.func.Future()
-                if EndPoint then
-                    return CFrame.new(EndPoint)
-                end
-            elseif Index == "Target" and game.PlaceId == 2788229376 then
-                local EndPoint = Utility.func.Future()
-                if EndPoint then
-                    return CFrame.new(EndPoint)
-                end
-            end
-        end
-        return MousePosChanger2(self, Index)
-    end
-end
-
-
-
-
-local hitsounds = {
-    ["RIFK7"] = "rbxassetid://9102080552",
-    ["Bubble"] = "rbxassetid://9102092728",
-    ["Minecraft"] = "rbxassetid://5869422451",
-    ["Cod"] = "rbxassetid://160432334",
-    ["Bameware"] = "rbxassetid://6565367558",
-    ["Neverlose"] = "rbxassetid://6565370984",
-    ["Gamesense"] = "rbxassetid://4817809188",
-    ["Rust"] = "rbxassetid://6565371338",
-    ["UWU"] = "rbxassetid://8323804973",
-    ["Bat"] = "rbxassetid://4529474217",
-    ["Lazer"] = "rbxassetid://1624609598"
-}
-
-Utility.func.Sounds = function()
-    local soundId = hitsounds[getgenv().hvh.CustomSounds.Type]
-    if soundId then
-        local sound = Instance.new("Sound")
-        sound.SoundId = soundId
-        sound.Volume = getgenv().hvh.CustomSounds.Volume
-        sound.Parent = Workspace
-        sound:Play()
-        sound.Ended:Connect(function()
-            sound:Destroy()
-        end)
-    end
-end
-
-Utility.func.TrackPlayersAmmo = function()
-    local Player = game.Players.LocalPlayer
-    
-    local Guns = Player.Character and Player.Character:FindFirstChildWhichIsA("Tool")
-    if Guns and Guns:FindFirstChild("Ammo") then
-        Utility.prevammo[Guns.Name] = Utility.prevammo[Guns.Name] or Guns.Ammo.Value
-
-        local newammo = Guns.Ammo.Value
-        local prevammo = Utility.prevammo[Guns.Name]
-
-        if newammo < prevammo then
-            if getgenv().hvh.CustomSounds.Enabled and getgenv().hvh.CustomSounds.Method == "Ammo" then
-                Utility.func.Sounds()
-            end
-
-            Utility.prevammo[Guns.Name] = newammo
-        end
-    end
-end
-
-
-function Utility:GAYFLAG()
-local tick = tick()
-return Color3.fromHSV((tick % 1), 1, 1)
-end
-
-function Utility:Hitchams(Player)
-    for _, Index in pairs(Player.Character:GetChildren()) do
-        if Index.Name ~= "HumanoidRootPart" and Index:IsA("BasePart") then
-            local Part = Instance.new("Part")
-            Part.Name = Index.Name .. "Grah"
-            Part.Parent = Workspace
-            Part.Material = Enum.Material.Neon
-            Part.Transparency = 0
-            Part.Anchored = true
-            Part.Size = Index.Size
-            Part.CFrame = Index.CFrame
-            Part.CanCollide = false
-            
-            if getgenv().hvh.HitChams.Enabled then
-                if getgenv().hvh.HitChams.Rainbow then
-                    Part.Color = Utility:GAYFLAG()
-                else
-                    Part.Color = getgenv().hvh.HitChams.Color
-                end
-            end
-            
-            task.delay(getgenv().hvh.HitChams.Duration, function()
-                Part:Destroy()
-            end)
-        end
-    end
-end
-
-function Utility:Clone(player)
-    player.Character.Archivable = true
-    local latest_character = player.Character:Clone()
-    latest_character.Parent = Workspace
-    player.Character.Archivable = false
-
-    for _, Parts in pairs(latest_character:GetChildren()) do
-        if Parts:IsA("MeshPart") then
-            Parts.Anchored = true
-            Parts.CanCollide = false
-            Parts.Transparency = 0
-            Parts.Material = Enum.Material.Neon
-
-            if getgenv().hvh.HitChams.Rainbow then
-                Parts.Color = Utility:GAYFLAG()
-            else
-                Parts.Color = getgenv().hvh.HitChams.Color
-            end
-        else
-            if Parts.Name ~= "HumanoidRootPart" then
-                Parts:Destroy()
-            end
-        end
-
-        if Parts.Name == "Head" then
-            local faces = Parts:FindFirstChild("face")
-            if faces then
-                faces:Destroy()
-            end
-        end
-    end
-
-    task.delay(getgenv().hvh.HitChams.Duration, function()
-        if latest_character and latest_character.Parent then
-            latest_character:Destroy()
-        end
-    end)
-end
-
-
-Utility.autostomp = function()
-Game:GetService("ReplicatedStorage").MainEvent:FireServer("Stomp")
-end
-
-local HitText = Drawing.new("Text")
-HitText.Visible = false
-HitText.Center = true
-HitText.Outline = true
-HitText.Size = 20
-HitText.Color = Color3.new(1, 1, 1)
-HitText.Position = Vector2.new(Camera.ViewportSize.X / 2, Camera.ViewportSize.Y - 230)
-HitText.Font = 1
-
-Utility.func.TrackPlayerHealth = LPH_NO_VIRTUALIZE(function()
-    local Target = nil
-
-    if getgenv().hvh.Main.Type == "FOV" then
-        Target = Utility.func.get_closest()
-    elseif getgenv().hvh.Main.Type == "Target" then
-        Target = Utility.Target
-    end
-
-    if Target and Target.Character then
-        local humanoid = Target.Character:FindFirstChild("Humanoid")
-        local distance = (Target.Character.HumanoidRootPart.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude
-
-        if humanoid and distance <= 150 then
-            local currentHealth = humanoid.Health
-
-            if not Utility.prevhealth[Target.Name] then
-                Utility.prevhealth[Target.Name] = currentHealth
-            end
-
-            local prevHealth = Utility.prevhealth[Target.Name]
-
-            if currentHealth < prevHealth then
-                if getgenv().hvh.HitChams.Enabled then
-                    if getgenv().hvh.HitChams.Method == "Clone" then
-                        Utility:Clone(Target)
-                    elseif getgenv().hvh.HitChams.Method == "BasePart" then
-                        Utility:Hitchams(Target)
-                    end
-                end
-
-                if getgenv().hvh.CustomSounds.Enabled and getgenv().hvh.CustomSounds.Method == "Damage" then
-                    Utility.func.Sounds()
-                end
-
-                if getgenv().hvh.HitDetections.Info then
-                    local dmg = prevHealth - currentHealth
-                    HitText.Text = "[Index] (Hit Detected) > " .. tostring(dmg)
-                    HitText.Transparency = 1
-                    HitText.Visible = true
-
-                    task.spawn(function()
-                        wait(0.5)
-                        for i = 1, 10 do
-                            HitText.Transparency = HitText.Transparency - 0.1
-                            wait(0.05)
-                        end
-                        HitText.Visible = false
-                    end)
-                end
-            end
-
-            Utility.prevhealth[Target.Name] = currentHealth
-        end
-    end
-end)
-
-
-Utility.autoreload = function()
-    if LocalCharacter and LocalRootPart and LocalHumanoid then
-        local tool = LocalCharacter:FindFirstChildWhichIsA("Tool")
-        if tool then
-            local ammo = tool:FindFirstChild("Ammo")
-            if ammo and ammo:IsA("IntValue") and ammo.Value <= 0 then
-                Game:GetService("ReplicatedStorage").MainEvent:FireServer("Reload", tool)
-            end
-        end
-    end
-end
-
-Utility.func.RemoveFireRate = LPH_NO_VIRTUALIZE(function()
-    if game.PlaceId == 2788229376 and getgenv().hvh.Main.RemoveFireRate and LocalCharacter and LocalCharacter:FindFirstChildOfClass("Tool") and LocalCharacter:FindFirstChildOfClass("Tool"):FindFirstChild("GunScript") then
-        for _, v in ipairs(getconnections(LocalCharacter:FindFirstChildOfClass("Tool").Activated)) do
-            if v.Function and type(v.Function) == "function" then
-                local funcinfo = debug.getinfo(v.Function)
-                if funcinfo then
-                    for i = 1, funcinfo.nups do
-                        local c, n = debug.getupvalue(v.Function, i)
-                        if type(c) == "number" then
-                            debug.setupvalue(v.Function, i, 0)
-                        end
-                    end
-                end
-            end
-        end
-    elseif getgenv().hvh.Main.RemoveFireRate and game.PlaceId == 9825515356 and LocalCharacter and LocalHumanoid and LocalRootPart then
-        local Gun = LocalCharacter:FindFirstChildOfClass("Tool")
-        if Gun and Gun:FindFirstChild("GunData") then
-            local Module = require(Gun:FindFirstChild("GunData"))
-            Module["slowdown_time"] = 0
-            Module["cooldown"] = 0
-        end
-    end
-end)
-
-local cache = {}
-local Esp = {
-    BoxOutlineColor = Color3.new(0, 0, 0),
-    BoxColor = Color3.new(1, 1, 1),
-    HealthOutlineColor = Color3.new(0, 0, 0),
-    HealthHighColor = Color3.new(0, 1, 0),
-    ArmorOutlineColor = Color3.new(0, 0, 0),
-    ArmorColor = Color3.new(0, 0, 1),
-    CharSize = Vector2.new(4, 6),
-}
-
-Utility.func.create = function(class, properties)
-    local drawing = Drawing.new(class)
-    for property, value in pairs(properties) do
-        drawing[property] = value
-    end
-    return drawing
-end
-
-Utility.func.createEsp = LPH_NO_VIRTUALIZE(function(player)
-    local esp = {
-        boxOutline = Utility.func.create("Square", {Color = Esp.BoxOutlineColor, Thickness = 3, Filled = false}),
-        box = Utility.func.create("Square", {Color = Esp.BoxColor, Thickness = 1, Filled = false}),
-        healthOutline = Utility.func.create("Square", {Thickness = 1, Color = Esp.HealthOutlineColor, Filled = true}),
-        health = Utility.func.create("Square", {Thickness = 1, Color = Esp.HealthHighColor, Filled = true}),
-        armorOutline = Utility.func.create("Square", {Thickness = 1, Color = Esp.ArmorOutlineColor, Filled = true}),
-        armor = Utility.func.create("Square", {Thickness = 1, Color = Esp.ArmorColor, Filled = true}),
-        healthText = Utility.func.create("Text", {Color = Color3.new(0, 1, 0), Size = 12, Center = true, Font = 3}),
-        armorText = Utility.func.create("Text", {Color = Color3.new(0, 0, 1), Size = 12, Center = true, Font = 3}),
-        nameText = Utility.func.create("Text", {Color = Color3.new(1, 1, 1), Size = 12, Center = true, Font = 3}),
-        distanceText = Utility.func.create("Text", {Color = Color3.new(1, 1, 1), Size = 12, Center = true, Font = 3}),
-        toolText = Utility.func.create("Text", {Color = Color3.new(1, 1, 1), Size = 12, Center = true, Font = 3})
-    }
-    cache[player] = esp
-end)
-
-Utility.func.removeEsp = function(player)
-    local esp = cache[player]
-    if not esp then return end
-    for _, drawing in pairs(esp) do
-        drawing:Remove()
-    end
-    cache[player] = nil
-end
-
-Utility.func.updateEsp = LPH_NO_VIRTUALIZE(function()
-    for player, esp in pairs(cache) do
-        local character = player.Character
-        if character then
-            local rootPart = character:FindFirstChild("HumanoidRootPart")
-            local head = character:FindFirstChild("Head")
-            local humanoid = character:FindFirstChild("Humanoid")
-            local bodyEffects = character:FindFirstChild("BodyEffects")
-            local armor = bodyEffects and bodyEffects:FindFirstChild("Armor")
-            local backpack = player:FindFirstChildOfClass("Backpack")
-            local tool = character:FindFirstChildWhichIsA('Tool')
-
-            if rootPart and head and humanoid and getgenv().hvh.Esp.Enabled then
-                local position, onScreen = Camera:WorldToViewportPoint(rootPart.Position)
-                if onScreen then
-                    local hrp2D = Camera:WorldToViewportPoint(rootPart.Position)
-                    local charSize = (Camera:WorldToViewportPoint(rootPart.Position - Vector3.new(0, 1, 0)).Y - Camera:WorldToViewportPoint(rootPart.Position + Vector3.new(0, 3, 0)).Y) / 2
-                    local boxSize = Vector2.new(math.floor(charSize * 2.2), math.floor(charSize * 3.5)) 
-                    local boxPosition = Vector2.new(math.floor(hrp2D.X - charSize * 2.2 / 2), math.floor(hrp2D.Y - charSize * 3.5 / 2))
-
-                    if getgenv().hvh.Esp.ShowBox then
-                        esp.boxOutline.Size = boxSize
-                        esp.boxOutline.Position = boxPosition
-                        esp.boxOutline.Visible = true
-
-                        esp.box.Size = boxSize
-                        esp.box.Position = boxPosition
-                        esp.box.Visible = true
-                    else
-                        esp.box.Visible = false
-                        esp.boxOutline.Visible = false
-                    end
-
-                    if getgenv().hvh.Esp.ShowHealth then
-                        local healthPercentage = humanoid.Health / humanoid.MaxHealth
-                        local healthBarHeight = boxSize.Y * healthPercentage
-                        local healthBarPosition = Vector2.new(boxPosition.X - 4, boxPosition.Y + boxSize.Y - healthBarHeight)
-
-                        esp.healthOutline.Size = Vector2.new(4, boxSize.Y)
-                        esp.healthOutline.Position = Vector2.new(boxPosition.X - 4, boxPosition.Y)
-                        esp.healthOutline.Visible = true
-
-                        esp.health.Size = Vector2.new(2, healthBarHeight)
-                        esp.health.Position = healthBarPosition
-                        esp.health.Visible = true
-
-                        esp.healthText.Visible = true
-                        esp.healthText.Outline = true
-                        esp.healthText.Position = Vector2.new(boxPosition.X - 30, boxPosition.Y - 5)
-                        esp.healthText.Text = math.floor(humanoid.Health)
-                    else
-                        esp.healthOutline.Visible = false
-                        esp.health.Visible = false
-                        esp.healthText.Visible = false
-                    end
-
-                    if getgenv().hvh.Esp.ShowArmor and armor then
-                        local armorPercentage = armor.Value / 130
-                        local armorBarHeight = boxSize.Y * armorPercentage
-                        local armorBarPosition = Vector2.new(boxPosition.X - 10, boxPosition.Y + boxSize.Y - armorBarHeight)
-
-                        esp.armorOutline.Size = Vector2.new(4, boxSize.Y)
-                        esp.armorOutline.Position = Vector2.new(boxPosition.X - 10, boxPosition.Y)
-                        esp.armorOutline.Visible = true
-
-                        esp.armor.Size = Vector2.new(2, armorBarHeight)
-                        esp.armor.Position = armorBarPosition
-                        esp.armor.Visible = true
-
-                        esp.armorText.Visible = true
-                        esp.armorText.Outline = true
-                        esp.armorText.Text = math.floor(armor.Value)
-                        esp.armorText.Position = Vector2.new(boxPosition.X - 30, boxPosition.Y + 5)
-                    else
-                        esp.armorOutline.Visible = false
-                        esp.armor.Visible = false
-                        esp.armorText.Visible = false
-                    end
-
-                    if getgenv().hvh.Esp.ShowName then
-                        esp.nameText.Visible = true
-                        esp.nameText.Position = Vector2.new(boxPosition.X + boxSize.X / 2, boxPosition.Y - 15)
-                        esp.nameText.Text = player.DisplayName
-                        esp.nameText.Outline = true
-                    else
-                        esp.nameText.Visible = false
-                    end
-
-                    if getgenv().hvh.Esp.ShowDistance then
-                        local distance = math.floor((LocalRootPart.Position - rootPart.Position).Magnitude)
-                        esp.distanceText.Visible = true
-                        esp.distanceText.Position = Vector2.new(boxPosition.X + boxSize.X / 2, boxPosition.Y + boxSize.Y + 1)
-                        esp.distanceText.Text = "[ " .. distance .. " M ]"
-                        esp.distanceText.Outline = true
-                    else
-                        esp.distanceText.Visible = false
-                    end
-
-                    if getgenv().hvh.Esp.ShowTool then
-                        esp.toolText.Visible = true
-                        esp.toolText.Position = Vector2.new(boxPosition.X + boxSize.X / 2, boxPosition.Y + boxSize.Y + 10)
-                        esp.toolText.Text = tool and tool.Name or "none"
-                        esp.toolText.Outline = true
-                    else
-                        esp.toolText.Visible = false
-                    end
-                else
-                    for _, drawing in pairs(esp) do
-                        drawing.Visible = false
-                    end
-                end
-            else
-                for _, drawing in pairs(esp) do
-                    drawing.Visible = false
-                end
-            end
-        else
-            for _, drawing in pairs(esp) do
-                drawing.Visible = false
-            end
-        end
-    end
-end)
-
-
-for _, player in ipairs(Players:GetPlayers()) do
-    if player ~= LocalPlayer then
-        Utility.func.createEsp(player)
-    end
-end
-
-
-Players.PlayerAdded:Connect(function(player)
-    if player ~= LocalPlayer then
-        Utility.func.createEsp(player)
-    end
-end)
-
-Players.PlayerRemoving:Connect(function(player)
-    Utility.func.removeEsp(player)
-end)
-
-local tvis = true
-local cvis = true
-VisualsRendering = LPH_NO_VIRTUALIZE(function()
-    blunt.Position = UserInputService:GetMouseLocation()
-    
-    local Target
-
-    if getgenv().hvh.Main.Type == "FOV" then
-        Target = Utility.func.get_closest()
-    elseif getgenv().hvh.Main.Type == "Target" then
-        Target = Utility.Target
-    end
-
-    if Target and Target.Character then
-        local endpoint = Utility.func.Future(Target) 
-        if endpoint then
-            local pos, onscreen = Camera:WorldToViewportPoint(endpoint)
-            local MousePos = UserInputService:GetMouseLocation()
-
-            Utility.draw.c.Position = Utility.func.lerp(Utility.draw.c.Position, Vector2.new(pos.X, pos.Y), 0.3)
-            Utility.draw.c.Visible = cvis
-
-            Utility.draw.t.From = Utility.func.lerp(Utility.draw.t.From, MousePos, 0.3)
-            Utility.draw.t.To = Utility.func.lerp(Utility.draw.t.To, Vector2.new(pos.X, pos.Y), 0.3)
-            Utility.draw.t.Visible = tvis
-        else
-            Utility.draw.c.Visible = false
-            Utility.draw.t.Visible = false
-        end
-    else
-        Utility.draw.c.Visible = false
-        Utility.draw.t.Visible = false
-    end
-end)
-
-
-HeartbeatConn = r_s.Heartbeat:Connect(LPH_NO_VIRTUALIZE(function()
-    Utility.func.ViewTarget()
-    Utility.func.Movement()
-    Utility.func.lookat()
-    Utility.func.ForceField()
-    Utility.func.AntiStomp()
-    Utility.func.AimBotFormula()
-    Utility.func.RemoveFireRate()
-    Utility.autoreload()
-end))
-
-PreSimulationConn = r_s.PreSimulation:Connect(LPH_NO_VIRTUALIZE(function()
-    Utility.func.TrackPlayersAmmo()
-    Utility.func.TrackPlayerHealth()
-    Utility.autostomp()
-end))
-
-PostSimulationConn = r_s.PostSimulation:Connect(function()
-    Utility.func.updateEsp()
-    VisualsRendering()
-end)
-
--- New example script written by wally
--- You can suggest changes with a pull request or something
-
-local repo = 'https://raw.githubusercontent.com/violin-suzutsuki/LinoriaLib/main/'
-
-local Library = loadstring(game:HttpGet(repo .. 'Library.lua'))()
-local ThemeManager = loadstring(game:HttpGet(repo .. 'addons/ThemeManager.lua'))()
-local SaveManager = loadstring(game:HttpGet(repo .. 'addons/SaveManager.lua'))()
-
-local Window = Library:CreateWindow({
-    Title = '                            Index                             #RR  ', 
-    TitleAlign = Enum.TextXAlignment.Center, 
-    Center = true,
-    AutoShow = true,
-    TabPadding = 8,
-    MenuFadeTime = 0.1
-})
-
--- CALLBACK NOTE:
--- Passing in callback functions via the initial element parameters (i.e. Callback = function(Value)...) works
--- HOWEVER, using Toggles/Options.INDEX:OnChanged(function(Value) ... ) is the RECOMMENDED way to do this.
--- I strongly recommend decoupling UI code from logic code. i.e. Create your UI elements FIRST, and THEN setup :OnChanged functions later.
-
--- You do not have to set your tabs & groups up this way, just a prefrence.
-local Tabs = {
-    -- Creates a new tab titled Main
-    Main = Window:AddTab('Main'),
-    Visual = Window:AddTab('Visuals'),
-    Players = Window:AddTab('Players'),
-    ['UI Settings'] = Window:AddTab('UI Settings'),
-}
-
-
-local Left = Tabs.Main:AddLeftGroupbox('Silent')
-local Exploit = Tabs.Main:AddLeftGroupbox('Exploit')
-local Right = Tabs.Main:AddRightGroupbox('Aimbot')
-local Esp = Tabs.Visual:AddLeftGroupbox('Esp')
-local hd = Tabs.Visual:AddLeftGroupbox('Hit Detection')
-local Indicator = Tabs.Visual:AddRightGroupbox('Indicator')
-local chec = Tabs.Players:AddLeftGroupbox('Checks')
-local plr = Tabs.Players:AddLeftGroupbox('player')
-
-plr:AddToggle('MyToggle', {
-    Text = 'Speed',
-    Default = false, 
-    Tooltip = '', 
-
-    Callback = function(Value)
-        getgenv().hvh.Player.Enabled = Value
-    end
-})
-plr:AddInput('MyTextbox', {
-    Default = 'Keybind',
-    Numeric = false, -- true / false, only allows numbers
-    Finished = false, -- true / false, only calls callback when you press enter
-
-    Text = 'Speed Stomp keybind',
-    Tooltip = 'Current Keybind atm', -- Information shown when you hover over the textbox
-
-    Placeholder = 'Keybind', -- placeholder text when the box is empty
-    
-    Callback = function(Value)
-        getgenv().hvh.Player.Keybind = Value
-    end
-})
-plr:AddDropdown('Type', {
-    Values = { 'Flight', 'Speed'},
-    Default = 1, 
-    Multi = false, 
-
-    Text = 'speed method',
-    Tooltip = 'This is a tooltip', 
-
-    Callback = function(Value)
-        getgenv().hvh.Player.CFrameMethod = Value
-    end
-})
-plr:AddSlider('MySlider', {
-    Text = 'Speed Values',
-    Default = 0,
-    Min = 0,
-    Max = 10,
-    Rounding = 1,
-    Compact = false,
-
-    Callback = function(Value)
-        getgenv().hvh.Player.CFrameSpeed = Value
-    end
-})
-plr:AddToggle('MyToggle', {
-    Text = 'ForceField BasePart',
-    Default = false, 
-    Tooltip = '', 
-
-    Callback = function(Value)
-        getgenv().hvh.Player.ForceField = Value
-    end
-})
-
-plr:AddLabel('Color'):AddColorPicker('ColorPicker', {
-    Default = Color3.new(1, 1, 1), -- Bright green
-    Title = 'Some color', -- Optional. Allows you to have a custom color picker title (when you open it)
-    Transparency = 0, -- Optional. Enables transparency changing for this color picker (leave as nil to disable)
-
-    Callback = function(Value)
-       getgenv().hvh.Player.ForceFieldColor = Value
-    end
-})
-chec:AddToggle('MyToggle', {
-    Text = 'Anti Stomp',
-    Default = false, 
-    Tooltip = '', 
-
-    Callback = function(Value)
-        getgenv().hvh.Checks.AntiStomp = Value
-    end
-})
-chec:AddInput('MyTextbox', {
-    Default = 'Keybind',
-    Numeric = false, -- true / false, only allows numbers
-    Finished = false, -- true / false, only calls callback when you press enter
-
-    Text = 'Anti Stomp keybind',
-    Tooltip = 'Current Keybind atm', -- Information shown when you hover over the textbox
-
-    Placeholder = 'Keybind', -- placeholder text when the box is empty
-    
-    Callback = function(Value)
-        getgenv().hvh.Checks.AntiStompKeybind = Value
-    end
-})
-chec:AddSlider('MySlider', {
-    Text = 'Anti Stomp Duration',
-    Default = 0,
-    Min = 0,
-    Max = 100,
-    Rounding = 1,
-    Compact = false,
-
-    Callback = function(Value)
-        getgenv().hvh.Checks.AntiStompDelay = Value
-    end
-})
-hd:AddToggle('MyToggle', {
-    Text = 'Indicators',
-    Default = false, 
-    Tooltip = '', 
-
-    Callback = function(Value)
-        getgenv().hvh.HitDetections.Info = Value
-    end
-})
-
-hd:AddToggle('MyToggle', {
-    Text = 'CustomSounds',
-    Default = false, 
-    Tooltip = '', 
-
-    Callback = function(Value)
-        getgenv().hvh.CustomSounds.Enabled = Value
-    end
-})
-
-hd:AddSlider('MySlider', {
-    Text = 'Sounds Volume',
-    Default = 0,
-    Min = 0,
-    Max = 100,
-    Rounding = 1,
-    Compact = false,
-
-    Callback = function(Value)
-        getgenv().hvh.CustomSounds.Volume = Value
-    end
-})
-
-hd:AddDropdown('Type', {
-     Values = { 
-        'RIFK7', 'Bubble', 'Minecraft', 'Cod', 'Bameware', 'Neverlose', 
-        'Gamesense', 'Rust', 'UWU', 'Bat', 'Lazer' 
-    },
-    Default = 1, 
-    Multi = false, 
-
-    Text = 'Sounds Name',
-    Tooltip = '', 
-
-    Callback = function(Value)
-        getgenv().hvh.CustomSounds.Type = Value
-    end
-})
-
-hd:AddToggle('MyToggle', {
-    Text = 'Hit Chams',
-    Default = false, 
-    Tooltip = '', 
-
-    Callback = function(Value)
-        getgenv().hvh.HitChams.Enabled = Value
-    end
-})
-hd:AddToggle('MyToggle', {
-    Text = 'Rainbow Color',
-    Default = false, 
-    Tooltip = '', 
-
-    Callback = function(Value)
-        getgenv().hvh.HitChams.Rainbow = Value
-    end
-})
-hd:AddDropdown('Type', {
-    Values = { 'BasePart', 'Clone'},
-    Default = 1, 
-    Multi = false, 
-
-    Text = 'hithchams method',
-    Tooltip = 'This is a tooltip', 
-
-    Callback = function(Value)
-        getgenv().hvh.HitChams.Method = Value
-    end
-})
-hd:AddSlider('MySlider', {
-    Text = 'HitChams Duration',
-    Default = 0,
-    Min = 0,
-    Max = 10,
-    Rounding = 1,
-    Compact = false,
-
-    Callback = function(Value)
-        getgenv().hvh.HitChams.Duration = Value
-    end
-})
-hd:AddLabel('Color'):AddColorPicker('ColorPicker', {
-    Default = Color3.new(1, 1, 1), -- Bright green
-    Title = 'Some color', -- Optional. Allows you to have a custom color picker title (when you open it)
-    Transparency = 0, -- Optional. Enables transparency changing for this color picker (leave as nil to disable)
-
-    Callback = function(Value)
-       getgenv().hvh.HitChams.Color = Value
-    end
-})
-Left:AddDropdown('Type', {
-    Values = { 'Target', 'FOV'},
-    Default = 2, 
-    Multi = false, 
-
-    Text = 'silent aim type',
-    Tooltip = 'This is a tooltip', 
-
-    Callback = function(Value)
-        getgenv().hvh.Main.Type = Value
-    end
-})
-Left:AddDropdown('Parts', {
-    Values = { 
-        "Head", "HumanoidRootPart", "UpperTorso", "LowerTorso"
-    },
-    Default = 1, 
-    Multi = false, 
-
-    Text = 'BodyParts',
-    Tooltip = 'This is a tooltip', 
-
-    Callback = function(Value)
-        getgenv().hvh.Main.Part = Value
-    end
-})
-Right:AddToggle('MyToggle', {
-    Text = 'AimBot',
-    Default = false, 
-    Tooltip = '', 
-
-    Callback = function(Value)
-        getgenv().hvh.Main.Aimbot = Value
-    end
-})
-
-Indicator:AddToggle('MyToggle', {
-    Text = 'ShowTracer',
-    Default = false, 
-    Tooltip = '', 
-
-    Callback = function(Value)
-        tvis = Value
-    end
-})
-Indicator:AddSlider('MySlider', {
-    Text = 'Tracer Thickness',
-    Default = 0,
-    Min = 0,
-    Max = 5,
-    Rounding = 1,
-    Compact = false,
-
-    Callback = function(Value)
-        Utility.draw.t.Thickness = Value
-    end
-})
-
-Indicator:AddSlider('MySlider', {
-    Text = 'Tracer Transparency',
-    Default = 0,
-    Min = 0,
-    Max = 5,
-    Rounding = 1,
-    Compact = false,
-
-    Callback = function(Value)
-        Utility.draw.t.Transparency = Value
-    end
-})
-Indicator:AddLabel('Color'):AddColorPicker('ColorPicker', {
-    Default = Color3.new(1, 1, 1), -- Bright green
-    Title = 'Some color', -- Optional. Allows you to have a custom color picker title (when you open it)
-    Transparency = 0, -- Optional. Enables transparency changing for this color picker (leave as nil to disable)
-
-    Callback = function(Value)
-       Utility.draw.t.Color = Value
-    end
-})
-Indicator:AddToggle('MyToggle', {
-    Text = 'Show Circle',
-    Default = false, 
-    Tooltip = '',
-
-    Callback = function(Value)
-        cvis= Value
-    end
-})
-Indicator:AddSlider('MySlider', {
-    Text = 'Circle radius',
-    Default = 0,
-    Min = 0,
-    Max = 50,
-    Rounding = 1,
-    Compact = false,
-
-    Callback = function(Value)
-        Utility.draw.c.Radius = Value
-    end
-})
-
-Indicator:AddSlider('MySlider', {
-    Text = 'Circle Thickness',
-    Default = 0,
-    Min = 0,
-    Max = 5,
-    Rounding = 1,
-    Compact = false,
-
-    Callback = function(Value)
-         Utility.draw.c.Thickness = Value
-    end
-})
-
-Indicator:AddSlider('MySlider', {
-    Text = 'Circle Transparency',
-    Default = 0,
-    Min = 0,
-    Max = 5,
-    Rounding = 1,
-    Compact = false,
-
-    Callback = function(Value)
-         Utility.draw.c.Transparency = Value
-    end
-})
-Indicator:AddLabel('Color'):AddColorPicker('ColorPicker', {
-    Default = Color3.new(1, 1, 1), -- Bright green
-    Title = 'Some color', -- Optional. Allows you to have a custom color picker title (when you open it)
-    Transparency = 0, -- Optional. Enables transparency changing for this color picker (leave as nil to disable)
-
-    Callback = function(Value)
-       Utility.draw.c.Color = Value
-    end
-})
-
-Right:AddDropdown('Parts', {
-    Values = { 
-        "Head", "HumanoidRootPart", "UpperTorso", "LowerTorso"
-    },
-    Default = 1, 
-    Multi = false, 
-
-    Text = 'BodyParts',
-    Tooltip = 'This is a tooltip', 
-
-    Callback = function(Value)
-        getgenv().hvh.Main.AimbotParts = Value
-    end
-})
-Right:AddInput('MyTextbox', {
-    Default = 'Keybind',
-    Numeric = false, -- true / false, only allows numbers
-    Finished = false, -- true / false, only calls callback when you press enter
-
-    Text = 'silent aim keybind',
-    Tooltip = 'Current Keybind atm', -- Information shown when you hover over the textbox
-
-    Placeholder = 'Keybind', -- placeholder text when the box is empty
-    
-    Callback = function(Value)
-        getgenv().hvh.Main.AimbotKeybind = Value
-    end
-})
-Right:AddInput('MyTextbox', {
-    Default = 'Predictions',
-    Numeric = false, -- true / false, only allows numbers
-    Finished = false, -- true / false, only calls callback when you press enter
-
-    Text = 'Pred',
-    Tooltip = 'PREDICTIONS', -- Information shown when you hover over the textbox
-
-    Placeholder = 'pred', -- placeholder text when the box is empty
-    
-    Callback = function(Value)
-        getgenv().hvh.Main.AimbotPred = Value
-    end
-})
-Right:AddInput('MyTextbox', {
-    Default = 'Smoothness',
-    Numeric = false, -- true / false, only allows numbers
-    Finished = false, -- true / false, only calls callback when you press enter
-
-    Text = 'smoothing',
-    Tooltip = 'Smoothness', -- Information shown when you hover over the textbox
-
-    Placeholder = 'smooth', -- placeholder text when the box is empty
-    
-    Callback = function(Value)
-        getgenv().hvh.Main.Smoothness = Value
-    end
-})
-Esp:AddToggle('MyToggle', {
-    Text = 'Show Esp',
-    Default = false, 
-    Tooltip = '', 
-
-    Callback = function(Value)
-        getgenv().hvh.Esp.Enabled = Value
-    end
-})
-Esp:AddToggle('MyToggle', {
-    Text = 'Show Box',
-    Default = false, 
-    Tooltip = '', 
-
-    Callback = function(Value)
-        getgenv().hvh.Esp.ShowBox = Value
-    end
-})
-Esp:AddToggle('MyToggle', {
-    Text = 'Show Name',
-    Default = false, 
-    Tooltip = '', 
-
-    Callback = function(Value)
-        getgenv().hvh.Esp.ShowName = Value
-    end
-})
-Esp:AddToggle('MyToggle', {
-    Text = 'Show Health',
-    Default = false, 
-    Tooltip = '', 
-
-    Callback = function(Value)
-        getgenv().hvh.Esp.ShowHealth = Value
-    end
-})
-Esp:AddToggle('MyToggle', {
-    Text = 'Show Armor',
-    Default = false, 
-    Tooltip = '', 
-
-    Callback = function(Value)
-        getgenv().hvh.Esp.ShowArmor = Value
-    end
-})
-Esp:AddToggle('MyToggle', {
-    Text = 'Show Distance',
-    Default = false, 
-    Tooltip = '', 
-
-    Callback = function(Value)
-        getgenv().hvh.Esp.ShowDistance = Value
-    end
-})
-Esp:AddToggle('MyToggle', {
-    Text = 'Show Name',
-    Default = false, 
-    Tooltip = '', 
-
-    Callback = function(Value)
-        getgenv().hvh.Esp.ShowTool = Value
-    end
-})
-
-
-Left:AddToggle('MyToggle', {
-    Text = 'Silent aim',
-    Default = false, 
-    Tooltip = '', 
-
-    Callback = function(Value)
-        getgenv().hvh.Main.TargetAim = Value
-    end
-})
-
-Left:AddInput('MyTextbox', {
-    Default = 'Keybind',
-    Numeric = false, -- true / false, only allows numbers
-    Finished = false, -- true / false, only calls callback when you press enter
-
-    Text = 'silent aim keybind',
-    Tooltip = 'Current Keybind atm', -- Information shown when you hover over the textbox
-
-    Placeholder = 'Keybind', -- placeholder text when the box is empty
-    
-    Callback = function(Value)
-        getgenv().hvh.Main.Keybinds = Value
-    end
-})
-Left:AddInput('MyTextbox', {
-    Default = 'Predidctions',
-    Numeric = false, -- true / false, only allows numbers
-    Finished = false, -- true / false, only calls callback when you press enter
-
-    Text = 'Prediction',
-    Tooltip = '', -- Information shown when you hover over the textbox
-
-    Placeholder = 'Pred', -- placeholder text when the box is empty
-    
-    Callback = function(Value)
-        getgenv().hvh.Main.Predictions = Value
-    end
-})
-Left:AddToggle('MyToggle', {
-    Text = 'Show Fov ',
-    Default = false, 
-    Tooltip = '', 
-
-    Callback = function(Value)
-        blunt.Visible = Value
-    end
-})
-Left:AddToggle('MyToggle', {
-    Text = 'Filled Fov ',
-    Default = false, 
-    Tooltip = '', 
-
-    Callback = function(Value)
-        blunt.Filled = Value
-    end
-})
-Left:AddSlider('MySlider', {
-    Text = 'Radius',
-    Default = 0,
-    Min = 0,
-    Max = 1000,
-    Rounding = 1,
-    Compact = false,
-
-    Callback = function(Value)
-        blunt.Radius = Value
-    end
-})
-
-Left:AddSlider('MySlider', {
-    Text = 'Thickness',
-    Default = 0,
-    Min = 0,
-    Max = 5,
-    Rounding = 1,
-    Compact = false,
-
-    Callback = function(Value)
-        blunt.Thickness = Value
-    end
-})
-
-Left:AddSlider('MySlider', {
-    Text = 'Transparency',
-    Default = 0,
-    Min = 0.1,
-    Max = 1,
-    Rounding = 1,
-    Compact = false,
-
-    Callback = function(Value)
-     blunt.Transparency = Value
-    end
-})
-Left:AddLabel('Color'):AddColorPicker('ColorPicker', {
-    Default = Color3.new(1, 1, 1), -- Bright green
-    Title = 'Some color', -- Optional. Allows you to have a custom color picker title (when you open it)
-    Transparency = 0, -- Optional. Enables transparency changing for this color picker (leave as nil to disable)
-
-    Callback = function(Value)
-       blunt.Color = Value
-    end
-})
-
-
-
-
-
-
-
-
-
-Exploit:AddToggle('Type shit', {
-    Text = 'Remove Fire Rate',
-    Default = false, 
-    Tooltip = 'CC', 
-
-    Callback = function(Value)
-        getgenv().hvh.Main.RemoveFireRate = Value
-    end
-})
-
-Exploit:AddToggle('Type shit', {
-    Text = 'Spectate Target',
-    Default = false, 
-    Tooltip = 'CC', 
-
-    Callback = function(Value)
-        getgenv().hvh.Main.View= Value
-    end
-})
-
-Exploit:AddToggle('Type shit', {
-    Text = 'Look At Target',
-    Default = false, 
-    Tooltip = 'CC', 
-
-    Callback = function(Value)
-        getgenv().hvh.Main.LookAt= Value
-    end
-})
-
-Exploit:AddToggle('Type shit', {
-    Text = 'Aug rapid fire',
-    Default = false, 
-    Tooltip = 'May Lagged u', 
-
-    Callback = function(Value)
-        getgenv().hvh.Main.Aug= Value
-    end
-})
-Library:SetWatermarkVisibility(true)
-
-
-local FrameTimer = tick()
-local FrameCounter = 0
-local FPS = 60
-
-local gameName = game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Name
-local localPlayerName = game.Players.LocalPlayer.DisplayName
-
-local WatermarkConnection = game:GetService('RunService').RenderStepped:Connect(function()
-    FrameCounter += 1
-
-    if (tick() - FrameTimer) >= 1 then
-        FPS = FrameCounter
-        FrameTimer = tick()
-        FrameCounter = 0
-    end
-
-    Library:SetWatermark(('Game: %s | Player: %s | #RR | ver:Gui | Index | NettSpend Listener| %s fps | %s ms'):format(
-        gameName,
-        localPlayerName,
-        math.floor(FPS),
-        math.floor(game:GetService('Stats').Network.ServerStatsItem['Data Ping']:GetValue())
-    ))
-end)
-
-
-Library.KeybindFrame.Visible = false; -- todo: add a function for this
-
-Library:OnUnload(function()
-    WatermarkConnection:Disconnect()
-
-    print('Unloaded!')
-    Library.Unloaded = true
-end)
-
--- UI Settings
-local MenuGroup = Tabs['UI Settings']:AddLeftGroupbox('Menu')
-
--- I set NoUI so it does not show up in the keybinds menu
-MenuGroup:AddButton('Unload', function() Library:Unload() end)
-MenuGroup:AddLabel('Menu bind'):AddKeyPicker('MenuKeybind', { Default = 'End', NoUI = true, Text = 'Menu keybind' })
-
-Library.ToggleKeybind = Options.MenuKeybind -- Allows you to have a custom keybind for the menu
-
--- Addons:
--- SaveManager (Allows you to have a configuration system)
--- ThemeManager (Allows you to have a menu theme system)
-
--- Hand the library over to our managers
-ThemeManager:SetLibrary(Library)
-SaveManager:SetLibrary(Library)
-
--- Ignore keys that are used by ThemeManager.
--- (we dont want configs to save themes, do we?)
-SaveManager:IgnoreThemeSettings()
-
--- Adds our MenuKeybind to the ignore list
--- (do you want each config to have a different menu key? probably not.)
-SaveManager:SetIgnoreIndexes({ 'MenuKeybind' })
-
--- use case for doing it this way:
--- a script hub could have themes in a global folder
--- and game configs in a separate folder per game
-ThemeManager:SetFolder('MyScriptHub')
-SaveManager:SetFolder('MyScriptHub/specific-game')
-
-SaveManager:BuildConfigSection(Tabs['UI Settings'])
-
-
-ThemeManager:ApplyToTab(Tabs['UI Settings'])
-
-
-SaveManager:LoadAutoloadConfig()
