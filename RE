@@ -52,7 +52,7 @@ Color = Color3.fromRGB(0, 71, 171)
 },
 ["Checks"] = {
 UseYAxis = false,
-WallCheck = false,
+WallCheck = true,
 VisibleCheck = false,
 ForceFieldCheck = false,
 SelfAliveCheck = false,
