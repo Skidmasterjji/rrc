@@ -86,10 +86,10 @@ PosResolverMax = 60,
 NegResolverMax = 60
 },
 ["FOV"] = {
-ShowFOV = true,
+ShowFOV = false,
 FOVRadius = 120,
 FOVType = "Static", -- // "Dynamic", "Static"
-FOVType2 = "Circle",
+FOVType2 = "Cursor",
 DynamicAmmount = 0,
 Filled = false,
 Sides = 25,
