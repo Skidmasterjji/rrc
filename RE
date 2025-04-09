@@ -13,7 +13,7 @@ local SilentAim = {
     
     FOV = {
         Visible = true,
-        Transparency = 1,
+        Transparency = 0.3,
         Thickness = 1,
         Radius = 150,
         Color = Color3.fromRGB(255, 0, 0)
