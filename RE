@@ -763,7 +763,7 @@ end
 
 local function getgamesnamecall()
 if game.PlaceId == 91551509664187 or game.PlaceId == 87100852261313 or game.PlaceId == 12442317726 then
-return " UpdateMousePos    "
+return "  UpdateMousePos    "
 elseif game.PlaceId == 5602055394 or game.PlaceId == 7951883376 then
 return "MousePos"
 elseif game.PlaceId == 9825515356 then
