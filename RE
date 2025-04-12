@@ -762,7 +762,7 @@ return nil
 end
 
 local function getgamesnamecall()
-if game.PlaceId == 91551509664187 or game.PlaceId == 4106313503 or game.PlaceId == 12442317726 then
+if game.PlaceId == 91551509664187 or game.PlaceId == 87100852261313 or game.PlaceId == 12442317726 then
 return " UpdateMousePos    "
 elseif game.PlaceId == 5602055394 or game.PlaceId == 7951883376 then
 return "MousePos"
