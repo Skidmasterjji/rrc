@@ -769,7 +769,7 @@ return "MousePos"
 elseif game.PlaceId == 9825515356 then
 return "GetMousePos"
 else
-return "  UpdateMousePos    "
+return GetArgument()
 end
 end
 
